@@ -2,9 +2,39 @@
 <html>
   <head>
     <title>Form Builder</title>
-    <link rel="stylesheet" href="" />
+    <link rel="stylesheet" href="/public/css/style.css" />
   </head>
   <body>
-    Form Builder
+    <div class="formbuilder-app">
+      <div class="formbuilder-form">
+        <div class="formbuilder-header">
+          <div class="formbuilder-title">
+            My Form
+          </div>
+          <div class="formbuilder-description">
+            A description of your form goes here
+          </div>
+        </div>
+        <div class="formbuilder-element formbuilder-empty">
+          Insert a new form element
+          <select class="formbuilder-select">
+            <option value="">Select an element...</option>
+            <option value="1">Single-line textbox</option>
+            <option value="2">Multi-line textbox</option>
+            <option value="3">Radio buttons</option>
+            <option value="4">Checkboxes</option>
+            <option value="5">Email</option>
+            <option value="6">Number</option>
+          </select>
+        </div>
+      </div>
+      <div class="formbuilder-settings">
+        <div class="formbuilder-wrapper">
+          <div class="formbuilder-settings-title">
+            Settings
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

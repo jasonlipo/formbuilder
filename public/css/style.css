@@ -1,3 +1,59 @@
+@font-face{font-family:'proxima_nova';src:url(/public/font/proxima-nova/bold.eot);src:url(/public/font/proxima-nova/bold.eot?#iefix) format("embedded-opentype"),url(/public/font/proxima-nova/bold.woff2) format("woff2"),url(/public/font/proxima-nova/bold.woff) format("woff"),url(/public/font/proxima-nova/bold.ttf) format("truetype"),url(/public/font/proxima-nova/bold.svg#proxima_nova_bold) format("svg");font-weight:700;font-style:normal}
+@font-face{font-family:'proxima_nova';src:url(/public/font/proxima-nova/semibold.eot);src:url(/public/font/proxima-nova/semibold.eot?#iefix) format("embedded-opentype"),url(/public/font/proxima-nova/semibold.woff2) format("woff2"),url(/public/font/proxima-nova/semibold.ttf) format("truetype"),url(/public/font/proxima-nova/semibold.svg#proxima_nova_semibold) format("svg");font-weight:500;font-style:normal}
+@font-face{font-family:'proxima_nova';src:url(/public/font/proxima-nova/regular.eot);src:url(/public/font/proxima-nova/regular.eot?#iefix) format("embedded-opentype"),url(/public/font/proxima-nova/regular.woff) format("woff"),url(/public/font/proxima-nova/regular.ttf) format("truetype"),url(/public/font/proxima-nova/regular.svg#proxima_nova_regular) format("svg");font-weight:400;font-style:normal}
+@font-face{font-family:'proxima_nova';src:url(/public/font/proxima-nova/thin.eot);src:url(/public/font/proxima-nova/thin.eot?#iefix) format("embedded-opentype"),url(/public/font/proxima-nova/thin.woff2) format("woff2"),url(/public/font/proxima-nova/thin.woff) format("woff"),url(/public/font/proxima-nova/thin.ttf) format("truetype"),url(/public/font/proxima-nova/thin.svg#proxima_nova_thin) format("svg");font-weight:100;font-style:normal}
+
 * {
   margin:0;
+}
+body {
+  font-family:"proxima_nova",helvetica,arial,sans-serif;
+  font-size:16px;
+}
+.formbuilder-app {
+  background: #f7f7f7;
+  width: 1000px;
+  margin: 10px;
+  display: flex;
+  position: relative;
+  padding: 10px;
+  justify-content: space-between;
+}
+.formbuilder-form {
+  padding: 20px;
+  border: 1px solid #ccc;
+  width: 55%;
+}
+
+.formbuilder-settings {
+  padding: 20px;
+  width: 33%;
+  background: #ddd;
+}
+
+.formbuilder-title {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.formbuilder-header {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 25px;
+}
+
+.formbuilder-empty {
+    border: 2px dashed #666;
+}
+
+.formbuilder-element {
+    padding: 15px;
+}
+
+.formbuilder-select {
+    display: block;
+    font-family: "proxima_nova",helvetica,arial,sans-serif;
+    outline: none;
+    margin: 5px 0 3px;
 }
