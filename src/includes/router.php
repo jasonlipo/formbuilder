@@ -6,11 +6,6 @@
  * @license     MIT public license
  */
 
-namespace Bramus\Router;
-
-/**
- * Class Router.
- */
 class Router
 {
     /**

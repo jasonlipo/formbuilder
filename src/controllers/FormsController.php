@@ -1,7 +1,11 @@
 <?php
 class FormsController extends Controller {
-  public function all() {
-    $this->render('forms_all.html', array('forms' => Form::all()));
+  public function index() {
+    $this->render('forms_all.html', ['forms' => Form::all()]);
+  }
+
+  public function build() {
+    $this->render('forms_build.html', []);
   }
 }
 ?>
