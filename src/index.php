@@ -6,7 +6,7 @@
  * @version 0.0.1
  */
 
-require_once "../includes/database.php";
+require_once "includes/database.php";
 
 $conn = ActiveRecord\ConnectionManager::get_connection("development"); 
 
