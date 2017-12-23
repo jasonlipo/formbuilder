@@ -4,12 +4,16 @@ function FormElement_Checkbox(builder) {
   this.label = "Label";
   this.help = "Help text goes here";
   this.builder = builder;
+  this.index = this.builder.elements.length;
 
+  // Properties
+  this.$elem = null;
   this.options = [
     { value: "Option 1" },
     { value: "Option 2" },
     { value: "Option 3" }
   ];
+  this.super = new FormElement(this);
   
   // Create a single-line text box
   this.init = function () {
@@ -21,6 +25,9 @@ function FormElement_Checkbox(builder) {
                         .append($inputs);
 
     this.builder.$body.append($newelem);
+    this.$elem = $newelem;
+    this.super.onclick();
+    this.super.select();
   }
 
   // Print options

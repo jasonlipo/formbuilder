@@ -9,11 +9,13 @@ function FormBuilder($dom) {
   this.name = "My Form";
   this.description = "A description of your form goes here";
   this.elements = [];
+  this.submitted = null;
 
   // DOM elements
   this.$form = null;
   this.$body = null;
   this.$choose_elem_select = null;
+  this.$settings = null;
 
   // Initialise
   this.init = function () {
@@ -22,16 +24,24 @@ function FormBuilder($dom) {
     var $header = $("<div>", { class: "formbuilder-header" });
     var $body = $("<div>", { class: "formbuilder-body" });
     var $form = $("<div>", { class: "formbuilder-form" });
-    this.$dom.append(
+    this.$dom.html(
       $form.append(
         $header.append($title).append($desc)
       ).append($body)
     );
     this.$form = $form;
     this.$body = $body;
+    this.init_elements();
     this.submit_button();
     this.choose_element();
     this.settings.init();
+  }
+
+  // Prints all the elements in the form
+  this.init_elements = function () {
+    for (var i=0; i<this.elements.length; i++) {
+      this.elements[i].init();
+    }
   }
 
   // Adds the submit button
@@ -51,10 +61,8 @@ function FormBuilder($dom) {
       $select.append($option);
     }
 
-    var $label = $("<label>").html("Insert a new form element");
-    var $newelem = $("<div>", { class: "formbuilder-element" })
-                      .addClass("last")
-                      .append($label)
+    var $newelem = $("<div>", { class: "formbuilder-add" })
+                      .append("Insert a new form element<br />")
                       .append($select);
     this.$form.append($newelem);
     this.$choose_elem_select = $select;
@@ -67,8 +75,7 @@ function FormBuilder($dom) {
     var widget = this.element_list[value].widget;
     var element = new (widget)(this);
     this.elements.push(element);
-    element.init();
-    this.$choose_elem_select.val('');
+    this.init();
   }
 
 }

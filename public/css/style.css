@@ -1,99 +1,115 @@
 * {
-  margin:0;
+margin:0;
 }
 body {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
+font-family: 'Open Sans', sans-serif;
+font-size: 14px;
 }
 .formbuilder-app {
-  background: #f7f7f7;
-  width: 1000px;
-  margin: 10px;
-  display: flex;
-  position: relative;
-  padding: 10px;
-  justify-content: space-between;
+background: #f7f7f7;
+width: 1000px;
+margin: 10px;
+display: flex;
+position: relative;
+padding: 10px;
+justify-content: space-between;
 }
 .formbuilder-form {
-  padding: 20px;
-  border: 1px solid #ccc;
-  width: 55%;
+border: 1px solid #ccc;
+width: 55%;
 }
 
 .formbuilder-settings {
-  padding: 20px;
-  width: 33%;
-  background: #ddd;
+padding: 20px;
+width: 45%;
+background: #ddd;
+box-sizing: border-box;
 }
 
 .formbuilder-title {
-  font-size: 26px;
-  font-weight: bold;
-  margin-bottom: 5px;
+font-size: 26px;
+font-weight: bold;
+margin-bottom: 5px;
 }
 
 .formbuilder-header {
-    padding-bottom: 15px;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 25px;
+  border-bottom: 1px solid #ccc;
+  padding: 20px;
+  padding-bottom: 30px;
 }
 
-.formbuilder-element.last {
-  border-top: 1px solid #ccc;
-  padding-top: 15px;
-}
-
-.formbuilder-element.selected {
-    border: 1px dashed #999;
-    padding: 15px;
+.formbuilder-element.selected, .formbuilder-element:hover {
+  border: 1px dashed #999;
 }
 
 .formbuilder-element {
-   margin-bottom:20px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid transparent;
+}
+
+.formbuilder-element, .formbuilder-element * {
+  cursor: pointer;
 }
 
 .formbuilder-element select {
-    display: block;
-    font-family: 'Open Sans', sans-serif;
-    outline: none;
-    margin: 5px 0 3px;
-    font-size: 13px;
-    min-width: 150px;
+  display: block;
+  font-family: 'Open Sans', sans-serif;
+  outline: none;
+  margin: 5px 0 3px;
+  font-size: 13px;
+  min-width: 150px;
 }
 
 .formbuilder-label {
-    display: block;
-    margin-bottom: 5px;
+  display: block;
+  margin-bottom: 5px;
 }
 
 .formbuilder-element input, .formbuilder-element textarea {
-    outline: none;
-    border: 1px solid #aaa;
-    padding: 5px 8px;
+  outline: none;
+  border: 1px solid #aaa;
+  padding: 5px 8px;
 }
 
 .formbuilder-label small {
-    display: block;
-    font-size: 11px;
-    color: #666;
+  display: block;
+  font-size: 11px;
+  color: #666;
 }
 
 .formbuilder-submit {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
 }
 
 .formbuilder-radio, 
 .formbuilder-checkbox {
-    padding: 5px;
+  padding: 5px;
 }
 
 .formbuilder-radio-label, .formbuilder-checkbox-label {
-    position: absolute;
-    margin: -25px 20px;
+  position: absolute;
+  margin: -25px 20px;
 }
 
 .formbuilder-radio input[type="radio"],
 .formbuilder-checkbox input[type="checkbox"] {
-    display: block;
-    margin-bottom: 8px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.formbuilder-body {
+  padding: 10px;
+}
+
+.formbuilder-add {
+  border-top: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 10px;
+}
+
+.formbuilder-settings-title {
+  font-weight: bold;
+  margin-bottom: 15px;
 }

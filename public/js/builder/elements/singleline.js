@@ -4,6 +4,11 @@ function FormElement_SingleLine(builder) {
   this.label = "Label";
   this.help = "Help text goes here";
   this.builder = builder;
+  this.index = this.builder.elements.length;
+
+  // Properties
+  this.$elem = null;
+  this.super = new FormElement(this);
   
   // Create a single-line text box
   this.init = function () {
@@ -15,6 +20,9 @@ function FormElement_SingleLine(builder) {
                         .append($input);
 
     this.builder.$body.append($newelem);
+    this.$elem = $newelem;
+    this.super.onclick();
+    this.super.select();
   }
 
 }
