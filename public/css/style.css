@@ -1,14 +1,9 @@
-@font-face{font-family:'proxima_nova';src:url(/public/font/proxima-nova/bold.eot);src:url(/public/font/proxima-nova/bold.eot?#iefix) format("embedded-opentype"),url(/public/font/proxima-nova/bold.woff2) format("woff2"),url(/public/font/proxima-nova/bold.woff) format("woff"),url(/public/font/proxima-nova/bold.ttf) format("truetype"),url(/public/font/proxima-nova/bold.svg#proxima_nova_bold) format("svg");font-weight:700;font-style:normal}
-@font-face{font-family:'proxima_nova';src:url(/public/font/proxima-nova/semibold.eot);src:url(/public/font/proxima-nova/semibold.eot?#iefix) format("embedded-opentype"),url(/public/font/proxima-nova/semibold.woff2) format("woff2"),url(/public/font/proxima-nova/semibold.ttf) format("truetype"),url(/public/font/proxima-nova/semibold.svg#proxima_nova_semibold) format("svg");font-weight:500;font-style:normal}
-@font-face{font-family:'proxima_nova';src:url(/public/font/proxima-nova/regular.eot);src:url(/public/font/proxima-nova/regular.eot?#iefix) format("embedded-opentype"),url(/public/font/proxima-nova/regular.woff) format("woff"),url(/public/font/proxima-nova/regular.ttf) format("truetype"),url(/public/font/proxima-nova/regular.svg#proxima_nova_regular) format("svg");font-weight:400;font-style:normal}
-@font-face{font-family:'proxima_nova';src:url(/public/font/proxima-nova/thin.eot);src:url(/public/font/proxima-nova/thin.eot?#iefix) format("embedded-opentype"),url(/public/font/proxima-nova/thin.woff2) format("woff2"),url(/public/font/proxima-nova/thin.woff) format("woff"),url(/public/font/proxima-nova/thin.ttf) format("truetype"),url(/public/font/proxima-nova/thin.svg#proxima_nova_thin) format("svg");font-weight:100;font-style:normal}
-
 * {
   margin:0;
 }
 body {
-  font-family:"proxima_nova",helvetica,arial,sans-serif;
-  font-size:16px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
 }
 .formbuilder-app {
   background: #f7f7f7;
@@ -43,17 +38,62 @@ body {
     margin-bottom: 25px;
 }
 
-.formbuilder-empty {
-    border: 2px dashed #666;
+.formbuilder-element.last {
+  border-top: 1px solid #ccc;
+  padding-top: 15px;
 }
 
-.formbuilder-element {
+.formbuilder-element.selected {
+    border: 1px dashed #999;
     padding: 15px;
 }
 
-.formbuilder-select {
+.formbuilder-element {
+   margin-bottom:20px;
+}
+
+.formbuilder-element select {
     display: block;
-    font-family: "proxima_nova",helvetica,arial,sans-serif;
+    font-family: 'Open Sans', sans-serif;
     outline: none;
     margin: 5px 0 3px;
+    font-size: 13px;
+    min-width: 150px;
+}
+
+.formbuilder-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.formbuilder-element input, .formbuilder-element textarea {
+    outline: none;
+    border: 1px solid #aaa;
+    padding: 5px 8px;
+}
+
+.formbuilder-label small {
+    display: block;
+    font-size: 11px;
+    color: #666;
+}
+
+.formbuilder-submit {
+    margin-bottom: 20px;
+}
+
+.formbuilder-radio, 
+.formbuilder-checkbox {
+    padding: 5px;
+}
+
+.formbuilder-radio-label, .formbuilder-checkbox-label {
+    position: absolute;
+    margin: -25px 20px;
+}
+
+.formbuilder-radio input[type="radio"],
+.formbuilder-checkbox input[type="checkbox"] {
+    display: block;
+    margin-bottom: 8px;
 }

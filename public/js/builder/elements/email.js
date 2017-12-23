@@ -1,3 +1,0 @@
-function FormElement_Email() {
-  
-}

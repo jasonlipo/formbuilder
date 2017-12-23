@@ -6,7 +6,7 @@ function FormSettings(builder) {
     var $title = $("<div>", { class: "formbuilder-settings-title" }).html("Settings");
     var $wrapper = $("<div>", { class: "formbuilder-wrapper" });
     var $settings = $("<div>", { class: "formbuilder-settings" });
-    this.builder.dom.append(
+    this.builder.$dom.append(
       $settings.html($wrapper.html($title))
     );
   }

@@ -17,14 +17,6 @@ var FormElementList = {
       widget: FormElement_Checkbox
     },
     {
-      title: "Email",
-      widget: FormElement_Email
-    },
-    {
-      title: "Number",
-      widget: FormElement_Number
-    },
-    {
       title: "Dropdown",
       widget: FormElement_Dropdown
     }
