@@ -22,9 +22,9 @@ function FormBuilder($dom) {
     var $form = $("<div>", { class: "formbuilder-form" });
     this.$dom.html($form);
     this.$form = $form;
-    this.reload_form();
     this.settings.init();
     this.save.init();
+    this.reload_form();
   }
 
   // Reload form with current settings
@@ -39,6 +39,7 @@ function FormBuilder($dom) {
     this.$body = $body;
     this.init_elements();
     this.submit_button();
+    this.save.save();
   }
 
   // Reload settings
