@@ -16,6 +16,7 @@ $router = new Router();
 $router->before('GET', '/.*', 'InstallController@check');
 $router->get('/', 'FormsController@index');
 $router->get('/build', 'FormsController@build');
+$router->get('/build/(\d+)', 'FormsController@build');
 
 $router->set404(function() {
   header('HTTP/1.1 404 Not Found');

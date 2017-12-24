@@ -4,6 +4,7 @@ function FormBuilder($dom) {
   this.$dom = $dom;
   this.settings = new FormSettings(this);
   this.save = new FormSave(this);
+  this.structure = new FormStructure(this);
   this.element_list = FormElementList.all();
 
   // Defaults

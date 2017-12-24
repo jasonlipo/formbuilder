@@ -58,4 +58,17 @@ function FormElement(element) {
         }.bind(this))
     );
   }
+
+  // Zip into json
+  this.zip = function () {
+    var properties = {
+      class: this.element.constructor.name,
+      label: this.element.label,
+      help: this.element.help
+    }
+    if (this.element.options !== undefined) {
+      properties.options = this.element.options;
+    }
+    return properties;
+  }
 }

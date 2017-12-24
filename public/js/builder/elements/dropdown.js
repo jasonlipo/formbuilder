@@ -36,4 +36,9 @@ function FormElement_Dropdown(builder) {
     this.super.multiple_options();
   }
 
+  // Zip into json
+  this.zip = function () {
+    return this.super.zip();
+  }
+
 }

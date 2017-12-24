@@ -30,4 +30,9 @@ function FormElement_MultiLine(builder) {
     this.super.regular_settings();
   }
 
+  // Zip into json
+  this.zip = function () {
+    return this.super.zip();
+  }
+
 }
