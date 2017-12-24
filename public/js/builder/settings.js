@@ -7,7 +7,7 @@ function FormSettings(builder) {
   this.$add_field = null;
   this.$field_properties = null;
   this.$form_properties = null;
-
+  
   // Initialise
   this.init = function () {
     var $title = $("<div>", { class: "formbuilder-settings-title" }).html("Settings");
@@ -19,6 +19,7 @@ function FormSettings(builder) {
     this.$dom = $settings;
     this.$tab = $body;
     this.make_tabs();
+    this.display();
   }
 
   // Create the three tabs

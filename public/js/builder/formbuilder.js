@@ -3,6 +3,7 @@ function FormBuilder($dom) {
   // Set up
   this.$dom = $dom;
   this.settings = new FormSettings(this);
+  this.save = new FormSave(this);
   this.element_list = FormElementList.all();
 
   // Defaults
@@ -23,7 +24,7 @@ function FormBuilder($dom) {
     this.$form = $form;
     this.reload_form();
     this.settings.init();
-    this.reload_settings();
+    this.save.init();
   }
 
   // Reload form with current settings
