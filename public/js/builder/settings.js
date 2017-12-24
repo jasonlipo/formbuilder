@@ -10,7 +10,6 @@ function FormSettings(builder) {
       $settings.append($title).append($body)
     );
     this.builder.$settings = $body;
-    this.display();
   }
 
   // Display settings

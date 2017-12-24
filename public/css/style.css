@@ -1,8 +1,8 @@
 * {
   margin:0;
   }
-  body {14px/1.5Arial,Helvetica, sans-serif: 'Open Sans', sans-serif;font: 14px/1.5 Arial, Helvetica, sans-serif;}
-  .formbuilder-app {background: #f3f3f3;width: 1000px;display: flex;position: relative;padding: 30px;justify-content: space-between;}
+  body {font: 14px/1.5 Arial, Helvetica, sans-serif;}
+  .formbuilder-app {background: #f3f3f3;width: 100%;display: flex;position: relative;padding: 30px;justify-content: space-between;box-sizing: border-box;}
   .formbuilder-form {width: 475px;background-color: #ffffff;box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);}
   
   .formbuilder-settings {
@@ -15,23 +15,26 @@
   .formbuilder-title {font-weight: bold;margin-bottom: 5px;display: block;color: #4C565E;font-size: 24px;margin: 0;}
   
   .formbuilder-header {
-    /* border-bottom: 1px solid #ccc; */
     padding: 20px;
     padding-bottom: 30px;
     text-align: center;
   }
   
-  .formbuilder-element.selected, .formbuilder-element:hover {
+  .formbuilder-selectable {
+    border: 1px solid transparent;
+  }
+  
+  .formbuilder-selectable.selected, .formbuilder-selectable:hover {
     border: 1px dashed #999;
   }
   
   .formbuilder-element {
     margin-bottom: 10px;
     padding: 10px;
-    border: 1px solid transparent;
+    background: #fff;
   }
   
-  .formbuilder-element, .formbuilder-element * {
+  .formbuilder-selectable, .formbuilder-selectable * {
     cursor: pointer;
   }
   
@@ -127,3 +130,9 @@
       margin: 0;
       border-bottom: 2px solid #6CAEE0;
   }
+
+.formbuilder-placeholder {
+    padding: 10px;
+    background: #f9f9f9;
+    margin-bottom: 10px;
+}

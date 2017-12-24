@@ -4,7 +4,7 @@ function FormElement_Checkbox(builder) {
   this.label = "Label";
   this.help = "Help text goes here";
   this.builder = builder;
-  this.index = this.builder.elements.length;
+  this.index = null;
 
   // Properties
   this.$elem = null;
@@ -14,15 +14,16 @@ function FormElement_Checkbox(builder) {
     { value: "Option 3" }
   ];
   this.super = new FormElement(this);
-  
+    
   // Create a single-line text box
   this.init = function () {
     var $help = $("<small>").html(this.help);
     var $label = $("<label>", { class: "formbuilder-label" }).html(this.label).append($help);
     var $inputs = this.print_options();
-    var $newelem = $("<div>", { class: "formbuilder-element" })
+    var $newelem = $("<div>", { class: "formbuilder-element formbuilder-selectable" })
                         .append($label)
-                        .append($inputs);
+                        .append($inputs)
+                        .attr("formbuilder-index", this.index);
 
     this.builder.$body.append($newelem);
     this.$elem = $newelem;

@@ -4,7 +4,7 @@ function FormElement_SingleLine(builder) {
   this.label = "Label";
   this.help = "Help text goes here";
   this.builder = builder;
-  this.index = this.builder.elements.length;
+  this.index = null;
 
   // Properties
   this.$elem = null;
@@ -15,9 +15,10 @@ function FormElement_SingleLine(builder) {
     var $help = $("<small>").html(this.help);
     var $label = $("<label>", { class: "formbuilder-label" }).html(this.label).append($help);
     var $input = $("<input>", { type: "text", class: "formbuilder-singleline", readonly: true });
-    var $newelem = $("<div>", { class: "formbuilder-element" })
+    var $newelem = $("<div>", { class: "formbuilder-element formbuilder-selectable" })
                         .append($label)
-                        .append($input);
+                        .append($input)
+                        .attr("formbuilder-index", this.index);
 
     this.builder.$body.append($newelem);
     this.$elem = $newelem;

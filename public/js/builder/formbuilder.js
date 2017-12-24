@@ -9,7 +9,7 @@ function FormBuilder($dom) {
   this.name = "My Form";
   this.description = "A description of your form goes here";
   this.elements = [];
-  this.submitted = null;
+  this.selected = null;
 
   // DOM elements
   this.$form = null;
@@ -23,6 +23,7 @@ function FormBuilder($dom) {
     this.$dom.html($form);
     this.$form = $form;
     this.reload_form();
+    this.settings.init();
     this.reload_settings();
   }
 
@@ -43,14 +44,33 @@ function FormBuilder($dom) {
 
   // Reload settings
   this.reload_settings = function () {
-    this.settings.init();
+    this.settings.display();
   }
 
   // Prints all the elements in the form
   this.init_elements = function () {
     for (var i=0; i<this.elements.length; i++) {
+      this.elements[i].super.setIndex(i);
       this.elements[i].init();
     }
+    if (this.elements.length == 0) {
+      var $empty = $("<div>", { class: "formbuilder-element" });
+      var $empty_label = $("<label>", { class: "formbuilder-label" }).html("Empty Form!");
+      this.$body.append($empty.html($empty_label).append("Please insert an element"));
+    }
+    this.$body.sortable({
+      items: "> .formbuilder-selectable",
+      placeholder: "formbuilder-placeholder",
+      forcePlaceholderSize: true,
+      update: function (event, ui) {
+        $obj = ui.item;
+        var old_index = $obj.attr("formbuilder-index");
+        var removed_elements = this.elements.splice(old_index, 1);
+        var new_index = $obj.index(".formbuilder-body .formbuilder-element");
+        this.elements.splice(new_index, 0, removed_elements[0]);
+        this.reload_form();
+      }.bind(this)
+    });
   }
 
   // Adds the submit button
@@ -84,7 +104,7 @@ function FormBuilder($dom) {
     var widget = this.element_list[value].widget;
     var element = new (widget)(this);
     this.elements.push(element);
-    this.init();
+    this.reload_form();
   }
 
 }
