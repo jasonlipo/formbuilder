@@ -19,21 +19,30 @@ function FormBuilder($dom) {
 
   // Initialise
   this.init = function () {
+    var $form = $("<div>", { class: "formbuilder-form" });
+    this.$dom.html($form);
+    this.$form = $form;
+    this.reload_form();
+    this.reload_settings();
+  }
+
+  // Reload form with current settings
+  this.reload_form = function () {
     var $title = $("<div>", { class: "formbuilder-title" }).html(this.name);
     var $desc = $("<div>", { class: "formbuilder-description" }).html(this.description);
     var $header = $("<div>", { class: "formbuilder-header" });
     var $body = $("<div>", { class: "formbuilder-body" });
-    var $form = $("<div>", { class: "formbuilder-form" });
-    this.$dom.html(
-      $form.append(
-        $header.append($title).append($desc)
-      ).append($body)
-    );
-    this.$form = $form;
+    this.$form.html(
+      $header.html($title).append($desc)
+    ).append($body);
     this.$body = $body;
     this.init_elements();
     this.submit_button();
     this.choose_element();
+  }
+
+  // Reload settings
+  this.reload_settings = function () {
     this.settings.init();
   }
 

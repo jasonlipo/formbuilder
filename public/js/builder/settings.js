@@ -23,13 +23,13 @@ function FormSettings(builder) {
       this.builder.$settings.append("Label<br />").append($elem_title);
       $elem_help = $("<input>", { class: "formbuilder-settings-input" }).val(selected_elem.help);
       this.builder.$settings.append("<br /><br />Help text<br />").append($elem_help);
-      $elem_title.change(function () {
+      $elem_title.keyup(function () {
         selected_elem.label = $elem_title.val();
-        this.builder.init();
+        this.builder.reload_form();
       }.bind(this));
-      $elem_help.change(function () {
+      $elem_help.keyup(function () {
         selected_elem.help = $elem_help.val();
-        this.builder.init();
+        this.builder.reload_form();
       }.bind(this));
     }
     else {
@@ -38,13 +38,13 @@ function FormSettings(builder) {
       this.builder.$settings.append("Form Title<br />").append($form_title);
       $form_desc = $("<input>", { class: "formbuilder-settings-input" }).val(this.builder.description);
       this.builder.$settings.append("<br /><br />Form Description<br />").append($form_desc);
-      $form_title.change(function () {
+      $form_title.keyup(function () {
         this.builder.name = $form_title.val();
-        this.builder.init();
+        this.builder.reload_form();
       }.bind(this));
-      $form_desc.change(function () {
+      $form_desc.keyup(function () {
         this.builder.description = $form_desc.val();
-        this.builder.init();
+        this.builder.reload_form();
       }.bind(this));
     }
   }
