@@ -19,8 +19,8 @@ USE formbuilder;
 --
 CREATE TABLE `forms` (
   `id` int(10) NOT NULL AUTO_INCREMENT, PRIMARY KEY (`id`),
-  `name` varchar(255) NOT NULL,
-  `structure` text NOT NULL,
+  `name` varchar(255) NULL DEFAULT NULL,
+  `structure` text NULL DEFAULT NULL,
   `created_at` datetime NULL DEFAULT NULL,
   `updated_at` datetime NULL DEFAULT NULL
 ) ENGINE=InnoDB;

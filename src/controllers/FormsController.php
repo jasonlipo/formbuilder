@@ -6,9 +6,18 @@ class FormsController extends Controller {
 
   public function build($formId = -1) {
     if ($formId == -1) {
-      header("Location: /build/" . (count(Form::all()) + 1));
+      $form = Form::create([]);
+      header("Location: /build/" . $form->id);
     }
-    $this->render('forms_build.html', ['id' => $formId]);
+    else {
+      try {
+        Form::find($formId);
+        $this->render('forms_build.html', ['id' => $formId]);
+      }
+      catch (ActiveRecord\RecordNotFound $e) {
+        header("Location: /");
+      }
+    }
   }
 
   public function structure($formId) {
@@ -19,6 +28,7 @@ class FormsController extends Controller {
     $json = json_decode($_POST["json"], true);
     try {
       $form = Form::find($formId);
+      $form->name = $json["name"];
       $form->structure = $_POST["json"];
       $form->save();
     }
