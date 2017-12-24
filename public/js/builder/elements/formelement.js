@@ -36,4 +36,26 @@ function FormElement(element) {
       this.element.builder.reload_form();
     }.bind(this));
   }
+
+  // Radio, dropdowns and checkboxes
+  this.multiple_options = function () {
+    this.element.builder.settings.$field_properties.append("<br /><br />Options<br />");
+    for (var i=0; i<this.element.options.length; i++) {
+      var $option_input = $("<input>", { class: "formbuilder-settings-input" }).val(this.element.options[i].value);
+      $option_input.keyup(function ($el, index) {
+        this.element.options[index].value = $el.val();
+        this.element.builder.reload_form();
+      }.bind(this, $option_input, i));
+      this.element.builder.settings.$field_properties.append($option_input);
+    }
+    this.element.builder.settings.$field_properties.append("<br />").append(
+      $("<a>", { href: "javascript:;" })
+        .html("+ Add new option")
+        .click(function () { 
+          this.element.options.push({ value: "" });
+          this.element.builder.reload_form();
+          this.element.builder.reload_settings();
+        }.bind(this))
+    );
+  }
 }

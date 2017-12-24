@@ -45,24 +45,7 @@ function FormElement_Checkbox(builder) {
   // Element settings
   this.get_settings = function () {
     this.super.regular_settings();
-    this.builder.settings.$field_properties.append("<br /><br />Options<br />");
-    for (var i=0; i<this.options.length; i++) {
-      var $option_input = $("<input>", { class: "formbuilder-settings-input" }).val(this.options[i].value);
-      $option_input.keyup(function ($el, index) {
-        this.options[index].value = $el.val();
-        this.builder.reload_form();
-      }.bind(this, $option_input, i));
-      this.builder.settings.$field_properties.append($option_input);
-    }
-    this.builder.settings.$field_properties.append("<br />").append(
-      $("<a>", { href: "#" })
-        .html("+ Add new option")
-        .click(function () { 
-          this.options.push({ value: "" });
-          this.builder.reload_form();
-          this.builder.reload_settings();
-        }.bind(this))
-    );
+    this.super.multiple_options();
   }
 
 }

@@ -8,6 +8,11 @@ function FormElement_Dropdown(builder) {
 
   // Properties
   this.$elem = null;
+  this.options = [
+    { value: "Option 1" },
+    { value: "Option 2" },
+    { value: "Option 3" }
+  ];
   this.super = new FormElement(this);
   
   // Create a single-line text box
@@ -28,6 +33,7 @@ function FormElement_Dropdown(builder) {
   // Element settings
   this.get_settings = function () {
     this.super.regular_settings();
+    this.super.multiple_options();
   }
 
 }

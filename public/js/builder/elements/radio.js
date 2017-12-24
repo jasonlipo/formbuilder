@@ -45,6 +45,7 @@ function FormElement_Radio(builder) {
   // Element settings
   this.get_settings = function () {
     this.super.regular_settings();
+    this.super.multiple_options();
   }
 
 }
