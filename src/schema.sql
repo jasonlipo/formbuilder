@@ -18,15 +18,9 @@ USE formbuilder;
 -- Table structure for table `forms`
 --
 CREATE TABLE `forms` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT, PRIMARY KEY (`id`),
+  `name` varchar(255) NOT NULL,
   `structure` json NOT NULL,
   `created_at` datetime NULL DEFAULT NULL,
   `updated_at` datetime NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Indexes for table `forms`
---
-ALTER TABLE `forms`
-  ADD PRIMARY KEY (`id`);
+) ENGINE=InnoDB;

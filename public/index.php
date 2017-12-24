@@ -13,8 +13,10 @@ require_once "../src/includes/controllers.php";
 
 $router = new Router();
 
-$router->before('GET', '/.*', 'InstallController@check');
+$router->before('GET', '/(?!install)(.*)', 'InstallController@check');
+
 $router->get('/', 'FormsController@index');
+$router->get('/install', 'InstallController@install');
 $router->get('/build', 'FormsController@build');
 $router->get('/build/(\d+)', 'FormsController@build');
 
