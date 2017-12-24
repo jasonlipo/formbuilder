@@ -28,7 +28,6 @@ function FormElement_Checkbox(builder) {
     this.builder.$body.append($newelem);
     this.$elem = $newelem;
     this.super.onclick();
-    this.super.select();
   }
 
   // Print options

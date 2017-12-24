@@ -23,7 +23,6 @@ function FormElement_MultiLine(builder) {
     this.builder.$body.append($newelem);
     this.$elem = $newelem;
     this.super.onclick();
-    this.super.select();
   }
 
   // Element settings

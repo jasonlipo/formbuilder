@@ -68,6 +68,7 @@ function FormBuilder($dom) {
         var removed_elements = this.elements.splice(old_index, 1);
         var new_index = $obj.index(".formbuilder-body .formbuilder-element");
         this.elements.splice(new_index, 0, removed_elements[0]);
+        this.selected = null;
         this.reload_form();
       }.bind(this)
     });
