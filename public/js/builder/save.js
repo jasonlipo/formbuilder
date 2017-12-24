@@ -19,10 +19,9 @@ function FormSave(builder) {
   this.save = function () {
     clearTimeout(this.timeout);
     this.waiting();
-    // DO SAVING
-    this.timeout = setTimeout(function () {
+    $.post(location.pathname + "/save", { json: this.builder.structure.json() }, function (result) {
       this.success();
-    }.bind(this), 300);
+    }.bind(this));
   }
 
   // Waiting text

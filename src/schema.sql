@@ -20,7 +20,7 @@ USE formbuilder;
 CREATE TABLE `forms` (
   `id` int(10) NOT NULL AUTO_INCREMENT, PRIMARY KEY (`id`),
   `name` varchar(255) NOT NULL,
-  `structure` json NOT NULL,
+  `structure` text NOT NULL,
   `created_at` datetime NULL DEFAULT NULL,
   `updated_at` datetime NULL DEFAULT NULL
 ) ENGINE=InnoDB;
