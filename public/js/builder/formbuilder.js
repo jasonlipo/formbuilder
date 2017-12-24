@@ -15,7 +15,6 @@ function FormBuilder($dom) {
   this.$form = null;
   this.$body = null;
   this.$choose_elem_select = null;
-  this.$settings = null;
 
   // Initialise
   this.init = function () {
@@ -39,7 +38,6 @@ function FormBuilder($dom) {
     this.$body = $body;
     this.init_elements();
     this.submit_button();
-    this.choose_element();
   }
 
   // Reload settings
@@ -77,34 +75,6 @@ function FormBuilder($dom) {
   this.submit_button = function () {
     var $submit = $("<input>", { value: "Submit", type: "button", class: "formbuilder-submit" });
     this.$form.append($submit);
-  }
-
-  // Adds the new element chooser
-  this.choose_element = function () {
-    var $select = $("<select>", { class: "formbuilder-select" });
-    var $default = $("<option>", { value: "" }).html("Choose an element...");
-    $select.append($default);
-    for (var i=0; i<this.element_list.length; i++) {
-      var this_el = this.element_list[i];
-      var $option = $("<option>", { value: i }).html(this_el.title);
-      $select.append($option);
-    }
-
-    var $newelem = $("<div>", { class: "formbuilder-add" })
-                      .append("Insert a new form element<br />")
-                      .append($select);
-    this.$form.append($newelem);
-    this.$choose_elem_select = $select;
-    this.$choose_elem_select.on('change', this.select_element.bind(this));
-  }
-
-  // Adds a new element based on selector
-  this.select_element = function () {
-    var value = this.$choose_elem_select.val();
-    var widget = this.element_list[value].widget;
-    var element = new (widget)(this);
-    this.elements.push(element);
-    this.reload_form();
   }
 
 }

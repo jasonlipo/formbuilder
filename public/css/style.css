@@ -2,14 +2,14 @@
   margin:0;
   }
   body {font: 14px/1.5 Arial, Helvetica, sans-serif;}
-  .formbuilder-app {background: #f3f3f3;width: 100%;display: flex;position: relative;padding: 30px;justify-content: space-between;box-sizing: border-box;}
+  .formbuilder-app {background: #f3f3f3;width: 100%;display: flex;position: relative;padding: 30px;box-sizing: border-box;}
   .formbuilder-form {width: 475px;background-color: #ffffff;box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);}
   
   .formbuilder-settings {
-  padding: 20px;
-  width: 45%;
-  background: #ddd;
-  box-sizing: border-box;
+  width: 400px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  margin-left: 20px;
   }
   
   .formbuilder-title {font-weight: bold;margin-bottom: 5px;display: block;color: #4C565E;font-size: 24px;margin: 0;}
@@ -75,12 +75,11 @@
   }
   
   .formbuilder-submit {
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     margin-left: 91px;
     border-radius: 2px;
     background-color: #6caee0;
     color: #ffffff;
-    font-weight: bold;
     box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
     padding: 14px 22px;
     border: 0;
@@ -109,15 +108,12 @@
     padding: 0 80px;
   }
   
-  .formbuilder-add {
-    border-top: 1px solid #ccc;
-    padding: 20px;
-    margin-bottom: 10px;
-  }
-  
   .formbuilder-settings-title {
     font-weight: bold;
-    margin-bottom: 15px;
+    display: block;
+    color: #4C565E;
+    font-size: 24px;
+    padding: 25px; */
   }
   
   .formbuilder-description {
@@ -135,4 +131,42 @@
     padding: 10px;
     background: #f9f9f9;
     margin-bottom: 10px;
+}
+
+.formbuilder-settings-input {
+    outline: none;
+    background-color: #ffffff;
+    color: #5f5f5f;
+    box-sizing: border-box;
+    width: 240px;
+    padding: 8px 9px;
+    border: 1px solid #dbdbdb;
+}
+
+.formbuilder-settings-content ul.ui-tabs-nav {
+    list-style: none;
+    display: flex;
+    padding: 0;
+}
+
+.formbuilder-settings-content li.ui-tabs-tab {
+    background: #6caee0;
+    flex: 1;
+}
+
+.formbuilder-settings-content li.ui-tabs-active {
+    background: #fff;
+}
+
+.formbuilder-settings-content a.ui-tabs-anchor {
+    text-decoration: none;
+    color: #3e3e3e;
+    outline: none;
+    padding: 12px 15px;
+    display:block;
+    text-align: center;
+}
+
+.formbuilder-settings-content .ui-tabs-panel {
+    padding: 25px;
 }
