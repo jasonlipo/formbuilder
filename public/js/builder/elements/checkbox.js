@@ -36,7 +36,8 @@ function FormElement_Checkbox(builder) {
     for (var i=0; i<this.options.length; i++) {
       var $input = $("<input>", { type: "checkbox", disabled: true });
       var $label = $("<label>", { class: "formbuilder-checkbox-label" }).html(this.options[i].value);
-      $checkbox_container.append($input).append($label);
+      var $cont = $("<div>").append($input).append($label);
+      $checkbox_container.append($cont);
     }
     return $checkbox_container;
   }

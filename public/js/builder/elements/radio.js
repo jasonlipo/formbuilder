@@ -36,7 +36,8 @@ function FormElement_Radio(builder) {
     for (var i=0; i<this.options.length; i++) {
       var $input = $("<input>", { type: "radio", disabled: true });
       var $label = $("<label>", { class: "formbuilder-radio-label" }).html(this.options[i].value);
-      $radio_container.append($input).append($label);
+      var $cont = $("<div>").append($input).append($label);
+      $radio_container.append($cont);
     }
     return $radio_container;
   }

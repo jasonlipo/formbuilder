@@ -20,9 +20,9 @@ function FormSettings(builder) {
       // Element settings
       var selected_elem = this.builder.elements[this.builder.selected];
       $elem_title = $("<input>", { class: "formbuilder-settings-input" }).val(selected_elem.label);
-      this.builder.$settings.append("Form Title<br />").append($elem_title);
+      this.builder.$settings.append("Label<br />").append($elem_title);
       $elem_help = $("<input>", { class: "formbuilder-settings-input" }).val(selected_elem.help);
-      this.builder.$settings.append("<br /><br />Form Description<br />").append($elem_help);
+      this.builder.$settings.append("<br /><br />Help text<br />").append($elem_help);
       $elem_title.change(function () {
         selected_elem.label = $elem_title.val();
         this.builder.init();
