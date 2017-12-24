@@ -11,6 +11,10 @@ class FormsController extends Controller {
     $this->render('forms_build.html', ['id' => $formId]);
   }
 
+  public function structure($formId) {
+    echo Form::find($formId)->structure;
+  }
+
   public function save($formId) {
     $json = json_decode($_POST["json"], true);
     try {

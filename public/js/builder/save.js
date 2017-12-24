@@ -11,7 +11,7 @@ function FormSave(builder) {
   this.init = function () {
     var $save  = $("<div>", { class: "formbuilder-save" });
     this.$dom = $save;
-    this.success();
+    this.loading();
     this.builder.$dom.prepend($save);
   }
 
@@ -27,6 +27,11 @@ function FormSave(builder) {
   // Waiting text
   this.waiting = function () {
     this.$dom.html("Saving in progress... please don't exit the page");
+  }
+
+  // Loading text
+  this.loading = function () {
+    this.$dom.html("Loading form... please don't exit the page");
   }
 
   // Success text

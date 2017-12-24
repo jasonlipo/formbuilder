@@ -19,6 +19,7 @@ $router->get('/', 'FormsController@index');
 $router->get('/install', 'InstallController@install');
 $router->get('/build', 'FormsController@build');
 $router->get('/build/(\d+)', 'FormsController@build');
+$router->get('/build/(\d+)/structure', 'FormsController@structure');
 $router->post('/build/(\d+)/save', 'FormsController@save');
 
 $router->set404(function() {

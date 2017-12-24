@@ -4,6 +4,7 @@ function FormBuilder($dom) {
   this.$dom = $dom;
   this.settings = new FormSettings(this);
   this.save = new FormSave(this);
+  this.load = new FormLoad(this);
   this.structure = new FormStructure(this);
   this.element_list = FormElementList.all();
 
@@ -25,7 +26,9 @@ function FormBuilder($dom) {
     this.$form = $form;
     this.settings.init();
     this.save.init();
-    this.reload_form();
+    this.load.do(function () {
+      this.reload_form();
+    }.bind(this));
   }
 
   // Reload form with current settings
