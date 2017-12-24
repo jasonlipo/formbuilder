@@ -51,18 +51,7 @@ function FormSettings(builder) {
       // Element settings
       this.$field_properties.html("");
       var selected_elem = this.builder.elements[this.builder.selected];
-      $elem_title = $("<input>", { class: "formbuilder-settings-input" }).val(selected_elem.label);
-      this.$field_properties.append("Label<br />").append($elem_title);
-      $elem_help = $("<input>", { class: "formbuilder-settings-input" }).val(selected_elem.help);
-      this.$field_properties.append("<br /><br />Help text<br />").append($elem_help);
-      $elem_title.keyup(function () {
-        selected_elem.label = $elem_title.val();
-        this.builder.reload_form();
-      }.bind(this));
-      $elem_help.keyup(function () {
-        selected_elem.help = $elem_help.val();
-        this.builder.reload_form();
-      }.bind(this));
+      selected_elem.get_settings();
       this.$tab.tabs("option", "active", 1);
     }
     else {

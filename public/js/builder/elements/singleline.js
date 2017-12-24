@@ -26,4 +26,9 @@ function FormElement_SingleLine(builder) {
     this.super.select();
   }
 
+  // Element settings
+  this.get_settings = function () {
+    this.super.regular_settings();
+  }
+
 }

@@ -43,4 +43,9 @@ function FormElement_Radio(builder) {
     return $radio_container;
   }
 
+  // Element settings
+  this.get_settings = function () {
+    this.super.regular_settings();
+  }
+
 }
