@@ -28,23 +28,46 @@ function FormElement(element) {
 
   // Generic element settings
   this.regular_settings = function () {
-    $elem_title = $("<input>", { class: "formbuilder-settings-input" }).val(this.element.props.label);
-    this.element.builder.settings.$field_properties.append("Label<br />").append($elem_title);
-    $elem_help = $("<input>", { class: "formbuilder-settings-input" }).val(this.element.props.help);
-    this.element.builder.settings.$field_properties.append("<br /><br />Help text<br />").append($elem_help);
-    $elem_title.keyup(function () {
-      this.element.props.label = $elem_title.val();
-      this.element.builder.reload_form();
-    }.bind(this));
-    $elem_help.keyup(function () {
-      this.element.props.help = $elem_help.val();
-      this.element.builder.reload_form();
-    }.bind(this));
+    this.setting_section("General");
+    this.add_setting("Field Label", "label");
+    this.add_setting("Field Help Text", "help");
+  }
+
+  // Add setting section
+  this.setting_section = function (label) {
+    var $settings_section = $("<div>", { class: "formbuilder-settings-section" });
+    var $settings_label = $("<label>", { class: "formbuilder-label" });
+    $settings_label.html(label).appendTo($settings_section);
+    this.element.builder.settings.$field_properties.append($settings_section);
+  }
+
+  // Add setting to link to field property
+  this.add_setting = function (label, property) {
+    var $settings_block = $("<div>", { class: "formbuilder-settings-block" });
+    var $settings_input = $("<input>", { class: "formbuilder-settings-input" });
+    var $settings_label = $("<label>", { class: "formbuilder-label" });
+
+    $settings_label
+      .html(label)
+      .appendTo($settings_block);
+
+    $settings_input
+      .val(this.element.props[property])
+      .appendTo($settings_block)
+      .keyup(function (property, $input) {
+        this.element.props[property] = $input.val();
+        this.builder.reload_form();
+      }.bind(this, property, $settings_input));
+
+    this.element.builder.settings.$field_properties.append($settings_block);
   }
 
   // Radio, dropdowns and checkboxes
   this.multiple_options = function () {
-    this.element.builder.settings.$field_properties.append("<br /><br />Options<br />");
+    var $settings_block = $("<div>", { class: "formbuilder-settings-block" });
+    var $settings_label = $("<label>", { class: "formbuilder-label" });
+    $settings_label.html("Options").appendTo($settings_block);
+
     for (var i=0; i<this.element.props.options.length; i++) {
       var $option_input = $("<input>", { class: "formbuilder-settings-input" }).val(this.element.props.options[i].value);
       var $option_remove = $("<span>", { class: "formbuilder-icon" }).html($("<i>", { class: "fas fa-minus-circle" }));
@@ -57,12 +80,15 @@ function FormElement(element) {
         this.element.builder.reload_form();
         this.element.builder.reload_settings();
       }.bind(this, i));
-      this.element.builder.settings.$field_properties.append($option_input);
-      this.element.builder.settings.$field_properties.append($option_remove);
+      $settings_block.append($option_input);
+      $settings_block.append($option_remove);
     }
-    this.element.builder.settings.$field_properties.append("<br />").append(
+
+    this.element.builder.settings.$field_properties.append($settings_block);
+
+    this.element.builder.settings.$field_properties.append(
       $("<a>", { class: "formbuilder-button", href: "javascript:;" })
-        .html("+ Add new option")
+        .html("Add option")
         .click(function () { 
           this.element.props.options.push({ value: "" });
           this.element.builder.reload_form();
