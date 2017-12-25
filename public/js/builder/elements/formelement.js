@@ -42,14 +42,21 @@ function FormElement(element) {
     this.element.builder.settings.$field_properties.append("<br /><br />Options<br />");
     for (var i=0; i<this.element.options.length; i++) {
       var $option_input = $("<input>", { class: "formbuilder-settings-input" }).val(this.element.options[i].value);
+      var $option_remove = $("<span>", { class: "formbuilder-icon" }).html($("<i>", { class: "fas fa-minus-circle" }));
       $option_input.keyup(function ($el, index) {
         this.element.options[index].value = $el.val();
         this.element.builder.reload_form();
       }.bind(this, $option_input, i));
+      $option_remove.click(function (index) {
+        this.element.options.splice(index, 1);
+        this.element.builder.reload_form();
+        this.element.builder.reload_settings();
+      }.bind(this, i));
       this.element.builder.settings.$field_properties.append($option_input);
+      this.element.builder.settings.$field_properties.append($option_remove);
     }
     this.element.builder.settings.$field_properties.append("<br />").append(
-      $("<a>", { href: "javascript:;" })
+      $("<a>", { class: "formbuilder-button", href: "javascript:;" })
         .html("+ Add new option")
         .click(function () { 
           this.element.options.push({ value: "" });
