@@ -15,11 +15,9 @@ function FormElement_Checkbox(builder) {
     
   // Create a single-line text box
   this.init = function () {
-    var $help = $("<small>").html(this.props.help);
-    var $label = $("<label>", { class: "formbuilder-label" }).html(this.props.label).append($help);
     var $inputs = this.print_options();
     var $newelem = $("<div>", { class: "formbuilder-element formbuilder-selectable" })
-                        .append($label)
+                        .append(this.super.print_label())
                         .append($inputs)
                         .attr("formbuilder-index", this.index);
 

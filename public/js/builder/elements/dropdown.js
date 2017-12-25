@@ -15,11 +15,9 @@ function FormElement_Dropdown(builder) {
   
   // Create a single-line text box
   this.init = function () {
-    var $help = $("<small>").html(this.props.help);
-    var $label = $("<label>", { class: "formbuilder-label" }).html(this.props.label).append($help);
     var $input = $("<select>", { class: "formbuilder-dropdown", disabled: true });
     var $newelem = $("<div>", { class: "formbuilder-element formbuilder-selectable" })
-                        .append($label)
+                        .append(this.super.print_label())
                         .append($input)
                         .attr("formbuilder-index", this.index);
 

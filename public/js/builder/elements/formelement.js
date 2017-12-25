@@ -7,6 +7,17 @@ function FormElement(element) {
     required: false
   }
 
+  // Print out the label (checking if required or not)
+  this.print_label = function () {
+    var $help = $("<small>").html(this.element.props.help);
+    var $label = $("<label>", { class: "formbuilder-label" }).html(this.element.props.label);
+    if (this.element.props.required) {
+      $label.append($("<span>", { class: "formbuilder-required" }).html("*"));
+    }
+    $label.append($help);
+    return $label;
+  }
+
   // When clicking a generic form element
   this.onclick = function () {
     this.element.$elem.click(function () {

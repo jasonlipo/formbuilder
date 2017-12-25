@@ -1,220 +1,42 @@
-* {
-  margin:0;
-  }
-  body {font: 14px/1.5 Arial, Helvetica, sans-serif;}
-  .formbuilder-app {background: #f3f3f3;width: 935px;display: flex;position: relative;padding: 8px 20px 20px;box-sizing: border-box;flex-wrap: wrap;flex-direction: row;}
-  .formbuilder-form {width: 475px;background-color: #ffffff;box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);}
-  
-  .formbuilder-settings {
-  width: 400px;
-  background-color: #fff;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-  margin-left: 20px;
-  }
-  
-  .formbuilder-title {font-weight: bold;margin-bottom: 5px;display: block;color: #4C565E;font-size: 24px;margin: 0;}
-  
-  .formbuilder-header {
-    padding: 20px;
-    padding-bottom: 30px;
-    text-align: center;
-  }
-  
-  .formbuilder-selectable {
-    border: 1px solid transparent;
-  }
-  
-  .formbuilder-selectable.selected, .formbuilder-selectable:hover {
-    border: 1px dashed #999;
-  }
-  
-  .formbuilder-element {
-    margin-bottom: 10px;
-    padding: 10px;
-    background: #fff;
-  }
-  
-  .formbuilder-selectable, .formbuilder-selectable * {
-    cursor: pointer;
-  }
-  
-  .formbuilder-element select {
-    outline: none;
-    background-color: #ffffff;
-    color: #5f5f5f;
-    box-sizing: border-box;
-    width: 240px;
-    box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
-    padding: 12px 18px;
-    border: 1px solid #dbdbdb;
-  }
-  
-  .formbuilder-label {
-    color: #5f5f5f;
-    width: 200px;
-    font-weight: bold;
-    line-height: 16px;
-    padding: 0 0 7px;
-    display: block;
-  }
-  
-  .formbuilder-element input, .formbuilder-element textarea {
-    outline: none;
-    color: #5f5f5f;
-    box-sizing: border-box;
-    width: 290px;
-    box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
-    padding: 12px 18px;
-    border: 1px solid #dbdbdb;
-  }
-  
-  .formbuilder-label small {
-    display: block;
-    font-size: 12px;
-    font-weight: normal;
-  }
-  
-  .formbuilder-submit {
-    margin-bottom: 40px;
-    margin-left: 91px;
-    border-radius: 2px;
-    background-color: #6caee0;
-    color: #ffffff;
-    box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
-    padding: 14px 22px;
-    border: 0;
-    margin-top: 15px;
-    outline: none;
-  }
-  
-  .formbuilder-radio, 
-  .formbuilder-checkbox {
-    padding: 5px;
-  }
-  
-  .formbuilder-radio-label, .formbuilder-checkbox-label {
-    margin-left: 8px;
-    color: #5f5f5f;
-    font-weight: normal;
-  }
-  
-  .formbuilder-radio input[type="radio"],
-  .formbuilder-checkbox input[type="checkbox"] {
-    box-shadow: none;
-    width: auto;
-  }
-  
-  .formbuilder-body {
-    padding: 0 80px;
-  }
-  
-  .formbuilder-settings-title {
-    font-weight: bold;
-    display: block;
-    color: #4C565E;
-    font-size: 24px;
-    padding: 25px;
-  }
-  
-  .formbuilder-description {
-      margin-bottom: 5px;
-      display: inline-block;
-      box-sizing: border-box;
-      color: #4C565E;
-      font-size: 14px;
-      padding: 0px 15px 10px;
-      margin: 0;
-      border-bottom: 2px solid #6CAEE0;
-  }
+*{margin:0}
+body{font:14px/1.5 Arial,Helvetica,sans-serif}
+.formbuilder-app{background:#f3f3f3;width:935px;display:flex;position:relative;padding:8px 20px 20px;box-sizing:border-box;flex-wrap:wrap;flex-direction:row}
+.formbuilder-form{width:475px;background-color:#fff;box-shadow:0 1px 3px 0 rgba(0,0,0,0.1)}
+.formbuilder-settings{width:400px;background-color:#fff;box-shadow:0 1px 3px 0 rgba(0,0,0,0.1);margin-left:20px}
+.formbuilder-title{font-weight:700;display:block;color:#4C565E;font-size:24px;margin:0}
+.formbuilder-header{padding:20px;padding-bottom:30px;text-align:center}
+.formbuilder-body{padding:0 80px}
 
-.formbuilder-placeholder {
-    padding: 10px;
-    background: #f9f9f9;
-    margin-bottom: 10px;
-}
+.formbuilder-selectable{border:1px solid transparent}
+.formbuilder-selectable.selected,.formbuilder-selectable:hover{border:1px dashed #999}
+.formbuilder-selectable,.formbuilder-selectable *{cursor:pointer}
 
-.formbuilder-settings-input {
-    outline: none;
-    background-color: #ffffff;
-    color: #5f5f5f;
-    box-sizing: border-box;
-    width: 240px;
-    padding: 8px 9px;
-    border: 1px solid #dbdbdb;
-    margin: 2px 0;
-}
+.formbuilder-element{margin-bottom:10px;padding:10px;background:#fff}
+.formbuilder-element select{outline:none;background-color:#fff;color:#5f5f5f;box-sizing:border-box;width:240px;box-shadow:1px 2px 4px 0 rgba(0,0,0,0.08);padding:12px 18px;border:1px solid #dbdbdb}
+.formbuilder-description{display:inline-block;box-sizing:border-box;color:#4C565E;font-size:14px;padding:0 15px 10px;margin:0;border-bottom:2px solid #6CAEE0}
+.formbuilder-placeholder{padding:10px;background:#f9f9f9;margin-bottom:10px}
+.formbuilder-label{color:#5f5f5f;width:200px;font-weight:700;line-height:16px;padding:0 0 7px;display:block}
+.formbuilder-element input,.formbuilder-element textarea{outline:none;color:#5f5f5f;box-sizing:border-box;width:290px;box-shadow:1px 2px 4px 0 rgba(0,0,0,0.08);padding:12px 18px;border:1px solid #dbdbdb}
+.formbuilder-label small{display:block;font-size:12px;font-weight:400}
+.formbuilder-submit{margin-bottom:40px;margin-left:91px;border-radius:2px;background-color:#6caee0;color:#fff;box-shadow:1px 2px 4px 0 rgba(0,0,0,0.08);padding:14px 22px;border:0;margin-top:15px;outline:none}
+.formbuilder-radio,.formbuilder-checkbox{padding:5px}
+.formbuilder-radio-label,.formbuilder-checkbox-label{margin-left:8px;color:#5f5f5f;font-weight:400}
+.formbuilder-radio input[type="radio"],.formbuilder-checkbox input[type="checkbox"]{box-shadow:none;width:auto}
 
-.formbuilder-settings-content ul.ui-tabs-nav {
-    list-style: none;
-    display: flex;
-    padding: 0;
-}
+.formbuilder-settings-title{font-weight:700;display:block;color:#4C565E;font-size:24px;padding:25px}
+.formbuilder-settings-input{outline:none;background-color:#fff;color:#5f5f5f;box-sizing:border-box;width:240px;padding:8px 9px;border:1px solid #dbdbdb;margin:2px 0}
+.formbuilder-settings-content ul.ui-tabs-nav{list-style:none;display:flex;padding:0}
+.formbuilder-settings-content li.ui-tabs-tab{background:#6caee0;flex:1}
+.formbuilder-settings-content li.ui-tabs-active{background:#fff}
+.formbuilder-settings-content a.ui-tabs-anchor{text-decoration:none;color:#3e3e3e;outline:none;padding:12px 15px;display:block;text-align:center}
+.formbuilder-settings-content .ui-tabs-panel{padding:25px}
+.formbuilder-settings-block{padding:0 0 25px}
+.formbuilder-settings-block .formbuilder-label{font-weight:400}
+.formbuilder-settings-section{margin-bottom:15px}
+.formbuilder-settings-input[type="checkbox"]{width:auto}
 
-.formbuilder-settings-content li.ui-tabs-tab {
-    background: #6caee0;
-    flex: 1;
-}
-
-.formbuilder-settings-content li.ui-tabs-active {
-    background: #fff;
-}
-
-.formbuilder-settings-content a.ui-tabs-anchor {
-    text-decoration: none;
-    color: #3e3e3e;
-    outline: none;
-    padding: 12px 15px;
-    display:block;
-    text-align: center;
-}
-
-.formbuilder-settings-content .ui-tabs-panel {
-    padding: 25px;
-}
-
-.formbuilder-save {
-    background-color: #fff;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    flex: 0 1 100%;
-    margin-bottom: 15px;
-    padding: 15px;
-    text-align: center;
-}
-
-.formbuilder-settings-block {
-    padding: 0px 0 25px;
-}
-
-.formbuilder-settings-block .formbuilder-label {
-    font-weight: normal;
-}
-
-.formbuilder-settings-section {margin-bottom: 15px;}
-
-.formbuilder-button {
-    border-radius: 2px;
-    background-color: #6caee0;
-    color: #ffffff;
-    box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
-    padding: 7px 10px;
-    border: 0;
-    margin-top: 15px;
-    outline: none;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 12px;
-}
-
-.formbuilder-icon {
-    color: #666d73;
-    margin: 0 10px;
-    cursor: pointer;
-}
-
-.formbuilder-icon:hover {
-    color: #888d92;
-}
-
-.formbuilder-settings-input[type="checkbox"] {
-    width: auto;
-}
+.formbuilder-save{background-color:#fff;box-shadow:0 1px 3px 0 rgba(0,0,0,0.1);flex:0 1 100%;margin-bottom:15px;padding:15px;text-align:center}
+.formbuilder-button{border-radius:2px;background-color:#6caee0;color:#fff;box-shadow:1px 2px 4px 0 rgba(0,0,0,0.08);padding:7px 10px;border:0;margin-top:15px;outline:none;text-decoration:none;display:inline-block;font-size:12px}
+.formbuilder-icon{color:#666d73;margin:0 10px;cursor:pointer}
+.formbuilder-icon:hover{color:#888d92}
+.formbuilder-required{color:red;padding-left:3px}
