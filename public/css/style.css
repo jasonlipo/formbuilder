@@ -179,3 +179,13 @@
     padding: 15px;
     text-align: center;
 }
+
+.formbuilder-settings-block {
+    padding: 0px 0 25px;
+}
+
+.formbuilder-settings-block .formbuilder-label {
+    font-weight: normal;
+}
+
+.formbuilder-settings-section {margin-bottom: 15px;}

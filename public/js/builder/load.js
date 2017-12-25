@@ -7,8 +7,7 @@ function FormLoad(builder) {
     $.get(location.pathname + "/structure", function (response) {
       if (response) {
         json = JSON.parse(response);
-        this.builder.name = json["name"];
-        this.builder.description = json["description"];
+        this.builder.props = json["props"];
         for (var i=0; i<json["elements"].length; i++) {
           var el = json["elements"][i];
           var new_el = new (window[el["class"]])(this.builder);

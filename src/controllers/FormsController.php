@@ -28,13 +28,13 @@ class FormsController extends Controller {
     $json = json_decode($_POST["json"], true);
     try {
       $form = Form::find($formId);
-      $form->name = $json["name"];
+      $form->name = $json["props"]["name"];
       $form->structure = $_POST["json"];
       $form->save();
     }
     catch (ActiveRecord\RecordNotFound $e) {
       $form = Form::create([
-        "name" => $json["name"],
+        "name" => $json["props"]["name"],
         "structure" => $_POST["json"]
       ]);
     }

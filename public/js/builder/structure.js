@@ -4,8 +4,7 @@ function FormStructure(builder) {
 
   this.zip = function () {
     return {
-      name: this.builder.name,
-      description: this.builder.description,
+      props: this.builder.props,
       elements: $.map(this.builder.elements, function (i) {
         return i.zip();
       })

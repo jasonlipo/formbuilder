@@ -61,20 +61,44 @@ function FormSettings(builder) {
 
     // Form settings
     this.$form_properties.html("");
-    $form_title = $("<input>", { class: "formbuilder-settings-input" }).val(this.builder.name);
-    this.$form_properties.append("Form Title<br />").append($form_title);
-    $form_desc = $("<input>", { class: "formbuilder-settings-input" }).val(this.builder.description);
-    this.$form_properties.append("<br /><br />Form Description<br />").append($form_desc);
-    $form_title.keyup(function () {
-      this.builder.name = $form_title.val();
-      this.builder.reload_form();
-    }.bind(this));
-    $form_desc.keyup(function () {
-      this.builder.description = $form_desc.val();
-      this.builder.reload_form();
-    }.bind(this));
+    
+    this.setting_section("General");
+    this.add_setting("Form Title", "name");
+    this.add_setting("Form Description", "description");
+
+    this.setting_section("Redirect");
+    this.add_setting("Link after Submission", "redirect");
 
     this.choose_element();
+  }
+
+  // Add setting section
+  this.setting_section = function (label) {
+    var $settings_section = $("<div>", { class: "formbuilder-settings-section" });
+    var $settings_label = $("<label>", { class: "formbuilder-label" });
+    $settings_label.html(label).appendTo($settings_section);
+    this.$form_properties.append($settings_section);
+  }
+
+  // Add setting to link to form property
+  this.add_setting = function (label, property) {
+    var $settings_block = $("<div>", { class: "formbuilder-settings-block" });
+    var $settings_input = $("<input>", { class: "formbuilder-settings-input" });
+    var $settings_label = $("<label>", { class: "formbuilder-label" });
+
+    $settings_label
+      .html(label)
+      .appendTo($settings_block);
+
+    $settings_input
+      .val(this.builder.props[property])
+      .appendTo($settings_block)
+      .keyup(function (property, $input) {
+        this.builder.props[property] = $input.val();
+        this.builder.reload_form();
+      }.bind(this, property, $settings_input));
+
+    this.$form_properties.append($settings_block);
   }
 
   // Adds the new element chooser

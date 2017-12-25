@@ -9,8 +9,12 @@ function FormBuilder($dom) {
   this.element_list = FormElementList.all();
 
   // Defaults
-  this.name = "My Form";
-  this.description = "A description of your form goes here";
+  this.props = {
+    name: "My Form",
+    description: "A description of your form goes here",
+    redirect: ""
+  };
+
   this.elements = [];
   this.selected = null;
 
@@ -28,13 +32,14 @@ function FormBuilder($dom) {
     this.save.init();
     this.load.do(function () {
       this.reload_form();
+      this.reload_settings();
     }.bind(this));
   }
 
   // Reload form with current settings
   this.reload_form = function () {
-    var $title = $("<div>", { class: "formbuilder-title" }).html(this.name);
-    var $desc = $("<div>", { class: "formbuilder-description" }).html(this.description);
+    var $title = $("<div>", { class: "formbuilder-title" }).html(this.props.name);
+    var $desc = $("<div>", { class: "formbuilder-description" }).html(this.props.description);
     var $header = $("<div>", { class: "formbuilder-header" });
     var $body = $("<div>", { class: "formbuilder-body" });
     this.$form.html(
