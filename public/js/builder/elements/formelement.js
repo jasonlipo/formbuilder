@@ -3,7 +3,8 @@ function FormElement(element) {
 
   this.props = {
     label: "Label",
-    help: "Help text goes here"
+    help: "Help text goes here",
+    required: false
   }
 
   // When clicking a generic form element
@@ -31,6 +32,7 @@ function FormElement(element) {
     this.setting_section("General");
     this.add_setting("Field Label", "label");
     this.add_setting("Field Help Text", "help");
+    this.add_setting("Required", "required", true);
   }
 
   // Add setting section
@@ -51,14 +53,24 @@ function FormElement(element) {
       .html(label)
       .appendTo($settings_block);
 
-    $settings_input
-      .val(this.element.props[property])
-      .appendTo($settings_block)
-      .keyup(function (property, $input) {
-        this.element.props[property] = $input.val();
-        this.builder.reload_form();
-      }.bind(this, property, $settings_input));
+    $settings_input.appendTo($settings_block);
 
+    if (typeof this.element.props[property] == "string") {
+      $settings_input.val(this.element.props[property]);
+      $settings_input.keyup(function (property, $input) {
+        this.element.props[property] = $input.val();
+        this.element.builder.reload_form();
+      }.bind(this, property, $settings_input));
+    }
+    else {
+      $settings_input.attr('type', 'checkbox');
+      $settings_input.attr('checked', this.element.props[property]);
+      $settings_input.change(function (property, $input) {
+        this.element.props[property] = $input.is(':checked');
+        this.element.builder.reload_form();
+      }.bind(this, property, $settings_input));
+    }
+      
     this.element.builder.settings.$field_properties.append($settings_block);
   }
 

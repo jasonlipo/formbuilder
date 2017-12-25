@@ -214,3 +214,7 @@
 .formbuilder-icon:hover {
     color: #888d92;
 }
+
+.formbuilder-settings-input[type="checkbox"] {
+    width: auto;
+}
