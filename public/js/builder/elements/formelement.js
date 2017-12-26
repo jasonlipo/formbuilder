@@ -9,7 +9,7 @@ function FormElement(element) {
 
   // Is selected
   this.is_selected = function () {
-    if (this.element.builder.selected == this.element.index) {
+    if (this.element.builder.selected === this.element.index) {
       this.element.$elem.addClass("selected");
     }
   }
@@ -60,6 +60,25 @@ function FormElement(element) {
     var $settings_label = $("<label>", { class: "formbuilder-label" });
     $settings_label.html(label).appendTo($settings_section);
     this.element.builder.settings.$field_properties.append($settings_section);
+  }
+
+  // Setting to delete element
+  this.setting_delete = function () {
+    $("<a>", { class: "formbuilder-button formbuilder-delete" })
+      .html("Delete")
+      .appendTo(this.element.builder.settings.$field_properties)
+      .click(function () {
+        if (this.element.index.toString().indexOf(".") > -1) {
+          var selected_components = this.element.index.split(".");
+          this.element.builder.elements[selected_components[0]].props.children.splice(selected_components[1], 1);
+        }
+        else {
+          this.element.builder.elements.splice(this.element.index, 1);
+        }
+        this.element.builder.selected = null;
+        this.element.builder.reload_form();
+        this.element.builder.reload_settings();
+      }.bind(this));
   }
 
   // Add setting to link to field property

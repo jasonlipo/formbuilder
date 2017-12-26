@@ -26,6 +26,7 @@ function FormElement_MultiLine(builder) {
   // Element settings
   this.get_settings = function () {
     this.super.regular_settings();
+    this.super.setting_delete();
   }
 
   // Zip into json

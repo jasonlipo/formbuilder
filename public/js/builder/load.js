@@ -7,11 +7,11 @@ function FormLoad(builder) {
     $.get(location.pathname + "/structure", function (response) {
       if (response) {
         json = JSON.parse(response);
-        this.builder.props = json["props"];
+        $.extend(this.builder.props, json["props"]);
         for (var i=0; i<json["elements"].length; i++) {
           var el = json["elements"][i];
           var new_el = new (window[el["class"]])(this.builder);
-          new_el.props = json["elements"][i]["props"];
+          $.extend(new_el.props, json["elements"][i]["props"]);
           // Repeaters
           if (el["class"] == "FormElement_Repeater") {
             var children = new_el["props"]["children"];
@@ -19,7 +19,7 @@ function FormLoad(builder) {
             for (var j=0; j<children.length; j++) {
               var repeat_el = children[j];
               var repeat_new_el = new (window[repeat_el["class"]])(this.builder);
-              repeat_new_el.props = children[j]["props"];
+              $.extend(repeat_new_el.props, children[j]["props"]);
               new_el["props"]["children"].push(repeat_new_el);
             }
           }

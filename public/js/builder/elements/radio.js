@@ -42,6 +42,7 @@ function FormElement_Radio(builder) {
   this.get_settings = function () {
     this.super.regular_settings();
     this.super.multiple_options();
+    this.super.setting_delete();
   }
 
   // Zip into json

@@ -26,6 +26,7 @@ function FormElement_SingleLine(builder) {
   this.get_settings = function () {
     this.super.regular_settings();
     FormValidate.settings(this);
+    this.super.setting_delete();
   }
 
   // Zip into json
