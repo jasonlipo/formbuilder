@@ -13,14 +13,14 @@ function FormElement_Radio(builder) {
   this.$elem = null;
   
   // Create a single-line text box
-  this.init = function () {
+  this.init = function ($container) {
     var $inputs = this.print_options();
     var $newelem = $("<div>", { class: "formbuilder-element formbuilder-selectable" })
                         .append(this.super.print_label())
                         .append($inputs)
                         .attr("formbuilder-index", this.index);
 
-    this.builder.$body.append($newelem);
+    $container.append($newelem);
     this.$elem = $newelem;
     this.super.onclick();
     this.super.is_selected();

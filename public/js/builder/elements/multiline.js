@@ -10,14 +10,14 @@ function FormElement_MultiLine(builder) {
   
   
   // Create a single-line text box
-  this.init = function () {
+  this.init = function ($container) {
     var $input = $("<textarea>", { type: "text", class: "formbuilder-multiline", readonly: true });
     var $newelem = $("<div>", { class: "formbuilder-element formbuilder-selectable" })
                         .append(this.super.print_label())
                         .append($input)
                         .attr("formbuilder-index", this.index);
 
-    this.builder.$body.append($newelem);
+    $container.append($newelem);
     this.$elem = $newelem;
     this.super.onclick();
     this.super.is_selected();

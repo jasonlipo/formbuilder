@@ -41,7 +41,7 @@ function FormBuilder($dom) {
     var $title = $("<div>", { class: "formbuilder-title" }).html(this.props.name);
     var $desc = $("<div>", { class: "formbuilder-description" }).html(this.props.description);
     var $header = $("<div>", { class: "formbuilder-header" });
-    var $body = $("<div>", { class: "formbuilder-body" });
+    var $body = $("<div>", { class: "formbuilder-body formbuilder-sort-container" });
     this.$form.html(
       $header.html($title).append($desc)
     ).append($body);
@@ -60,7 +60,7 @@ function FormBuilder($dom) {
   this.init_elements = function () {
     for (var i=0; i<this.elements.length; i++) {
       this.elements[i].super.setIndex(i);
-      this.elements[i].init();
+      this.elements[i].init(this.$body);
     }
     if (this.elements.length == 0) {
       var $empty = $("<div>", { class: "formbuilder-element" });
@@ -71,14 +71,28 @@ function FormBuilder($dom) {
       items: "> .formbuilder-selectable",
       placeholder: "formbuilder-placeholder",
       forcePlaceholderSize: true,
-      update: function (event, ui) {
+      connectWith: ".formbuilder-sort-container",
+      remove: function (event, ui) {
         $obj = ui.item;
+        // Dropped into a repeater
+        var repeater_index = $obj.parent(".formbuilder-repeater").parent(".formbuilder-element").attr('formbuilder-index');
+        var repeater = this.elements[repeater_index];
         var old_index = $obj.attr("formbuilder-index");
         var removed_elements = this.elements.splice(old_index, 1);
-        var new_index = $obj.index(".formbuilder-body .formbuilder-element");
-        this.elements.splice(new_index, 0, removed_elements[0]);
-        this.selected = null;
+        var inner_index = $obj.index(".formbuilder-repeater .formbuilder-element");
+        repeater.props.children.splice(inner_index, 0, removed_elements[0]);
         this.reload_form();
+      }.bind(this),
+      stop: function (event, ui) {
+        $obj = ui.item;
+        if ($obj.parent(".formbuilder-repeater").length == 0) {
+          var old_index = $obj.attr("formbuilder-index");
+          var removed_elements = this.elements.splice(old_index, 1);
+          var new_index = $obj.index(".formbuilder-body .formbuilder-element");
+          this.elements.splice(new_index, 0, removed_elements[0]);
+          this.selected = null;
+          this.reload_form();
+        }
       }.bind(this)
     });
   }

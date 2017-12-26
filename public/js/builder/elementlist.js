@@ -19,6 +19,10 @@ var FormElementList = {
     {
       title: "Dropdown",
       widget: FormElement_Dropdown
+    },
+    {
+      title: "Repeater",
+      widget: FormElement_Repeater
     }
   ],
   all: function () {

@@ -12,6 +12,17 @@ function FormLoad(builder) {
           var el = json["elements"][i];
           var new_el = new (window[el["class"]])(this.builder);
           new_el.props = json["elements"][i]["props"];
+          // Repeaters
+          if (el["class"] == "FormElement_Repeater") {
+            var children = new_el["props"]["children"];
+            new_el["props"]["children"] = [];
+            for (var j=0; j<children.length; j++) {
+              var repeat_el = children[j];
+              var repeat_new_el = new (window[repeat_el["class"]])(this.builder);
+              repeat_new_el.props = children[j]["props"];
+              new_el["props"]["children"].push(repeat_new_el);
+            }
+          }
           this.builder.elements.push(new_el);
         }
       }
