@@ -24,6 +24,7 @@ function FormElement_Dropdown(builder) {
     this.builder.$body.append($newelem);
     this.$elem = $newelem;
     this.super.onclick();
+    this.super.is_selected();
   }
 
   // Element settings

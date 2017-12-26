@@ -19,11 +19,13 @@ function FormElement_SingleLine(builder) {
     this.builder.$body.append($newelem);
     this.$elem = $newelem;
     this.super.onclick();
+    this.super.is_selected();
   }
 
   // Element settings
   this.get_settings = function () {
     this.super.regular_settings();
+    FormValidate.settings(this);
   }
 
   // Zip into json

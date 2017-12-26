@@ -38,8 +38,8 @@ function FormSave(builder) {
   // Success text
   this.success = function () {
     this.$dom
-      .html("<b>Congrats! </b>")
-      .append("Your form is up-to-date!")
+      .html("<b>Up-to-date! </b>")
+      .append("Changes are saved automatically.")
   }
 
 }

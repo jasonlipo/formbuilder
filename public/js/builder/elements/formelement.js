@@ -7,6 +7,13 @@ function FormElement(element) {
     required: false
   }
 
+  // Is selected
+  this.is_selected = function () {
+    if (this.element.builder.selected == this.element.index) {
+      this.element.$elem.addClass("selected");
+    }
+  }
+
   // Print out the label (checking if required or not)
   this.print_label = function () {
     var $help = $("<small>").html(this.element.props.help);
