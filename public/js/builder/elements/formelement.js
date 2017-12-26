@@ -28,9 +28,9 @@ function FormElement(element) {
   // When clicking a generic form element
   this.onclick = function () {
     this.element.$elem.click(function (e) {
-      e.stopPropagation();      
+      e.stopPropagation();
       this.element.builder.$body.find(".selected").removeClass("selected");
-      if (this.element.builder.selected == this.element.index) {
+      if (this.element.builder.selected === this.element.index) {
         this.element.builder.selected = null;
       }
       else {
