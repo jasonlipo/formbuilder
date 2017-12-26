@@ -50,8 +50,13 @@ function FormSettings(builder) {
     if (this.builder.selected != null) {
       // Element settings
       this.$field_properties.html("");
-      var selected_elem = this.builder.elements[this.builder.selected];
-      selected_elem.get_settings();
+      if (this.builder.selected.toString().indexOf(".") > -1) {
+        var selected_components = this.builder.selected.split(".");
+        this.builder.elements[selected_components[0]].props.children[selected_components[1]].get_settings();
+      }
+      else {
+        this.builder.elements[this.builder.selected].get_settings();
+      }
       this.$tab.tabs("option", "active", 1);
     }
     else {
