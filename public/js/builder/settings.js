@@ -71,7 +71,8 @@ function FormSettings(builder) {
     this.add_setting("Form Title", "name");
     this.add_setting("Form Description", "description");
 
-    this.setting_section("Redirect");
+    this.setting_section("Submission");
+    this.add_setting("Submit Button Text", "submit");
     this.add_setting("Link after Submission", "redirect");
 
     this.choose_element();

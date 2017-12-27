@@ -12,7 +12,8 @@ function FormBuilder($dom) {
   this.props = {
     name: "My Form",
     description: "A description of your form goes here",
-    redirect: ""
+    redirect: "",
+    submit: "Submit"
   };
 
   this.elements = [];
@@ -99,7 +100,7 @@ function FormBuilder($dom) {
 
   // Adds the submit button
   this.submit_button = function () {
-    var $submit = $("<input>", { value: "Submit", type: "button", class: "formbuilder-submit" });
+    var $submit = $("<input>", { value: this.props.submit, type: "button", class: "formbuilder-submit" });
     this.$form.append($submit);
   }
 

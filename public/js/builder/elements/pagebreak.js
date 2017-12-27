@@ -4,8 +4,7 @@ function FormElement_PageBreak(builder) {
   this.super = new FormElement(this);
   this.props = {
     next: "Next",
-    prev: "Back",
-    finish: "Pay"
+    prev: "Back"
   };
   this.builder = builder;
   this.index = null;
