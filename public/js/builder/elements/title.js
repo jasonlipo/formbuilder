@@ -27,6 +27,9 @@ function FormElement_Title(builder) {
 
   // Element settings
   this.get_settings = function () {
+    this.super.setting_section("General");
+    this.super.add_setting("Title", "title");
+    this.super.add_setting("Descriptions", "description");
     this.super.setting_delete();
   }
 

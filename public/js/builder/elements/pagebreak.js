@@ -27,6 +27,9 @@ function FormElement_PageBreak(builder) {
 
   // Element settings
   this.get_settings = function () {
+    this.super.setting_section("Buttons");
+    this.super.add_setting("Next text", "next");
+    this.super.add_setting("Previous text", "prev");
     this.super.setting_delete();
   }
 
