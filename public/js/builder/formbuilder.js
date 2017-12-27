@@ -80,7 +80,7 @@ function FormBuilder($dom) {
         var repeater = this.elements[repeater_index];
         var old_index = $obj.attr("formbuilder-index");
         var removed_elements = this.elements.splice(old_index, 1);
-        var inner_index = $obj.index(".formbuilder-repeater .formbuilder-element");
+        var inner_index = $obj.index(".formbuilder-repeater > .formbuilder-element");
         repeater.props.children.splice(inner_index, 0, removed_elements[0]);
         this.reload_form();
       }.bind(this),
@@ -89,7 +89,7 @@ function FormBuilder($dom) {
         if ($obj.parent(".formbuilder-repeater").length == 0) {
           var old_index = $obj.attr("formbuilder-index");
           var removed_elements = this.elements.splice(old_index, 1);
-          var new_index = $obj.index(".formbuilder-body .formbuilder-element");
+          var new_index = $obj.index(".formbuilder-body > .formbuilder-element");
           this.elements.splice(new_index, 0, removed_elements[0]);
           this.selected = null;
           this.reload_form();

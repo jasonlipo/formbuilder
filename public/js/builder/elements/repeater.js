@@ -47,7 +47,7 @@ function FormElement_Repeater(builder) {
         // Moving an element out of a repeater
         var old_index = $obj.attr("formbuilder-index").split(".")[1];
         var removed_elements = this.props.children.splice(old_index, 1);
-        var outer_index = $obj.index(".formbuilder-body .formbuilder-element");
+        var outer_index = $obj.index(".formbuilder-body > .formbuilder-element");
         this.builder.elements.splice(outer_index, 0, removed_elements[0]);
         this.builder.reload_form();
       }.bind(this),
@@ -56,7 +56,7 @@ function FormElement_Repeater(builder) {
         if ($obj.parent(".formbuilder-repeater").length > 0) {
           var old_index = $obj.attr("formbuilder-index").split(".")[1];
           var removed_elements = this.props.children.splice(old_index, 1);
-          var new_index = $obj.index(".formbuilder-repeater .formbuilder-element");
+          var new_index = $obj.index(".formbuilder-repeater > .formbuilder-element");
           this.props.children.splice(new_index, 0, removed_elements[0]);
           this.selected = null;
           this.builder.reload_form();
