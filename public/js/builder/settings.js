@@ -139,14 +139,17 @@ function FormSettings(builder) {
         // Inside a repeater, add after this element
         var selected_components = this.builder.selected.toString().split(".");
         this.builder.elements[selected_components[0]].props.children.splice(selected_components[1]+1, 0, element);
+        this.builder.selected = selected_components[0] + "." + (parseInt(selected_components[1])+1);
       }
       else if (this.builder.elements[this.builder.selected].constructor.name == "FormElement_Repeater") {
         // Is a repeater, add to the end of the repeater
         var new_inner_index = this.builder.elements[this.builder.selected].props.children.length;
         this.builder.elements[this.builder.selected].props.children.push(element);
+        this.builder.selected = this.builder.selected + "." + new_inner_index;
       }
       else {
         this.builder.elements.splice(this.builder.selected+1, 0, element);
+        this.builder.selected += 1;
       }
     }
     this.builder.reload_form();
