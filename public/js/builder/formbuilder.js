@@ -7,6 +7,7 @@ function FormBuilder($dom) {
   this.load = new FormLoad(this);
   this.structure = new FormStructure(this);
   this.element_list = FormElementList.all();
+  this.scroll = 0;
 
   // Defaults
   this.props = {
@@ -35,6 +36,9 @@ function FormBuilder($dom) {
       this.reload_form();
       this.reload_settings();
     }.bind(this));
+    $(window).scroll(function (e) {
+      this.scroll = $(document).scrollTop();
+    }.bind(this));
   }
 
   // Reload form with current settings
@@ -50,6 +54,9 @@ function FormBuilder($dom) {
     this.init_elements();
     this.submit_button();
     this.save.save();
+    $('html, body').animate({
+      scrollTop: this.scroll
+    }, 0);
   }
 
   // Reload settings
