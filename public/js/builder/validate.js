@@ -18,7 +18,7 @@ var FormValidate = {
 
     for (i in this.validation_options) {
       var $option = $("<option>", { value: i }).html(this.validation_options[i]);
-      if (element.props.validation && element.props.validation.type == i) {
+      if (element.props.validation.type == i) {
         $option.attr("selected", true);
       }
       $settings_input.append($option);
@@ -28,8 +28,8 @@ var FormValidate = {
     element.builder.settings.$field_properties.append($settings_block);
 
     // Number validation
-    if (element.props.validation && element.props.validation.type == 2) {
-      var $minmax_block = $("<div>", { class: "formbuilder-settings-block formbuilder-settings-half" });
+    if (element.props.validation.type == 2) {
+      var $minmax_block = $("<div>", { class: "formbuilder-settings-block formbuilder-half" });
       var $minmax_label = $("<label>", { class: "formbuilder-label" });
       var $min_input = $("<input>", { type: "text", class: "formbuilder-settings-input" });
       var $max_input = $("<input>", { type: "text", class: "formbuilder-settings-input" });
@@ -52,13 +52,10 @@ var FormValidate = {
     }
 
      // Address validation
-     if (element.props.validation && element.props.validation.type == 5) {
+     if (element.props.validation.type == 5) {
       var $numlines_block = $("<div>", { class: "formbuilder-settings-block" });
       var $numlines_label = $("<label>", { class: "formbuilder-label" });
       var $numlines_input = $("<input>", { type: "text", class: "formbuilder-settings-input" });
-      var $postcode_block = $("<div>", { class: "formbuilder-settings-block" });
-      var $postcode_label = $("<label>", { class: "formbuilder-label" });
-      var $postcode_input = $("<input>", { type: "checkbox", class: "formbuilder-settings-input" });
       $numlines_block
         .append($numlines_label.html("Number of address lines"))
         .append(
@@ -68,36 +65,18 @@ var FormValidate = {
           }.bind(element, $numlines_input))
         )
         .appendTo(element.builder.settings.$field_properties);
-
-      $postcode_block
-        .append($postcode_label.html("Show post code"))
-        .append(
-          $postcode_input
-            .attr('checked', element.props.validation.postcode)
-            .change(function ($input) {
-              this.props.validation.postcode = $input.is(':checked');
-              this.builder.reload_form();
-            }.bind(element, $postcode_input))
-        )
-        .appendTo(element.builder.settings.$field_properties);
     }
     
     $settings_input.change(function ($el) {
-      if ($el.val() == 0) {
-        delete element.props.validation;
+      element.props.validation = {};
+      if ($el.val() == 2) {
+        element.props.validation.min = 0;
+        element.props.validation.max = 0;
       }
-      else {
-        element.props.validation = {};
-        if ($el.val() == 2) {
-          element.props.validation.min = 0;
-          element.props.validation.max = 0;
-        }
-        if ($el.val() == 5) {
-          element.props.validation.address = 3;
-          element.props.validation.postcode = true;
-        }
-        element.props.validation.type = parseInt($el.val());
+      if ($el.val() == 5) {
+        element.props.validation.address = 3;
       }
+      element.props.validation.type = parseInt($el.val());
       element.builder.reload_form();
       element.builder.reload_settings();
     }.bind(this, $settings_input));

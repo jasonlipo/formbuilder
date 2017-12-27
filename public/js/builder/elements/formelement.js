@@ -4,7 +4,8 @@ function FormElement(element) {
   this.props = {
     label: "Label",
     help: "Help text goes here",
-    required: false
+    required: false,
+    validation: {}
   }
 
   // Is selected
