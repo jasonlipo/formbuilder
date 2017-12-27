@@ -131,7 +131,24 @@ function FormSettings(builder) {
     var value = this.builder.$choose_elem_select.val();
     var widget = this.builder.element_list[value].widget;
     var element = new (widget)(this.builder);
-    this.builder.elements.push(element);
+    if (this.builder.selected == null) {
+      this.builder.elements.push(element);
+    }
+    else {
+      if (this.builder.selected.toString().indexOf(".") > -1) {
+        // Inside a repeater, add after this element
+        var selected_components = this.builder.selected.toString().split(".");
+        this.builder.elements[selected_components[0]].props.children.splice(selected_components[1]+1, 0, element);
+      }
+      else if (this.builder.elements[this.builder.selected].constructor.name == "FormElement_Repeater") {
+        // Is a repeater, add to the end of the repeater
+        var new_inner_index = this.builder.elements[this.builder.selected].props.children.length;
+        this.builder.elements[this.builder.selected].props.children.push(element);
+      }
+      else {
+        this.builder.elements.splice(this.builder.selected+1, 0, element);
+      }
+    }
     this.builder.reload_form();
     this.builder.reload_settings();
   }
