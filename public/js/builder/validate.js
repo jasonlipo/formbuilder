@@ -2,7 +2,10 @@ var FormValidate = {
   validation_options: {
     0: "No validation",
     1: "Email address",
-    2: "Number"
+    2: "Number",
+    3: "Phone Number",
+    4: "First/Last Name",
+    5: "Address"
   },
 
   settings: function (element) {
@@ -47,6 +50,37 @@ var FormValidate = {
         )
         .appendTo(element.builder.settings.$field_properties);
     }
+
+     // Address validation
+     if (element.props.validation && element.props.validation.type == 5) {
+      var $numlines_block = $("<div>", { class: "formbuilder-settings-block" });
+      var $numlines_label = $("<label>", { class: "formbuilder-label" });
+      var $numlines_input = $("<input>", { type: "text", class: "formbuilder-settings-input" });
+      var $postcode_block = $("<div>", { class: "formbuilder-settings-block" });
+      var $postcode_label = $("<label>", { class: "formbuilder-label" });
+      var $postcode_input = $("<input>", { type: "checkbox", class: "formbuilder-settings-input" });
+      $numlines_block
+        .append($numlines_label.html("Number of address lines"))
+        .append(
+          $numlines_input.val(element.props.validation.address).keyup(function ($el) {
+            this.props.validation.address = $el.val();
+            this.builder.reload_form();
+          }.bind(element, $numlines_input))
+        )
+        .appendTo(element.builder.settings.$field_properties);
+
+      $postcode_block
+        .append($postcode_label.html("Show post code"))
+        .append(
+          $postcode_input
+            .attr('checked', element.props.validation.postcode)
+            .change(function ($input) {
+              this.props.validation.postcode = $input.is(':checked');
+              this.builder.reload_form();
+            }.bind(element, $postcode_input))
+        )
+        .appendTo(element.builder.settings.$field_properties);
+    }
     
     $settings_input.change(function ($el) {
       if ($el.val() == 0) {
@@ -57,6 +91,10 @@ var FormValidate = {
         if ($el.val() == 2) {
           element.props.validation.min = 0;
           element.props.validation.max = 0;
+        }
+        if ($el.val() == 5) {
+          element.props.validation.address = 3;
+          element.props.validation.postcode = true;
         }
         element.props.validation.type = parseInt($el.val());
       }
