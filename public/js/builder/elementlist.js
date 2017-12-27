@@ -23,6 +23,14 @@ var FormElementList = {
     {
       title: "Repeater",
       widget: FormElement_Repeater
+    },
+    {
+      title: "Page break",
+      widget: FormElement_PageBreak
+    },
+    {
+      title: "Title",
+      widget: FormElement_Title
     }
   ],
   all: function () {

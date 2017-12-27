@@ -2,7 +2,7 @@ function FormElement_SingleLine(builder) {
   
   // Properties
   this.super = new FormElement(this);
-  this.props = $.extend(this.super.props, {
+  this.props = $.extend({}, this.super.props, {
   });
   this.builder = builder;
   this.index = null;

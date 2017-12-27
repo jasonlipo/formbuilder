@@ -2,7 +2,7 @@ function FormElement_Dropdown(builder) {
   
   // Properties
   this.super = new FormElement(this);
-  this.props = $.extend(this.super.props, {
+  this.props = $.extend({}, this.super.props, {
     options: [
       { value: "Option 1" },
       { value: "Option 2" },

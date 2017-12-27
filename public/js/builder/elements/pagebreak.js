@@ -1,20 +1,23 @@
-function FormElement_MultiLine(builder) {
- 
+function FormElement_PageBreak(builder) {
+  
   // Properties
   this.super = new FormElement(this);
-  this.props = $.extend({}, this.super.props, {
-  });
+  this.props = {
+    next: "Next",
+    prev: "Back",
+    finish: "Pay"
+  };
   this.builder = builder;
   this.index = null;
   this.$elem = null;
   
-  
   // Create a single-line text box
   this.init = function ($container) {
-    var $input = $("<textarea>", { type: "text", class: "formbuilder-multiline", readonly: true });
+    var $break = $("<div>", { class: "formbuilder-break" });
+    var $label = $("<div>", { class: "formbuilder-break-label" }).html("Page Break");
     var $newelem = $("<div>", { class: "formbuilder-element formbuilder-selectable" })
-                        .append(this.super.print_label())
-                        .append($input)
+                        .append($break)
+                        .append($label)
                         .attr("formbuilder-index", this.index);
 
     $container.append($newelem);
@@ -25,7 +28,6 @@ function FormElement_MultiLine(builder) {
 
   // Element settings
   this.get_settings = function () {
-    this.super.regular_settings();
     this.super.setting_delete();
   }
 

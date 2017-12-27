@@ -1,7 +1,8 @@
 function FormElement_Radio(builder) {
   
   // Properties
-  this.props = $.extend(this.super.props, {
+  this.super = new FormElement(this);
+  this.props = $.extend({}, this.super.props, {
     options: [
       { value: "Option 1" },
       { value: "Option 2" },
