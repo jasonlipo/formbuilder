@@ -71,6 +71,8 @@ function FormSettings(builder) {
     this.add_setting("Form Title", "name");
     this.add_setting("Form Description", "description");
 
+    this.builder.payment.settings();
+
     this.setting_section("Submission");
     this.add_setting("Submit Button Text", "submit");
     this.add_setting("Redirect after Submission", "redirect");

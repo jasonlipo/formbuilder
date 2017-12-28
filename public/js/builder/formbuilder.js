@@ -6,6 +6,7 @@ function FormBuilder($dom) {
   this.save = new FormSave(this);
   this.load = new FormLoad(this);
   this.structure = new FormStructure(this);
+  this.payment = new FormPayment(this);
   this.element_list = FormElementList.all();
   this.scroll = 0;
 
@@ -17,6 +18,7 @@ function FormBuilder($dom) {
     submit: "Submit",
     email_confirmation: null,
     email_confirmation_message: "",
+    payment: false
   };
 
   this.elements = [];
