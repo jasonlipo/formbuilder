@@ -76,6 +76,9 @@ function FormBuilder($dom) {
       this.$body.append($empty.html($empty_label).append("Please insert an element"));
     }
     this.$body.sortable({
+      create: function(){
+        jQuery(this).height(jQuery(this).height());
+      },
       items: "> .formbuilder-selectable",
       placeholder: "formbuilder-placeholder",
       forcePlaceholderSize: true,
