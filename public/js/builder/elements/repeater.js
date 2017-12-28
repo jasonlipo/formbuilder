@@ -38,6 +38,7 @@ function FormElement_Repeater(builder) {
     }
 
     this.$repeater.sortable({
+      cancel: null,
       items: "> .formbuilder-selectable",
       placeholder: "formbuilder-placeholder",
       forcePlaceholderSize: true,

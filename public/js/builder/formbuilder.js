@@ -81,6 +81,7 @@ function FormBuilder($dom) {
       create: function(){
         jQuery(this).height(jQuery(this).height());
       },
+      cancel: null,
       items: "> .formbuilder-selectable",
       placeholder: "formbuilder-placeholder",
       forcePlaceholderSize: true,
