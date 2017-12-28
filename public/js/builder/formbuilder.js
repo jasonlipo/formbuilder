@@ -14,7 +14,9 @@ function FormBuilder($dom) {
     name: "My Form",
     description: "A description of your form goes here",
     redirect: "",
-    submit: "Submit"
+    submit: "Submit",
+    email_confirmation: null,
+    email_confirmation_message: "",
   };
 
   this.elements = [];

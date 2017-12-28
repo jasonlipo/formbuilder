@@ -9,7 +9,7 @@ var FormValidate = {
   },
 
   settings: function (element) {
-    element.super.setting_section("Validation");
+    element.super.setting_section("Element Type");
     var $settings_block = $("<div>", { class: "formbuilder-settings-block" });
     var $settings_input = $("<select>", { class: "formbuilder-settings-input" });
     var $settings_label = $("<label>", { class: "formbuilder-label" });

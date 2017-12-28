@@ -73,7 +73,8 @@ function FormSettings(builder) {
 
     this.setting_section("Submission");
     this.add_setting("Submit Button Text", "submit");
-    this.add_setting("Link after Submission", "redirect");
+    this.add_setting("Redirect after Submission", "redirect");
+    this.email_confirmation();
 
     this.choose_element();
   }
@@ -105,6 +106,48 @@ function FormSettings(builder) {
       }.bind(this, property, $settings_input));
 
     this.$form_properties.append($settings_block);
+  }
+
+  // Email confirmation settings
+  this.email_confirmation = function () {
+    var email_elements = this.builder.elements.filter(function (i) {
+      return i.props.validation && i.props.validation.type == 1;
+    });
+    var $email_block = $("<div>", { class: "formbuilder-settings-block" });
+    var $email_label = $("<label>", { class: "formbuilder-label" });
+    var $email_input = $("<select>", { class: "formbuilder-settings-input" });
+    for (var i=0; i<email_elements.length; i++) {
+      $option = $("<option>", { value: email_elements[i].index }).html(email_elements[i].props.label);
+      if (this.builder.props.email_confirmation === $option.val()) {
+        $option.attr("selected", true);
+      }
+      $email_input.append($option);
+    }
+    $email_block
+      .append($email_label.html("Send confirmation email to"))
+      .append(
+        $email_input.change(function ($el) {
+          this.builder.props.email_confirmation = $el.val();
+          this.builder.reload_form();
+        }.bind(this, $email_input))
+      )
+      .appendTo(this.$form_properties);
+
+    var $msg_block = $("<div>", { class: "formbuilder-settings-block" });
+    var $msg_input = $("<textarea>", { class: "formbuilder-settings-input" });
+    var $msg_label = $("<label>", { class: "formbuilder-label" });
+  
+    $msg_label.html("Email confirmation message").appendTo($msg_block);
+
+    $msg_input
+      .html(this.builder.props["email_confirmation_message"])
+      .appendTo($msg_block)
+      .keyup(function ($input) {
+        this.builder.props["email_confirmation_message"] = $input.val();
+        this.builder.reload_form();
+      }.bind(this, $msg_input));
+
+    this.$form_properties.append($msg_block);
   }
 
   // Adds the new element chooser
