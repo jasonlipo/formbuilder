@@ -10,7 +10,7 @@ function FormElement(element) {
 
   // Is selected
   this.is_selected = function () {
-    if (this.element.builder.selected === this.element.index) {
+    if (this.element.form.selected === this.element.index) {
       this.element.$elem.addClass("selected");
     }
   }
@@ -30,15 +30,15 @@ function FormElement(element) {
   this.onclick = function () {
     this.element.$elem.click(function (e) {
       e.stopPropagation();
-      this.element.builder.$body.find(".selected").removeClass("selected");
-      if (this.element.builder.selected === this.element.index) {
-        this.element.builder.selected = null;
+      this.element.form.$body.find(".selected").removeClass("selected");
+      if (this.element.form.selected === this.element.index) {
+        this.element.form.selected = null;
       }
       else {
-        this.element.builder.selected = this.element.index;
+        this.element.form.selected = this.element.index;
         this.element.$elem.addClass("selected");
       }
-      this.element.builder.reload_settings();
+      this.element.form.reload_settings();
     }.bind(this));
   }
 
@@ -60,25 +60,25 @@ function FormElement(element) {
     var $settings_section = $("<div>", { class: "formbuilder-settings-section" });
     var $settings_label = $("<label>", { class: "formbuilder-label" });
     $settings_label.html(label).appendTo($settings_section);
-    this.element.builder.settings.$field_properties.append($settings_section);
+    this.element.form.settings.$field_properties.append($settings_section);
   }
 
   // Setting to delete element
   this.setting_delete = function () {
     $("<a>", { class: "formbuilder-button formbuilder-delete" })
       .html("Delete")
-      .appendTo(this.element.builder.settings.$field_properties)
+      .appendTo(this.element.form.settings.$field_properties)
       .click(function () {
         if (this.element.index.toString().indexOf(".") > -1) {
           var selected_components = this.element.index.split(".");
-          this.element.builder.elements[selected_components[0]].props.children.splice(selected_components[1], 1);
+          this.element.form.elements[selected_components[0]].props.children.splice(selected_components[1], 1);
         }
         else {
-          this.element.builder.elements.splice(this.element.index, 1);
+          this.element.form.elements.splice(this.element.index, 1);
         }
-        this.element.builder.selected = null;
-        this.element.builder.reload_form();
-        this.element.builder.reload_settings();
+        this.element.form.selected = null;
+        this.element.form.reload_form();
+        this.element.form.reload_settings();
       }.bind(this));
   }
 
@@ -98,7 +98,7 @@ function FormElement(element) {
       $settings_input.val(this.element.props[property]);
       $settings_input.keyup(function (property, $input) {
         this.element.props[property] = $input.val();
-        this.element.builder.reload_form();
+        this.element.form.reload_form();
       }.bind(this, property, $settings_input));
     }
     else {
@@ -106,11 +106,11 @@ function FormElement(element) {
       $settings_input.attr('checked', this.element.props[property]);
       $settings_input.change(function (property, $input) {
         this.element.props[property] = $input.is(':checked');
-        this.element.builder.reload_form();
+        this.element.form.reload_form();
       }.bind(this, property, $settings_input));
     }
       
-    this.element.builder.settings.$field_properties.append($settings_block);
+    this.element.form.settings.$field_properties.append($settings_block);
   }
 
   // Radio, dropdowns and checkboxes
@@ -118,8 +118,8 @@ function FormElement(element) {
     var $settings_block = $("<div>", { class: "formbuilder-settings-block" });
     var $settings_label = $("<label>", { class: "formbuilder-label" });
     $settings_label.html("Options").appendTo($settings_block);
-    if (this.element.builder.props.payment) {
-      $settings_block.append(this.element.builder.payment.price_label())
+    if (this.element.form.props.payment) {
+      $settings_block.append(this.element.form.payment.price_label())
     }
 
     for (var i=0; i<this.element.props.options.length; i++) {
@@ -127,29 +127,29 @@ function FormElement(element) {
       var $option_remove = $("<span>", { class: "formbuilder-icon" }).html($("<i>", { class: "fas fa-minus-circle" }));
       $option_input.keyup(function ($el, index) {
         this.element.props.options[index].value = $el.val();
-        this.element.builder.reload_form();
+        this.element.form.reload_form();
       }.bind(this, $option_input, i));
       $option_remove.click(function (index) {
         this.element.props.options.splice(index, 1);
-        this.element.builder.reload_form();
-        this.element.builder.reload_settings();
+        this.element.form.reload_form();
+        this.element.form.reload_settings();
       }.bind(this, i));
       $settings_block.append($option_input);
-      if (this.element.builder.props.payment) {
-        $settings_block.append(this.element.builder.payment.price_settings(this.element.props.options[i]));
+      if (this.element.form.props.payment) {
+        $settings_block.append(this.element.form.payment.price_settings(this.element.props.options[i]));
       }
       $settings_block.append($option_remove);
     }
 
-    this.element.builder.settings.$field_properties.append($settings_block);
+    this.element.form.settings.$field_properties.append($settings_block);
 
-    this.element.builder.settings.$field_properties.append(
+    this.element.form.settings.$field_properties.append(
       $("<a>", { class: "formbuilder-button", href: "javascript:;" })
         .html("Add option")
         .click(function () { 
           this.element.props.options.push({ value: "" });
-          this.element.builder.reload_form();
-          this.element.builder.reload_settings();
+          this.element.form.reload_form();
+          this.element.form.reload_settings();
         }.bind(this))
     );
   }

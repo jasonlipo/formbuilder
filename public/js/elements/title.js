@@ -1,4 +1,4 @@
-function FormElement_Title(builder) {
+function FormElement_Title(form) {
   
   // Properties
   this.super = new FormElement(this);
@@ -6,7 +6,7 @@ function FormElement_Title(builder) {
     title: "Section",
     description: "A description of this section"
   };
-  this.builder = builder;
+  this.form = form;
   this.index = null;
   this.$elem = null;
   
@@ -14,7 +14,8 @@ function FormElement_Title(builder) {
   this.init = function ($container) {
     var $title = $("<div>", { class: "formbuilder-section-title" }).html(this.props.title);;
     var $description = $("<div>", { class: "formbuilder-section-description" }).html(this.props.description);;
-    var $newelem = $("<div>", { class: "formbuilder-element formbuilder-selectable" })
+    var $newelem = $("<div>", { class: "formbuilder-element" })
+                        .toggleClass("formbuilder-selectable", this.form.editable)
                         .append($title)
                         .append($description)
                         .attr("formbuilder-index", this.index);

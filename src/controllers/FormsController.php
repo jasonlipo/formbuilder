@@ -20,6 +20,17 @@ class FormsController extends Controller {
     }
   }
 
+  public function view($formId) {
+    try {
+      Form::find($formId);
+      $this->render('forms_view.html', ['id' => $formId]);
+    }
+    catch (ActiveRecord\RecordNotFound $e) {
+      header("Location: /");
+    }
+  }
+
+
   public function structure($formId) {
     echo Form::find($formId)->structure;
   }

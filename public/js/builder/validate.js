@@ -25,7 +25,7 @@ var FormValidate = {
     }
 
     $settings_input.appendTo($settings_block);
-    element.builder.settings.$field_properties.append($settings_block);
+    element.form.settings.$field_properties.append($settings_block);
 
     // Number validation
     if (element.props.validation.type == 2) {
@@ -39,19 +39,19 @@ var FormValidate = {
         .append(
           $min_input.val(element.props.validation.min).keyup(function ($el) {
             this.props.validation.min = $el.val();
-            this.builder.reload_form();
+            this.form.reload_form();
           }.bind(element, $min_input))
         )
         .append(
           $max_input.val(element.props.validation.max).keyup(function ($el) {
             this.props.validation.max = $el.val();
-            this.builder.reload_form();
+            this.form.reload_form();
           }.bind(element, $max_input))
         )
-        .appendTo(element.builder.settings.$field_properties);
+        .appendTo(element.form.settings.$field_properties);
       
-      if (element.builder.props.payment) {
-        element.builder.settings.$field_properties.append(element.builder.payment.number_price(element.props.validation));
+      if (element.form.props.payment) {
+        element.form.settings.$field_properties.append(element.form.payment.number_price(element.props.validation));
       }
     }
 
@@ -65,10 +65,10 @@ var FormValidate = {
         .append(
           $numlines_input.val(element.props.validation.address).keyup(function ($el) {
             this.props.validation.address = $el.val();
-            this.builder.reload_form();
+            this.form.reload_form();
           }.bind(element, $numlines_input))
         )
-        .appendTo(element.builder.settings.$field_properties);
+        .appendTo(element.form.settings.$field_properties);
     }
     
     $settings_input.change(function ($el) {
@@ -81,8 +81,8 @@ var FormValidate = {
         element.props.validation.address = 3;
       }
       element.props.validation.type = parseInt($el.val());
-      element.builder.reload_form();
-      element.builder.reload_settings();
+      element.form.reload_form();
+      element.form.reload_settings();
     }.bind(this, $settings_input));
   }
 }

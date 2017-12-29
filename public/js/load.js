@@ -1,16 +1,18 @@
-function FormLoad(builder) {
+function FormLoad(form) {
 
-  this.builder = builder;
+  this.form = form;
   
   // Load the form's stored data
   this.do = function (callback) {
-    $.get(location.pathname + "/structure", function (response) {
+    var path = location.pathname.split("/");
+    path.splice(-1);
+    $.get(path.join("/") + "/structure", function (response) {
       if (response) {
         json = JSON.parse(response);
-        $.extend(this.builder.props, json["props"]);
+        $.extend(this.form.props, json["props"]);
         for (var i=0; i<json["elements"].length; i++) {
           var el = json["elements"][i];
-          var new_el = new (window[el["class"]])(this.builder);
+          var new_el = new (window[el["class"]])(this.form);
           $.extend(new_el.props, json["elements"][i]["props"]);
           // Repeaters
           if (el["class"] == "FormElement_Repeater") {
@@ -18,12 +20,12 @@ function FormLoad(builder) {
             new_el["props"]["children"] = [];
             for (var j=0; j<children.length; j++) {
               var repeat_el = children[j];
-              var repeat_new_el = new (window[repeat_el["class"]])(this.builder);
+              var repeat_new_el = new (window[repeat_el["class"]])(this.form);
               $.extend(repeat_new_el.props, children[j]["props"]);
               new_el["props"]["children"].push(repeat_new_el);
             }
           }
-          this.builder.elements.push(new_el);
+          this.form.elements.push(new_el);
         }
       }
       callback();

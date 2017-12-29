@@ -1,4 +1,4 @@
-function FormElement_Repeater(builder) {
+function FormElement_Repeater(form) {
   
   // Properties
   this.super = new FormElement(this);
@@ -7,7 +7,7 @@ function FormElement_Repeater(builder) {
     type: 0,
     limit: 10
   };
-  this.builder = builder;
+  this.form = form;
   this.index = null;
   this.$elem = null;
   this.$repeater = null;
@@ -21,7 +21,8 @@ function FormElement_Repeater(builder) {
   this.init = function ($container) {
     var $label = $("<div>", { class: "formbuilder-repeater-label" }).html("Repeater");
     var $repeater = $("<div>", { class: "formbuilder-repeater formbuilder-sort-container" });
-    var $newelem = $("<div>", { class: "formbuilder-element formbuilder-selectable" })
+    var $newelem = $("<div>", { class: "formbuilder-element" })
+                        .toggleClass("formbuilder-selectable", this.form.editable)
                         .append($label)
                         .append($repeater)
                         .attr("formbuilder-index", this.index);
@@ -49,8 +50,8 @@ function FormElement_Repeater(builder) {
         var old_index = $obj.attr("formbuilder-index").split(".")[1];
         var removed_elements = this.props.children.splice(old_index, 1);
         var outer_index = $obj.index(".formbuilder-body > .formbuilder-element");
-        this.builder.elements.splice(outer_index, 0, removed_elements[0]);
-        this.builder.reload_form();
+        this.form.elements.splice(outer_index, 0, removed_elements[0]);
+        this.form.reload_form();
       }.bind(this),
       stop: function (event, ui) {
         $obj = ui.item;
@@ -60,7 +61,7 @@ function FormElement_Repeater(builder) {
           var new_index = $obj.index(".formbuilder-repeater > .formbuilder-element");
           this.props.children.splice(new_index, 0, removed_elements[0]);
           this.selected = null;
-          this.builder.reload_form();
+          this.form.reload_form();
         }
       }.bind(this)
     });
@@ -84,7 +85,7 @@ function FormElement_Repeater(builder) {
     }
 
     $settings_input.appendTo($settings_block);
-    this.builder.settings.$field_properties.append($settings_block);
+    this.form.settings.$field_properties.append($settings_block);
 
     // Limit repeating
     if (this.props.type == 0) {
@@ -96,15 +97,15 @@ function FormElement_Repeater(builder) {
         .append(
           $limit_input.val(this.props.limit).keyup(function ($el) {
             this.props.limit = $el.val();
-            this.builder.reload_form();
+            this.form.reload_form();
           }.bind(this, $limit_input))
         )
-        .appendTo(this.builder.settings.$field_properties);
+        .appendTo(this.form.settings.$field_properties);
     }
     
     // Trigger repeating
     if (this.props.type == 1) {
-      var prev_elements = this.builder.elements.slice(0, this.index);
+      var prev_elements = this.form.elements.slice(0, this.index);
       var $trigger_block = $("<div>", { class: "formbuilder-settings-block" });
       var $trigger_label = $("<label>", { class: "formbuilder-label" });
       var $trigger_input = $("<select>", { class: "formbuilder-settings-input" });
@@ -120,16 +121,16 @@ function FormElement_Repeater(builder) {
         .append(
           $trigger_input.change(function ($el) {
             this.props.trigger = $el.val();
-            this.builder.reload_form();
+            this.form.reload_form();
           }.bind(this, $trigger_input))
         )
-        .appendTo(this.builder.settings.$field_properties);
+        .appendTo(this.form.settings.$field_properties);
     }
 
     $settings_input.change(function ($el) {
       this.props.type = parseInt($el.val());
-      this.builder.reload_form();
-      this.builder.reload_settings();
+      this.form.reload_form();
+      this.form.reload_settings();
     }.bind(this, $settings_input));
 
     this.super.setting_delete();

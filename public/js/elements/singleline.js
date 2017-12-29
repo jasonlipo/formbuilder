@@ -1,25 +1,26 @@
-function FormElement_SingleLine(builder) {
+function FormElement_SingleLine(form) {
   
   // Properties
   this.super = new FormElement(this);
   this.props = $.extend({}, this.super.props, {
   });
-  this.builder = builder;
+  this.form = form;
   this.index = null;
   this.$elem = null;
   
   // Create a single-line text box
   this.init = function ($container) {
-    var $newelem = $("<div>", { class: "formbuilder-element formbuilder-selectable" })
+    var $newelem = $("<div>", { class: "formbuilder-element" })
+      .toggleClass("formbuilder-selectable", this.form.editable)
       .append(this.super.print_label())
       .attr("formbuilder-index", this.index);
 
-      if (this.props.validation.type == 4) {
+    if (this.props.validation.type == 4) {
       // First/Last Name
       var $label_first = $("<label>", { class: "formbuilder-label" });
       var $label_last = $("<label>", { class: "formbuilder-label" });
-      var $first = $("<input>", { type: "text", class: "formbuilder-singleline", readonly: true });
-      var $last = $("<input>", { type: "text", class: "formbuilder-singleline", readonly: true });
+      var $first = $("<input>", { type: "text", class: "formbuilder-singleline", readonly: this.form.editable });
+      var $last = $("<input>", { type: "text", class: "formbuilder-singleline", readonly: this.form.editable });
       $newelem.addClass("formbuilder-half")
         .append($label_first.html($("<small>").html("First Name")))
         .append($label_last.html($("<small>").html("Last Name")))
@@ -28,12 +29,12 @@ function FormElement_SingleLine(builder) {
     else if (this.props.validation.type == 5) {
       // Address
       for (var i=0; i<this.props.validation.address; i++) {
-        var $line = $("<input>", { type: "text", class: "formbuilder-singleline", readonly: true });
+        var $line = $("<input>", { type: "text", class: "formbuilder-singleline", readonly: this.form.editable });
         $newelem.append($line);
       }
     }
     else {
-      var $input = $("<input>", { type: "text", class: "formbuilder-singleline", readonly: true });
+      var $input = $("<input>", { type: "text", class: "formbuilder-singleline", readonly: this.form.editable });
       $newelem.append($input);
     }
 

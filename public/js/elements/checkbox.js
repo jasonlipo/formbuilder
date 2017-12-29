@@ -1,4 +1,4 @@
-function FormElement_Radio(builder) {
+function FormElement_Checkbox(form) {
   
   // Properties
   this.super = new FormElement(this);
@@ -9,14 +9,15 @@ function FormElement_Radio(builder) {
       { value: "Option 3" }
     ]
   });
-  this.builder = builder;
+  this.form = form;
   this.index = null;
   this.$elem = null;
-  
+    
   // Create a single-line text box
   this.init = function ($container) {
     var $inputs = this.print_options();
-    var $newelem = $("<div>", { class: "formbuilder-element formbuilder-selectable" })
+    var $newelem = $("<div>", { class: "formbuilder-element" })
+                        .toggleClass("formbuilder-selectable", this.form.editable)
                         .append(this.super.print_label())
                         .append($inputs)
                         .attr("formbuilder-index", this.index);
@@ -29,14 +30,14 @@ function FormElement_Radio(builder) {
 
   // Print options
   this.print_options = function () {
-    var $radio_container = $("<div>", { class: "formbuilder-radio" });
+    var $checkbox_container = $("<div>", { class: "formbuilder-checkbox" });
     for (var i=0; i<this.props.options.length; i++) {
-      var $input = $("<input>", { type: "radio", disabled: true });
-      var $label = $("<label>", { class: "formbuilder-radio-label" }).html(this.props.options[i].value);
+      var $input = $("<input>", { type: "checkbox", disabled: this.form.editable });
+      var $label = $("<label>", { class: "formbuilder-checkbox-label" }).html(this.props.options[i].value);
       var $cont = $("<div>").append($input).append($label);
-      $radio_container.append($cont);
+      $checkbox_container.append($cont);
     }
-    return $radio_container;
+    return $checkbox_container;
   }
 
   // Element settings

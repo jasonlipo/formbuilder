@@ -17,10 +17,13 @@ $router->before('GET', '/(?!install)(.*)', 'InstallController@check');
 
 $router->get('/', 'FormsController@index');
 $router->get('/install', 'InstallController@install');
-$router->get('/build', 'FormsController@build');
-$router->get('/build/(\d+)', 'FormsController@build');
-$router->get('/build/(\d+)/structure', 'FormsController@structure');
-$router->post('/build/(\d+)/save', 'FormsController@save');
+$router->get('/new', 'FormsController@build');
+
+$router->get('/form/(\d+)/build', 'FormsController@build');
+$router->get('/form/(\d+)/view', 'FormsController@view');
+
+$router->get('/form/(\d+)/structure', 'FormsController@structure');
+$router->post('/form/(\d+)/structure', 'FormsController@save');
 
 $router->set404(function() {
   header('HTTP/1.1 404 Not Found');

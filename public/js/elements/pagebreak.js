@@ -1,4 +1,4 @@
-function FormElement_PageBreak(builder) {
+function FormElement_PageBreak(form) {
   
   // Properties
   this.super = new FormElement(this);
@@ -6,7 +6,7 @@ function FormElement_PageBreak(builder) {
     next: "Next",
     prev: "Back"
   };
-  this.builder = builder;
+  this.form = form;
   this.index = null;
   this.$elem = null;
   
@@ -14,7 +14,8 @@ function FormElement_PageBreak(builder) {
   this.init = function ($container) {
     var $break = $("<div>", { class: "formbuilder-break" });
     var $label = $("<div>", { class: "formbuilder-break-label" }).html("Page Break");
-    var $newelem = $("<div>", { class: "formbuilder-element formbuilder-selectable" })
+    var $newelem = $("<div>", { class: "formbuilder-element" })
+                        .toggleClass("formbuilder-selectable", this.form.editable)
                         .append($break)
                         .append($label)
                         .attr("formbuilder-index", this.index);

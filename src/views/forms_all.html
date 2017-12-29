@@ -1,6 +1,6 @@
 <h1>Forms</h1>
 {% for form in forms %}
-<li><a href="/build/{{ form.id|e }}">{{ form.name|e }}</a></li>
+<li><a href="/form/{{ form.id|e }}/build">{{ form.name|e }}</a></li>
 {% endfor %}
 <br />
-<a href="/build">+ New Form</a>
+<a href="/new">+ New Form</a>

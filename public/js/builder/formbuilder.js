@@ -9,6 +9,7 @@ function FormBuilder($dom) {
   this.payment = new FormPayment(this);
   this.element_list = FormElementList.all();
   this.scroll = 0;
+  this.editable = true;
 
   // Defaults
   this.props = {

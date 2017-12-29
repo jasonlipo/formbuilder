@@ -1,4 +1,4 @@
-function FormElement_Dropdown(builder) {
+function FormElement_Radio(form) {
   
   // Properties
   this.super = new FormElement(this);
@@ -9,22 +9,35 @@ function FormElement_Dropdown(builder) {
       { value: "Option 3" }
     ]
   });
-  this.builder = builder;
+  this.form = form;
   this.index = null;
   this.$elem = null;
   
   // Create a single-line text box
   this.init = function ($container) {
-    var $input = $("<select>", { class: "formbuilder-dropdown", disabled: true });
-    var $newelem = $("<div>", { class: "formbuilder-element formbuilder-selectable" })
+    var $inputs = this.print_options();
+    var $newelem = $("<div>", { class: "formbuilder-element" })
+                        .toggleClass("formbuilder-selectable", this.form.editable)
                         .append(this.super.print_label())
-                        .append($input)
+                        .append($inputs)
                         .attr("formbuilder-index", this.index);
 
     $container.append($newelem);
     this.$elem = $newelem;
     this.super.onclick();
     this.super.is_selected();
+  }
+
+  // Print options
+  this.print_options = function () {
+    var $radio_container = $("<div>", { class: "formbuilder-radio" });
+    for (var i=0; i<this.props.options.length; i++) {
+      var $input = $("<input>", { type: "radio", disabled: this.form.editable });
+      var $label = $("<label>", { class: "formbuilder-radio-label" }).html(this.props.options[i].value);
+      var $cont = $("<div>").append($input).append($label);
+      $radio_container.append($cont);
+    }
+    return $radio_container;
   }
 
   // Element settings
