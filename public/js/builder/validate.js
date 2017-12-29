@@ -49,6 +49,10 @@ var FormValidate = {
           }.bind(element, $max_input))
         )
         .appendTo(element.builder.settings.$field_properties);
+      
+      if (element.builder.props.payment) {
+        element.builder.settings.$field_properties.append(element.builder.payment.number_price(element.props.validation));
+      }
     }
 
      // Address validation
