@@ -66,9 +66,11 @@ function FormBuilder($dom) {
   // Reload settings
   this.reload_settings = function () {
     // Restore selected tab
-    var selected = this.settings.$tab.find(".ui-tabs-active").index(".ui-tab");
+    var restore = this.settings.$tab.find(".ui-tabs-active").index(".ui-tab");
     this.settings.display();
-    this.settings.$tab.tabs("option", "active", selected);
+    if (this.selected == null) {
+      this.settings.$tab.tabs("option", "active", restore);
+    }
   }
 
   // Prints all the elements in the form
