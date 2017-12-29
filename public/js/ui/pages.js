@@ -10,7 +10,9 @@ function FormPages(form) {
       var top = this.form.elements.shift();
       if (top.constructor.name == "FormElement_PageBreak") {
         var navigation = new FormElement_Buttons(this.form);
-        navigation.props.button1 = top.props.prev;
+        if (page_count > 0) {
+          navigation.props.button1 = top.props.prev;
+        }
         navigation.props.button2 = top.props.next;
         this.data[page_count].push(navigation);
         page_count++;
