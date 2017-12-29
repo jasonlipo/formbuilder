@@ -24,8 +24,10 @@ function FormElement_Dropdown(form) {
 
     $container.append($newelem);
     this.$elem = $newelem;
-    this.super.onclick();
-    this.super.is_selected();
+    if (this.form.editable) {
+      this.super.onclick();
+      this.super.is_selected();
+    }
   }
 
   // Element settings

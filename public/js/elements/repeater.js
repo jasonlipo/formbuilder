@@ -30,8 +30,10 @@ function FormElement_Repeater(form) {
     $container.append($newelem);
     this.$elem = $newelem;
     this.$repeater = $repeater;
-    this.super.onclick();
-    this.super.is_selected();
+    if (this.form.editable) {
+      this.super.onclick();
+      this.super.is_selected();
+    }
 
     for (var i=0; i<this.props.children.length; i++) {
       this.props.children[i].super.setIndex(this.index + "." + i);
