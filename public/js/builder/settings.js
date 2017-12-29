@@ -118,6 +118,7 @@ function FormSettings(builder) {
     var $email_block = $("<div>", { class: "formbuilder-settings-block" });
     var $email_label = $("<label>", { class: "formbuilder-label" });
     var $email_input = $("<select>", { class: "formbuilder-settings-input" });
+    $email_input.append($("<option>").html("[No email]"));
     for (var i=0; i<email_elements.length; i++) {
       $option = $("<option>", { value: email_elements[i].index }).html(email_elements[i].props.label);
       if (this.builder.props.email_confirmation === $option.val()) {

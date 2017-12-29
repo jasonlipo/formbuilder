@@ -27,14 +27,14 @@ function FormPayment(builder) {
     }
   }
 
-  this.price_settings = function () {
-    var $settings_input = $("<input>", { type: "text", class: "formbuilder-payment-input" });
+  this.price_settings = function (option) {
+    var $settings_input = $("<input>", { type: "text", class: "formbuilder-payment-input" }).val(option.price);
 
-    $settings_input.change(function ($input) {
-      this.builder.props.payment = $input.is(':checked');
+    $settings_input.change(function ($input, option) {
+      option.price = $input.val();
       this.builder.reload_form();
       this.builder.reload_settings();
-    }.bind(this, $settings_input));
+    }.bind(this, $settings_input, option));
 
     return $settings_input;
   }

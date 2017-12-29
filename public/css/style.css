@@ -29,8 +29,7 @@ body{font:14px/1.5 Arial,Helvetica,sans-serif}
 .formbuilder-repeater {min-height: 50px;border: 1px solid #dbdbdb;box-shadow: 1px 2px 4px 0 rgba(0,0,0,0.08);padding: 12px 8px;}
 .formbuilder-repeater-label {position: absolute;background: #fff;padding: 0px 5px;margin: -9px 15px;font-weight: bold;color: #5f5f5f;}
 
-.formbuilder-settings-content {position: fixed;margin-top: 80px; width: 400px;}
-.formbuilder-settings-title{font-weight:700;display:block;color:#4C565E;font-size:24px;padding:25px;position: fixed;}
+.formbuilder-settings-title{font-weight:700;display:block;color:#4C565E;font-size:24px;padding:25px;}
 .formbuilder-settings-input, .formbuilder-payment-input{outline:none;background-color:#fff;color:#5f5f5f;box-sizing:border-box;width:240px;padding:8px 9px;border:1px solid #dbdbdb;margin:2px 0;font: 13px/1 Arial,Helvetica,sans-serif;}
 .formbuilder-payment-input{width: 70px;}
 .formbuilder-settings-content ul.ui-tabs-nav{list-style:none;display:flex;padding:0}

@@ -136,7 +136,7 @@ function FormElement(element) {
       }.bind(this, i));
       $settings_block.append($option_input);
       if (this.element.builder.props.payment) {
-        $settings_block.append(this.element.builder.payment.price_settings());
+        $settings_block.append(this.element.builder.payment.price_settings(this.element.props.options[i]));
       }
       $settings_block.append($option_remove);
     }
