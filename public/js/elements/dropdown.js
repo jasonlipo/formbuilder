@@ -32,7 +32,7 @@ function FormElement_Dropdown(form) {
 
   // Print options
   this.print_options = function () {
-    var $select = $("<select>", { class: "formbuilder-dropdown", disabled: this.form.editable });
+    var $select = $("<select>", { class: "formbuilder-dropdown", readonly: this.form.editable });
     $select.append($("<option>"));
     for (var i=0; i<this.props.options.length; i++) {
       $select.append($("<option>", { value: this.props.options[i].value }).html(this.props.options[i].value));

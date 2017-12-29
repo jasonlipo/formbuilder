@@ -57,7 +57,6 @@ function FormBuilder($dom) {
     ).append($body);
     this.$body = $body;
     this.init_elements();
-    this.submit_button();
     this.save.save();
     $('html, body').animate({
       scrollTop: this.scroll
@@ -85,6 +84,7 @@ function FormBuilder($dom) {
       var $empty_label = $("<label>", { class: "formbuilder-label" }).html("Empty Form!");
       this.$body.append($empty.html($empty_label).append("Please insert an element"));
     }
+    this.submit_button();
     this.$body.sortable({
       create: function(){
         jQuery(this).height(jQuery(this).height());
@@ -123,7 +123,7 @@ function FormBuilder($dom) {
   this.submit_button = function () {
     var $submit = $("<input>", { value: this.props.submit, type: "button", class: "formbuilder-button" });
     var $newelem = $("<div>", { class: "formbuilder-buttons" }).append($submit);
-    this.$form.append($newelem);
+    this.$body.append($newelem);
   }
 
 }

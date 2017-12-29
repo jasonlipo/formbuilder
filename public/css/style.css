@@ -18,7 +18,7 @@ body{font:14px/1.5 Arial,Helvetica,sans-serif}
 .formbuilder-label{color:#5f5f5f;width: 245px;font-weight:700;line-height:16px;padding:0 0 7px;display: inline-block;box-sizing: border-box;}
 .formbuilder-element input,.formbuilder-element textarea{outline:none;color:#5f5f5f;box-sizing:border-box;width: 100%;box-shadow:1px 2px 4px 0 rgba(0,0,0,0.08);padding: 12px 15px;border: 1px solid #dbdbdb;margin-bottom: 8px;resize: vertical;}
 .formbuilder-label small{display:block;font-size:12px;font-weight:400}
-.formbuilder-buttons{margin-bottom:40px;margin-left:91px;border:0;margin-top: 20px;outline:none;}
+.formbuilder-buttons{border:0;padding: 20px 10px 40px;outline:none;}
 .formbuilder-radio,.formbuilder-checkbox{padding:5px}
 .formbuilder-radio-label,.formbuilder-checkbox-label{margin-left:8px;color:#5f5f5f;font-weight:400}
 .formbuilder-radio input[type="radio"],.formbuilder-checkbox input[type="checkbox"]{box-shadow:none;width:auto;vertical-align: -2px;}
