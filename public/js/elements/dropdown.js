@@ -15,7 +15,7 @@ function FormElement_Dropdown(form) {
   
   // Create a single-line text box
   this.init = function ($container) {
-    var $input = $("<select>", { class: "formbuilder-dropdown", disabled: this.form.editable });
+    var $input = this.print_options();
     var $newelem = $("<div>", { class: "formbuilder-element" })
                         .toggleClass("formbuilder-selectable", this.form.editable)
                         .append(this.super.print_label())
@@ -28,6 +28,16 @@ function FormElement_Dropdown(form) {
       this.super.onclick();
       this.super.is_selected();
     }
+  }
+
+  // Print options
+  this.print_options = function () {
+    var $select = $("<select>", { class: "formbuilder-dropdown", disabled: this.form.editable });
+    $select.append($("<option>"));
+    for (var i=0; i<this.props.options.length; i++) {
+      $select.append($("<option>", { value: this.props.options[i].value }).html(this.props.options[i].value));
+    }
+    return $select;
   }
 
   // Element settings
