@@ -184,7 +184,7 @@ function FormSettings(builder) {
       if (this.builder.selected.toString().indexOf(".") > -1) {
         // Inside a repeater, add after this element
         var selected_components = this.builder.selected.toString().split(".");
-        this.builder.elements[selected_components[0]].props.children.splice(selected_components[1]+1, 0, element);
+        this.builder.elements[selected_components[0]].props.children.splice(parseInt(selected_components[1])+1, 0, element);
         this.builder.selected = selected_components[0] + "." + (parseInt(selected_components[1])+1);
       }
       else if (this.builder.elements[this.builder.selected].constructor.name == "FormElement_Repeater") {
