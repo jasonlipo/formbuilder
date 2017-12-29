@@ -15,7 +15,7 @@ body{font:14px/1.5 Arial,Helvetica,sans-serif}
 .formbuilder-element select{outline:none;background-color:#fff;color:#5f5f5f;box-sizing:border-box;width:240px;box-shadow:1px 2px 4px 0 rgba(0,0,0,0.08);padding:12px 18px;border:1px solid #dbdbdb}
 .formbuilder-description{display:inline-block;box-sizing:border-box;color:#4C565E;font-size:14px;padding:0 15px 10px;margin:0;border-bottom:2px solid #6CAEE0}
 .formbuilder-placeholder{padding:10px;background:#eee;margin-bottom:10px}
-.formbuilder-label{color:#5f5f5f;width:200px;font-weight:700;line-height:16px;padding:0 0 7px;display:block;box-sizing: border-box;}
+.formbuilder-label{color:#5f5f5f;width: 245px;font-weight:700;line-height:16px;padding:0 0 7px;display: inline-block;box-sizing: border-box;}
 .formbuilder-element input,.formbuilder-element textarea{outline:none;color:#5f5f5f;box-sizing:border-box;width: 100%;box-shadow:1px 2px 4px 0 rgba(0,0,0,0.08);padding:12px 18px;border: 1px solid #dbdbdb;margin-bottom: 8px;}
 .formbuilder-label small{display:block;font-size:12px;font-weight:400}
 .formbuilder-submit{margin-bottom:40px;margin-left:91px;border-radius:2px;background-color:#6caee0;color:#fff;box-shadow:1px 2px 4px 0 rgba(0,0,0,0.08);padding:14px 22px;border:0;margin-top:15px;outline:none}
@@ -31,7 +31,8 @@ body{font:14px/1.5 Arial,Helvetica,sans-serif}
 
 .formbuilder-settings-content {position: fixed;margin-top: 80px; width: 400px;}
 .formbuilder-settings-title{font-weight:700;display:block;color:#4C565E;font-size:24px;padding:25px;position: fixed;}
-.formbuilder-settings-input{outline:none;background-color:#fff;color:#5f5f5f;box-sizing:border-box;width:240px;padding:8px 9px;border:1px solid #dbdbdb;margin:2px 0;font: 13px/1 Arial,Helvetica,sans-serif;}
+.formbuilder-settings-input, .formbuilder-payment-input{outline:none;background-color:#fff;color:#5f5f5f;box-sizing:border-box;width:240px;padding:8px 9px;border:1px solid #dbdbdb;margin:2px 0;font: 13px/1 Arial,Helvetica,sans-serif;}
+.formbuilder-payment-input{width: 70px;}
 .formbuilder-settings-content ul.ui-tabs-nav{list-style:none;display:flex;padding:0}
 .formbuilder-settings-content li.ui-tabs-tab{background:#6caee0;flex:1}
 .formbuilder-settings-content li.ui-tabs-active{background:#fff}
@@ -40,7 +41,7 @@ body{font:14px/1.5 Arial,Helvetica,sans-serif}
 .formbuilder-settings-block{padding:0 0 25px}
 .formbuilder-settings-block .formbuilder-label{font-weight:400}
 .formbuilder-settings-section{margin-bottom:15px}
-.formbuilder-settings-input[type="checkbox"]{width:auto}
+.formbuilder-settings-input[type="checkbox"]{width:auto;display: block;}
 
 .formbuilder-save{background-color:#fff;box-shadow:0 1px 3px 0 rgba(0,0,0,0.1);flex:0 1 100%;margin-bottom:15px;padding: 15px 25px;text-align: right;}
 .formbuilder-save .formbuilder-button{left:0;position:absolute;margin: -5px 34px;}

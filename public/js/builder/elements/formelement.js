@@ -118,6 +118,9 @@ function FormElement(element) {
     var $settings_block = $("<div>", { class: "formbuilder-settings-block" });
     var $settings_label = $("<label>", { class: "formbuilder-label" });
     $settings_label.html("Options").appendTo($settings_block);
+    if (this.element.builder.props.payment) {
+      $settings_block.append(this.element.builder.payment.price_label())
+    }
 
     for (var i=0; i<this.element.props.options.length; i++) {
       var $option_input = $("<input>", { class: "formbuilder-settings-input" }).val(this.element.props.options[i].value);
@@ -132,6 +135,9 @@ function FormElement(element) {
         this.element.builder.reload_settings();
       }.bind(this, i));
       $settings_block.append($option_input);
+      if (this.element.builder.props.payment) {
+        $settings_block.append(this.element.builder.payment.price_settings());
+      }
       $settings_block.append($option_remove);
     }
 

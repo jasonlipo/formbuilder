@@ -4,7 +4,6 @@ function FormPayment(builder) {
   
   // Load the payment settings
   this.settings = function () {
-
     this.builder.settings.setting_section("Payment");
 
     var $settings_block = $("<div>", { class: "formbuilder-settings-block" });
@@ -19,13 +18,32 @@ function FormPayment(builder) {
       this.builder.reload_form();
       this.builder.reload_settings();
     }.bind(this, $settings_input));
-      
+
     this.builder.settings.$form_properties.append($settings_block);
 
     if (this.builder.props.payment) {
       this.builder.settings.add_setting("Stripe Public Key", "stripe_public_key");
       this.builder.settings.add_setting("Stripe Secret Key", "stripe_secret_key");
     }
+  }
+
+  this.price_settings = function () {
+    var $settings_input = $("<input>", { type: "text", class: "formbuilder-payment-input" });
+
+    $settings_input.change(function ($input) {
+      this.builder.props.payment = $input.is(':checked');
+      this.builder.reload_form();
+      this.builder.reload_settings();
+    }.bind(this, $settings_input));
+
+    return $settings_input;
+  }
+
+  this.price_label = function () {
+    var $settings_label= $("<label>", { class: "formbuilder-label" })
+      .html("Price (&pound;)")
+      .css("width", "auto");
+    return $settings_label;
   }
 
 }
