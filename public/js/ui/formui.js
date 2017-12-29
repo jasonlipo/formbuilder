@@ -3,6 +3,7 @@ function FormUI($dom) {
   // Set up
   this.$dom = $dom;
   this.load = new FormLoad(this);
+  this.pages = new FormPages(this);
   this.props = {};
   this.editable = false;
 
@@ -19,6 +20,7 @@ function FormUI($dom) {
     this.$dom.html($form);
     this.$form = $form;
     this.load.do(function () {
+      this.pages.separate();
       this.load_form();
     }.bind(this));
   }
@@ -32,22 +34,15 @@ function FormUI($dom) {
       $header.html($title).append($desc)
     ).append($body);
     this.$body = $body;
-    this.init_elements();
-    this.submit_button();
+    this.init_page();
   }
 
-  // Prints all the elements in the form
-  this.init_elements = function () {
-    for (var i=0; i<this.elements.length; i++) {
-      this.elements[i].super.setIndex(i);
-      this.elements[i].init(this.$body);
+  // Prints all the elements in this page
+  this.init_page = function () {
+    for (var i=0; i<this.pages.data[this.pages.current].length; i++) {
+      this.pages.data[this.pages.current][i].super.setIndex(i);
+      this.pages.data[this.pages.current][i].init(this.$body);
     }
-  }
-
-   // Adds the submit button
-   this.submit_button = function () {
-    var $submit = $("<input>", { value: this.props.submit, type: "button", class: "formbuilder-submit" });
-    this.$form.append($submit);
   }
 
 }

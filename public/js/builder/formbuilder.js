@@ -121,8 +121,9 @@ function FormBuilder($dom) {
 
   // Adds the submit button
   this.submit_button = function () {
-    var $submit = $("<input>", { value: this.props.submit, type: "button", class: "formbuilder-submit" });
-    this.$form.append($submit);
+    var $submit = $("<input>", { value: this.props.submit, type: "button", class: "formbuilder-button" });
+    var $newelem = $("<div>", { class: "formbuilder-buttons" }).append($submit);
+    this.$form.append($newelem);
   }
 
 }
