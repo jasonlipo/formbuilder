@@ -39,6 +39,7 @@ function FormUI($dom) {
 
   // Prints all the elements in this page
   this.init_page = function () {
+    this.$body.html("");
     for (var i=0; i<this.pages.data[this.pages.current].length; i++) {
       this.pages.data[this.pages.current][i].super.setIndex(i);
       this.pages.data[this.pages.current][i].init(this.$body);
