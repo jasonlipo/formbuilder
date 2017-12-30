@@ -27,19 +27,28 @@ function FormValidator(form) {
 
   this.required = function (el) {
     if (el.props.required) {
-      var empty = el.super.get_input().filter(function () {
-        if ($(this).val() == "") {
-          $(this).addClass('error');
-          if (el.props.validation && el.props.validation.type == 4) {
-            el.$elem.find(".formbuilder-errors").text("First and Last Name are both required.");
-          }
-          else {
-            el.$elem.find(".formbuilder-errors").text("This field is required.");
-          }
-          return true;
+      var empty;
+      if (el.constructor.name == "FormElement_Radio" || el.constructor.name == "FormElement_Checkbox") {
+        empty = (el.$elem.find(":checked").length > 0) ? 0 : 1;
+        if (empty > 0) {
+          el.$elem.find(".formbuilder-errors").text("This field is required.");
         }
-        return false;
-      }).length;
+      }
+      else {
+        empty = el.super.get_input().filter(function () {
+          if ($(this).val() == "") {
+            $(this).addClass('error');
+            if (el.props.validation && el.props.validation.type == 4) {
+              el.$elem.find(".formbuilder-errors").text("First and Last Name are both required.");
+            }
+            else {
+              el.$elem.find(".formbuilder-errors").text("This field is required.");
+            }
+            return true;
+          }
+          return false;
+        }).length;
+      }
       if (empty > 0) {
         return false;
       }
