@@ -35,7 +35,7 @@ function FormValidator(form) {
         if ($(this).val() == "") {
           $(this).addClass('error');
           if (el.props.validation && el.props.validation.type == 4) {
-            el.$elem.find(".formbuilder-errors").text("Both First and Last Name are required.");
+            el.$elem.find(".formbuilder-errors").text("First and Last Name are both required.");
           }
           else {
             el.$elem.find(".formbuilder-errors").text("This field is required.");

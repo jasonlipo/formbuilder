@@ -3,6 +3,7 @@ function FormElement_Radio(form) {
   // Properties
   this.super = new FormElement(this);
   this.props = $.extend({}, this.super.props, {
+    id: this.super.generate_id(),
     options: [
       { value: "Option 1" },
       { value: "Option 2" },

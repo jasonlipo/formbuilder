@@ -3,6 +3,7 @@ function FormElement_Repeater(form) {
   // Properties
   this.super = new FormElement(this);
   this.props = {
+    id: this.super.generate_id(),
     children: [],
     type: 0,
     limit: 10

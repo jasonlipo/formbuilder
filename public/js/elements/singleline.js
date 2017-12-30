@@ -3,6 +3,7 @@ function FormElement_SingleLine(form) {
   // Properties
   this.super = new FormElement(this);
   this.props = $.extend({}, this.super.props, {
+    id: this.super.generate_id()
   });
   this.form = form;
   this.index = null;
