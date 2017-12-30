@@ -12,7 +12,7 @@ function FormValidator(form) {
 
   this.validate_element = function (el) {
     var el_valid = true;
-    var $input = this.get_input(el);
+    var $input = el.super.get_input();
     $input.removeClass('error');
     if (el.$elem.find(".formbuilder-errors").length == 0) {
       el.$elem.append($("<div>", { class: "formbuilder-errors" }));
@@ -25,13 +25,9 @@ function FormValidator(form) {
     return el_valid;
   }
 
-  this.get_input = function (el) {
-    return el.$elem.find("input");
-  }
-
   this.required = function (el) {
     if (el.props.required) {
-      var empty = this.get_input(el).filter(function () {
+      var empty = el.super.get_input().filter(function () {
         if ($(this).val() == "") {
           $(this).addClass('error');
           if (el.props.validation && el.props.validation.type == 4) {
@@ -54,7 +50,7 @@ function FormValidator(form) {
   this.email = function (el) {
     if (el.props.validation && el.props.validation.type == 1) {
       if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.get_input(el).val())) {
-        this.get_input(el).addClass('error');
+        el.super.get_input().addClass('error');
         el.$elem.find(".formbuilder-errors").text("Please enter a valid email address.");
         return false;
       }

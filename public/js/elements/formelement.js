@@ -44,7 +44,7 @@ function FormElement(element) {
 
   // Validate element when changing/typing
   this.validate_on_change = function () {
-    this.element.form.validator.get_input(this.element).on("keyup change", function () {
+    this.element.super.get_input().on("keyup change", function () {
       this.element.form.validator.validate_element(this.element);
     }.bind(this));
   }
@@ -52,6 +52,11 @@ function FormElement(element) {
   // Setting the index property
   this.setIndex = function(i) {
     this.element.index = i;
+  }
+
+  // Get the input/textarea/select from the element
+  this.get_input = function () {
+    return this.element.$elem.find("input, select, textarea");
   }
 
   // Generic element settings
