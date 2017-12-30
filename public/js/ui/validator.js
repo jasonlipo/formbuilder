@@ -58,7 +58,7 @@ function FormValidator(form) {
 
   this.email = function (el) {
     if (el.props.validation && el.props.validation.type == 1) {
-      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.get_input(el).val())) {
+      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(el.super.get_input().val())) {
         el.super.get_input().addClass('error');
         el.$elem.find(".formbuilder-errors").text("Please enter a valid email address.");
         return false;

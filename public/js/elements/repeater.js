@@ -6,7 +6,8 @@ function FormElement_Repeater(form) {
     id: this.super.generate_id(),
     children: [],
     type: 0,
-    limit: 10
+    limit: 10,
+    add_button: "Add"
   };
   this.form = form;
   this.index = null;
@@ -136,6 +137,7 @@ function FormElement_Repeater(form) {
       this.form.reload_settings();
     }.bind(this, $settings_input));
 
+    this.super.add_setting("&quot;Add More&quot; label", "add_button");
     this.super.setting_delete();
   }
 
