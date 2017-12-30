@@ -40,4 +40,8 @@ function FormSave(form) {
     }.bind(this));
   }
 
+  this.json = function () {
+    return JSON.stringify(this.submission);
+  }
+
 }

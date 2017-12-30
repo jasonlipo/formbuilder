@@ -24,3 +24,14 @@ CREATE TABLE `forms` (
   `created_at` datetime NULL DEFAULT NULL,
   `updated_at` datetime NULL DEFAULT NULL
 ) ENGINE=InnoDB;
+
+--
+-- Table structure for table `submissions`
+--
+CREATE TABLE `submissions` (
+  `id` int(10) NOT NULL AUTO_INCREMENT, PRIMARY KEY (`id`),
+  `form_id` int(10) NOT NULL,
+  `data` text NULL DEFAULT NULL,
+  `created_at` datetime NULL DEFAULT NULL,
+  `updated_at` datetime NULL DEFAULT NULL
+) ENGINE=InnoDB;

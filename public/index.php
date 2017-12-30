@@ -25,6 +25,8 @@ $router->get('/form/(\d+)/view', 'FormsController@view');
 $router->get('/form/(\d+)/structure', 'FormsController@structure');
 $router->post('/form/(\d+)/structure', 'FormsController@save');
 
+$router->post('/form/(\d+)/submit', 'FormsController@submit');
+
 $router->set404(function() {
   header('HTTP/1.1 404 Not Found');
   echo "404 not found";

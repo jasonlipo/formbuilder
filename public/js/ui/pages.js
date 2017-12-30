@@ -52,7 +52,12 @@ function FormPages(form) {
   this.submit_form = function () {
     if (this.form.validate()) {
       this.form.save.page_submission(this.current);
-      location.href = this.form.props.redirect;
+      var path = location.pathname.split("/");
+      path.splice(-1);
+      $.post(path.join("/") + "/submit", { json: this.form.save.json() }, function (result) {
+        location.href = this.form.props.redirect;
+      }.bind(this));
+      
     }
   }
 

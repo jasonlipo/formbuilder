@@ -30,6 +30,13 @@ class FormsController extends Controller {
     }
   }
 
+  public function submit($formId) {
+    Submission::create([
+      "form_id" => $formId,
+      "data" => $_POST["json"]
+    ]);
+  }
+
 
   public function structure($formId) {
     echo Form::find($formId)->structure;
