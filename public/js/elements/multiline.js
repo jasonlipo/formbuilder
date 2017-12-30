@@ -24,6 +24,9 @@ function FormElement_MultiLine(form) {
       this.super.onclick();
       this.super.is_selected();
     }
+    else {
+      this.super.validate_on_change();
+    }
   }
 
   // Element settings

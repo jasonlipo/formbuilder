@@ -73,8 +73,12 @@ function FormSettings(builder) {
 
     this.builder.payment.settings();
 
+    this.setting_section("Navigation");
+    this.add_setting("Previous page button", "prev");
+    this.add_setting("Next page button", "next");
+    this.add_setting("Submit button", "submit");
+
     this.setting_section("Submission");
-    this.add_setting("Submit Button Text", "submit");
     this.add_setting("Redirect after Submission", "redirect");
     this.email_confirmation();
 

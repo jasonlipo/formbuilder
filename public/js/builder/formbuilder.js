@@ -17,6 +17,8 @@ function FormBuilder($dom) {
     description: "A description of your form goes here",
     redirect: "",
     submit: "Submit",
+    prev: "Back",
+    next: "Continue",
     email_confirmation: null,
     email_confirmation_message: "",
     payment: false

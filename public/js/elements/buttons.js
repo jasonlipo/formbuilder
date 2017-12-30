@@ -30,4 +30,8 @@ function FormElement_Buttons(form) {
     this.$elem = $newelem;
   }
 
+  this.validate = function () {
+    return true;
+  }
+
 }

@@ -4,6 +4,7 @@ function FormUI($dom) {
   this.$dom = $dom;
   this.load = new FormLoad(this);
   this.pages = new FormPages(this);
+  this.validator = new FormValidator(this);
   this.props = {};
   this.editable = false;
 
@@ -35,6 +36,10 @@ function FormUI($dom) {
     ).append($body);
     this.$body = $body;
     this.init_page();
+  }
+
+  this.validate = function () {
+    return this.validator.validate_page(this.pages.current);
   }
 
   // Prints all the elements in this page

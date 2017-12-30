@@ -44,6 +44,9 @@ function FormElement_SingleLine(form) {
       this.super.onclick();
       this.super.is_selected();
     }
+    else {
+      this.super.validate_on_change();
+    }
   }
 
   // Element settings
@@ -57,5 +60,4 @@ function FormElement_SingleLine(form) {
   this.zip = function () {
     return this.super.zip();
   }
-
 }

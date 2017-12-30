@@ -42,6 +42,13 @@ function FormElement(element) {
     }.bind(this));
   }
 
+  // Validate element when changing/typing
+  this.validate_on_change = function () {
+    this.element.form.validator.get_input(this.element).on("keyup change", function () {
+      this.element.form.validator.validate_element(this.element);
+    }.bind(this));
+  }
+
   // Setting the index property
   this.setIndex = function(i) {
     this.element.index = i;

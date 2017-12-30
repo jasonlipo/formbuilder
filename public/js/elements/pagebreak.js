@@ -30,15 +30,6 @@ function FormElement_PageBreak(form) {
 
   // Element settings
   this.get_settings = function () {
-    this.super.setting_section("Buttons");
-
-    var previous_breaks = this.form.elements.filter(function (i, n) {
-      return n < this.index && i.constructor.name == "FormElement_PageBreak";
-     }.bind(this)).length;
-    if (previous_breaks > 0) {
-      this.super.add_setting("Previous text", "prev");
-    }
-    this.super.add_setting("Next text", "next");    
     this.super.setting_delete();
   }
 
