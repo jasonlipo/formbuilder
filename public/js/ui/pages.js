@@ -36,19 +36,24 @@ function FormPages(form) {
   }
 
   this.prev_page = function () {
+    this.form.save.page_submission(this.current);
     this.current--;
     this.form.init_page();
   }
 
   this.next_page = function () {
     if (this.form.validate()) {
+      this.form.save.page_submission(this.current);
       this.current++;
       this.form.init_page();
     }
   }
 
   this.submit_form = function () {
-    
+    if (this.form.validate()) {
+      this.form.save.page_submission(this.current);
+      location.href = this.form.props.redirect;
+    }
   }
 
 }

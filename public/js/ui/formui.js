@@ -5,6 +5,7 @@ function FormUI($dom) {
   this.load = new FormLoad(this);
   this.pages = new FormPages(this);
   this.validator = new FormValidator(this);
+  this.save = new FormSave(this);
   this.props = {};
   this.editable = false;
 
@@ -49,6 +50,7 @@ function FormUI($dom) {
       this.pages.data[this.pages.current][i].super.setIndex(i);
       this.pages.data[this.pages.current][i].init(this.$body);
     }
+    this.save.fill_page(this.pages.current);
   }
 
 }
