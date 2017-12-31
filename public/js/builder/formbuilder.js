@@ -87,6 +87,10 @@ function FormBuilder($dom) {
       this.$body.append($empty.html($empty_label).append("Please insert an element"));
     }
     this.submit_button();
+    this.drag();
+  }
+
+  this.drag = function () {
     this.$body.sortable({
       create: function(){
         jQuery(this).height(jQuery(this).height());

@@ -43,115 +43,133 @@ function FormElement_Repeater(form) {
         this.props.children[i].init(this.$repeater);
       }
 
-      this.$repeater.sortable({
-        cancel: null,
-        items: "> .formbuilder-selectable",
-        placeholder: "formbuilder-placeholder",
-        forcePlaceholderSize: true,
-        connectWith: ".formbuilder-sort-container",
-        remove: function (event, ui) {
-          $obj = ui.item;
-          // Moving an element out of a repeater
-          var old_index = $obj.attr("formbuilder-index").split(".")[1];
-          var removed_elements = this.props.children.splice(old_index, 1);
-          var outer_index = $obj.index(".formbuilder-body > .formbuilder-element");
-          this.form.elements.splice(outer_index, 0, removed_elements[0]);
-          this.form.reload_form();
-        }.bind(this),
-        stop: function (event, ui) {
-          $obj = ui.item;
-          if ($obj.parent(".formbuilder-repeater").length > 0) {
-            var old_index = $obj.attr("formbuilder-index").split(".")[1];
-            var removed_elements = this.props.children.splice(old_index, 1);
-            var new_index = $obj.index(".formbuilder-repeater > .formbuilder-element");
-            this.props.children.splice(new_index, 0, removed_elements[0]);
-            this.selected = null;
-            this.form.reload_form();
-          }
-        }.bind(this)
-      });
+      this.drag();
     }
     else {
       if (this.props.type == 0) {
-        if (this.number_repetitions == this.props.limit) {
-          var $newelem = $("<div>", { class: "formbuilder-repeat-container" }).attr("formbuilder-index", this.index)
-            .append("You have reached the maximum of <b>"+this.props.limit+"</b> additions.");
-          this.$elem = $newelem;
-          $container.append($newelem);
-        }
-        else {
-          var $button = $("<input>", { type: "button", class: "formbuilder-button" }).val(this.props.add_button);
-          var $newelem = $("<div>", { class: "formbuilder-repeat-container" }).append($button).attr("formbuilder-index", this.index);
-          this.$elem = $newelem;
-          $container.append($newelem);
-          $button.click(function () {
-            this.form.save.page_submission(this.form.pages.current);
-            for (var i=0; i<this.props.children.length; i++) {
-              var new_element = new (window[this.props.children[i].constructor.name])(this.form);
-              new_element.props = Object.assign({}, this.props.children[i].props);
-              new_element.props.id = new_element.props.id + "_" + this.number_repetitions.toString();
-              this.form.pages.data[this.form.pages.current].splice(this.index, 0, new_element);
-              this.form.init_page();
-            }
-            this.number_repetitions += 1;
-            this.form.init_page();
-          }.bind(this));
-        }
+        this.add_more();
       }
       else {
-        this.$elem = $();
-        var trigger = this.form.pages.data[this.form.pages.current].filter(function (i) {
-          return i.props.id == this.props.trigger;
-        }.bind(this))[0];
-        trigger.$elem.on("keyup", function (el) {
-          if (this.form.validator.validate_element(el)) {
-            var elem_value = el.super.get_input().val();
-            this.form.save.page_submission(this.form.pages.current);
-            if (parseInt(elem_value) < this.number_repetitions) {
-              // Tidy up repeats, remove some
-              var to_remove = this.number_repetitions - parseInt(elem_value);
-              for (var k=0; k<to_remove; k++) {
-                for (var j=0; j<this.props.children.length; j++) {
-                  var remove_id = this.trigger_repetitions.pop();
-                  var remove_position = -1;
-                  $.each(this.form.pages.data[this.form.pages.current], function (n, i) {
-                    if (i.props.id == remove_id) {
-                      remove_position = n;
-                      delete this.form.save.submission[remove_id];
-                      if (i.props.validation && (i.props.validation.type == 4 || i.props.validation.type == 5)) {
-                        for (var m=0; m<i.super.get_input().length; m++) {
-                          delete this.form.save.submission[remove_id + "_" + m];
-                        }
-                      }
-                    }
-                  }.bind(this));
-                  this.form.pages.data[this.form.pages.current].splice(remove_position, 1);
-                  this.form.init_page();
-                }
-                this.number_repetitions -= 1;
-                this.form.init_page();
-              }
-            }
-            else {
-              // Add more repetitions
-              var to_add = parseInt(elem_value) - this.number_repetitions;
-              for (var k=0; k<to_add; k++) {
-                for (var i=0; i<this.props.children.length; i++) {
-                  var new_element = new (window[this.props.children[i].constructor.name])(this.form);
-                  new_element.props = Object.assign({}, this.props.children[i].props);
-                  new_element.props.id = new_element.props.id + "_" + this.number_repetitions.toString();
-                  this.trigger_repetitions.push(new_element.props.id);
-                  this.form.pages.data[this.form.pages.current].splice(this.index, 0, new_element);
-                  this.form.init_page();
-                }
-                this.number_repetitions += 1;
-                this.form.init_page();
+        this.trigger();
+      }
+    }
+  }
+
+  this.trigger = function () {
+    this.$elem = $();
+    var trigger = this.form.pages.data[this.form.pages.current].filter(function (i) {
+      return i.props.id == this.props.trigger;
+    }.bind(this))[0];
+    trigger.$elem.on("keyup", function (el) {
+      if (this.form.validator.validate_element(el)) {
+        var elem_value = el.super.get_input().val();
+        this.form.save.page_submission(this.form.pages.current);
+        if (parseInt(elem_value) < this.number_repetitions) {
+          this.trigger_delete(parseInt(elem_value));
+        }
+        else {
+          this.trigger_add(parseInt(elem_value));
+        }
+      }
+    }.bind(this, trigger));
+  }
+
+  this.trigger_add = function (amount) {
+    var to_add = amount - this.number_repetitions;
+    for (var k=0; k<to_add; k++) {
+      for (var i=0; i<this.props.children.length; i++) {
+        var new_element = new (window[this.props.children[i].constructor.name])(this.form);
+        new_element.props = Object.assign({}, this.props.children[i].props);
+        new_element.props.id = new_element.props.id + "_" + this.number_repetitions.toString();
+        this.trigger_repetitions.push(new_element.props.id);
+        this.form.pages.data[this.form.pages.current].splice(this.index, 0, new_element);
+        this.form.init_page();
+      }
+      this.number_repetitions += 1;
+      this.form.init_page();
+    }
+  }
+
+  this.trigger_delete = function (amount) {
+    var to_remove = this.number_repetitions - amount;
+    for (var k=0; k<to_remove; k++) {
+      for (var j=0; j<this.props.children.length; j++) {
+        var remove_id = this.trigger_repetitions.pop();
+        var remove_position = -1;
+        $.each(this.form.pages.data[this.form.pages.current], function (n, i) {
+          if (i.props.id == remove_id) {
+            remove_position = n;
+            delete this.form.save.submission[remove_id];
+            if (i.props.validation && (i.props.validation.type == 4 || i.props.validation.type == 5)) {
+              for (var m=0; m<i.super.get_input().length; m++) {
+                delete this.form.save.submission[remove_id + "_" + m];
               }
             }
           }
-        }.bind(this, trigger));
+        }.bind(this));
+        this.form.pages.data[this.form.pages.current].splice(remove_position, 1);
+        this.form.init_page();
       }
+      this.number_repetitions -= 1;
+      this.form.init_page();
     }
+  }
+
+  this.add_more = function () {
+    if (this.number_repetitions == this.props.limit) {
+      var $newelem = $("<div>", { class: "formbuilder-repeat-container" }).attr("formbuilder-index", this.index)
+        .append("You have reached the maximum of <b>"+this.props.limit+"</b> additions.");
+      this.$elem = $newelem;
+      $container.append($newelem);
+    }
+    else {
+      var $button = $("<input>", { type: "button", class: "formbuilder-button" }).val(this.props.add_button);
+      var $newelem = $("<div>", { class: "formbuilder-repeat-container" }).append($button).attr("formbuilder-index", this.index);
+      this.$elem = $newelem;
+      $container.append($newelem);
+      $button.click(function () {
+        this.form.save.page_submission(this.form.pages.current);
+        for (var i=0; i<this.props.children.length; i++) {
+          var new_element = new (window[this.props.children[i].constructor.name])(this.form);
+          new_element.props = Object.assign({}, this.props.children[i].props);
+          new_element.props.id = new_element.props.id + "_" + this.number_repetitions.toString();
+          this.form.pages.data[this.form.pages.current].splice(this.index, 0, new_element);
+          this.form.init_page();
+        }
+        this.number_repetitions += 1;
+        this.form.init_page();
+      }.bind(this));
+    }
+  }
+
+  this.drag = function () {
+    this.$repeater.sortable({
+      cancel: null,
+      items: "> .formbuilder-selectable",
+      placeholder: "formbuilder-placeholder",
+      forcePlaceholderSize: true,
+      connectWith: ".formbuilder-sort-container",
+      remove: function (event, ui) {
+        $obj = ui.item;
+        // Moving an element out of a repeater
+        var old_index = $obj.attr("formbuilder-index").split(".")[1];
+        var removed_elements = this.props.children.splice(old_index, 1);
+        var outer_index = $obj.index(".formbuilder-body > .formbuilder-element");
+        this.form.elements.splice(outer_index, 0, removed_elements[0]);
+        this.form.reload_form();
+      }.bind(this),
+      stop: function (event, ui) {
+        $obj = ui.item;
+        if ($obj.parent(".formbuilder-repeater").length > 0) {
+          var old_index = $obj.attr("formbuilder-index").split(".")[1];
+          var removed_elements = this.props.children.splice(old_index, 1);
+          var new_index = $obj.index(".formbuilder-repeater > .formbuilder-element");
+          this.props.children.splice(new_index, 0, removed_elements[0]);
+          this.selected = null;
+          this.form.reload_form();
+        }
+      }.bind(this)
+    });
   }
 
   // Element settings

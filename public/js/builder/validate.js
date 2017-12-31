@@ -27,7 +27,25 @@ var FormValidate = {
     $settings_input.appendTo($settings_block);
     element.form.settings.$field_properties.append($settings_block);
 
-    // Number validation
+    FormValidate.number(element);
+    FormValidate.address(element);
+    
+    $settings_input.change(function ($el) {
+      element.props.validation = {};
+      if ($el.val() == 2) {
+        element.props.validation.min = 0;
+        element.props.validation.max = 0;
+      }
+      if ($el.val() == 5) {
+        element.props.validation.address = 3;
+      }
+      element.props.validation.type = parseInt($el.val());
+      element.form.reload_form();
+      element.form.reload_settings();
+    }.bind(this, $settings_input));
+  },
+
+  number: function (element) {
     if (element.props.validation.type == 2) {
       var $minmax_block = $("<div>", { class: "formbuilder-settings-block formbuilder-half" });
       var $minmax_label = $("<label>", { class: "formbuilder-label" });
@@ -54,9 +72,10 @@ var FormValidate = {
         element.form.settings.$field_properties.append(element.form.payment.number_price(element.props.validation));
       }
     }
+  },
 
-     // Address validation
-     if (element.props.validation.type == 5) {
+  address: function (element) {
+    if (element.props.validation.type == 5) {
       var $numlines_block = $("<div>", { class: "formbuilder-settings-block" });
       var $numlines_label = $("<label>", { class: "formbuilder-label" });
       var $numlines_input = $("<input>", { type: "text", class: "formbuilder-settings-input" });
@@ -70,19 +89,5 @@ var FormValidate = {
         )
         .appendTo(element.form.settings.$field_properties);
     }
-    
-    $settings_input.change(function ($el) {
-      element.props.validation = {};
-      if ($el.val() == 2) {
-        element.props.validation.min = 0;
-        element.props.validation.max = 0;
-      }
-      if ($el.val() == 5) {
-        element.props.validation.address = 3;
-      }
-      element.props.validation.type = parseInt($el.val());
-      element.form.reload_form();
-      element.form.reload_settings();
-    }.bind(this, $settings_input));
   }
 }
