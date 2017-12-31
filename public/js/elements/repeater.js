@@ -143,11 +143,13 @@ function FormElement_Repeater(form) {
       var $trigger_label = $("<label>", { class: "formbuilder-label" });
       var $trigger_input = $("<select>", { class: "formbuilder-settings-input" });
       for (var i=0; i<prev_elements.length; i++) {
-        $option = $("<option>", { value: prev_elements[i].index }).html(prev_elements[i].props.label);
-        if (this.props.trigger === $option.val()) {
-          $option.attr("selected", true);
+        if (prev_elements[i].props.label) {
+          $option = $("<option>", { value: prev_elements[i].props.id }).html(prev_elements[i].props.label);
+          if (this.props.trigger === $option.val()) {
+            $option.attr("selected", true);
+          }
+          $trigger_input.append($option);
         }
-        $trigger_input.append($option);
       }
       $trigger_block
         .append($trigger_label.html("Fix number of repetitions"))
