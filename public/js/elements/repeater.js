@@ -84,7 +84,7 @@ function FormElement_Repeater(form) {
           this.$elem = $newelem;
           $container.append($newelem);
           $button.click(function () {
-            this.form.save.page_submission(this.current);
+            this.form.save.page_submission(this.form.pages.current);
             for (var i=0; i<this.props.children.length; i++) {
               var new_element = new (window[this.props.children[i].constructor.name])(this.form);
               new_element.props = Object.assign({}, this.props.children[i].props);
@@ -97,12 +97,34 @@ function FormElement_Repeater(form) {
           }.bind(this));
         }
       }
+      else {
+        this.$elem = $();
+        var trigger = this.form.pages.data[this.form.pages.current].filter(function (i) {
+          return i.props.id == this.props.trigger;
+        }.bind(this))[0];
+        trigger.$elem.on("keyup", function (el) {
+          if (this.form.validator.validate_element(el)) {
+            var elem_value = el.super.get_input().val();
+            this.form.save.page_submission(this.form.pages.current);
+            for (var k=0; k<parseInt(elem_value); k++) {
+              for (var i=this.props.children.length-1; i>=0; i--) {
+                var new_element = new (window[this.props.children[i].constructor.name])(this.form);
+                new_element.props = Object.assign({}, this.props.children[i].props);
+                new_element.props.id = new_element.props.id + "_" + this.number_repetitions.toString();
+                this.form.pages.data[this.form.pages.current].splice(this.index + 1, 0, new_element);
+                this.form.init_page();
+              }
+              this.number_repetitions += 1;
+              this.form.init_page();
+            }
+          }
+        }.bind(this, trigger));
+      }
     }
   }
 
   // Element settings
   this.get_settings = function () {
-
     var $settings_block = $("<div>", { class: "formbuilder-settings-block" });
     var $settings_input = $("<select>", { class: "formbuilder-settings-input" });
     var $settings_label = $("<label>", { class: "formbuilder-label" });
@@ -138,7 +160,9 @@ function FormElement_Repeater(form) {
     
     // Trigger repeating
     if (this.props.type == 1) {
-      var prev_elements = this.form.elements.slice(0, this.index);
+      var prev_elements = this.form.elements.slice(0, this.index).filter(function (i) {
+        return i.props.validation && i.props.validation.type == 2;
+      });
       var $trigger_block = $("<div>", { class: "formbuilder-settings-block" });
       var $trigger_label = $("<label>", { class: "formbuilder-label" });
       var $trigger_input = $("<select>", { class: "formbuilder-settings-input" });
