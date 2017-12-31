@@ -72,21 +72,30 @@ function FormElement_Repeater(form) {
     }
     else {
       if (this.props.type == 0) {
-        var $button = $("<input>", { type: "button", class: "formbuilder-button" }).val(this.props.add_button);
-        var $newelem = $("<div>", { class: "formbuilder-repeat-container" }).append($button).attr("formbuilder-index", this.index);
-        this.$elem = $newelem;
-        $container.append($newelem);
-        $button.click(function () {
-          this.form.save.page_submission(this.current);
-          for (var i=0; i<this.props.children.length; i++) {
-            var new_element = new (window[this.props.children[i].constructor.name])(this.form);
-            new_element.props = Object.assign({}, this.props.children[i].props);
-            new_element.props.id = new_element.props.id + "_" + this.number_repetitions.toString();
-            this.form.pages.data[this.form.pages.current].splice(this.index, 0, new_element);
+        if (this.number_repetitions == this.props.limit) {
+          var $newelem = $("<div>", { class: "formbuilder-repeat-container" }).attr("formbuilder-index", this.index)
+            .append("You have reached the maximum of <b>"+this.props.limit+"</b> additions.");
+          this.$elem = $newelem;
+          $container.append($newelem);
+        }
+        else {
+          var $button = $("<input>", { type: "button", class: "formbuilder-button" }).val(this.props.add_button);
+          var $newelem = $("<div>", { class: "formbuilder-repeat-container" }).append($button).attr("formbuilder-index", this.index);
+          this.$elem = $newelem;
+          $container.append($newelem);
+          $button.click(function () {
+            this.form.save.page_submission(this.current);
+            for (var i=0; i<this.props.children.length; i++) {
+              var new_element = new (window[this.props.children[i].constructor.name])(this.form);
+              new_element.props = Object.assign({}, this.props.children[i].props);
+              new_element.props.id = new_element.props.id + "_" + this.number_repetitions.toString();
+              this.form.pages.data[this.form.pages.current].splice(this.index, 0, new_element);
+              this.form.init_page();
+            }
+            this.number_repetitions += 1;
             this.form.init_page();
-          }
-          this.number_repetitions += 1;
-        }.bind(this));
+          }.bind(this));
+        }
       }
     }
   }
