@@ -35,7 +35,6 @@ function FormSave(form) {
         else {
           i.super.get_input().val(this.submission[i.props.id]);
         }
-        
       }
     }.bind(this));
   }

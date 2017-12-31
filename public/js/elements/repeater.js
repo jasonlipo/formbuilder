@@ -3,7 +3,6 @@ function FormElement_Repeater(form) {
   // Properties
   this.super = new FormElement(this);
   this.props = {
-    id: this.super.generate_id(),
     children: [],
     type: 0,
     limit: 10,
@@ -13,6 +12,7 @@ function FormElement_Repeater(form) {
   this.index = null;
   this.$elem = null;
   this.$repeater = null;
+  this.number_repetitions = 0;
 
   this.repeater_options = {
     0: "User adds as many as they like",
@@ -21,54 +21,74 @@ function FormElement_Repeater(form) {
   
   // Create a single-line text box
   this.init = function ($container) {
-    var $label = $("<div>", { class: "formbuilder-repeater-label" }).html("Repeater");
-    var $repeater = $("<div>", { class: "formbuilder-repeater formbuilder-sort-container" });
-    var $newelem = $("<div>", { class: "formbuilder-element" })
-                        .toggleClass("formbuilder-selectable", this.form.editable)
-                        .append($label)
-                        .append($repeater)
-                        .attr("formbuilder-index", this.index);
-
-    $container.append($newelem);
-    this.$elem = $newelem;
-    this.$repeater = $repeater;
     if (this.form.editable) {
+      var $label = $("<div>", { class: "formbuilder-repeater-label" }).html("Repeater");
+      var $repeater = $("<div>", { class: "formbuilder-repeater formbuilder-sort-container" });
+      var $newelem = $("<div>", { class: "formbuilder-element" })
+                          .toggleClass("formbuilder-selectable", this.form.editable)
+                          .append($label)
+                          .append($repeater)
+                          .attr("formbuilder-index", this.index);
+  
+      $container.append($newelem);
+      this.$elem = $newelem;
+      this.$repeater = $repeater;
+
       this.super.onclick();
       this.super.is_selected();
-    }
 
-    for (var i=0; i<this.props.children.length; i++) {
-      this.props.children[i].super.setIndex(this.index + "." + i);
-      this.props.children[i].init(this.$repeater);
-    }
+      for (var i=0; i<this.props.children.length; i++) {
+        this.props.children[i].super.setIndex(this.index + "." + i);
+        this.props.children[i].init(this.$repeater);
+      }
 
-    this.$repeater.sortable({
-      cancel: null,
-      items: "> .formbuilder-selectable",
-      placeholder: "formbuilder-placeholder",
-      forcePlaceholderSize: true,
-      connectWith: ".formbuilder-sort-container",
-      remove: function (event, ui) {
-        $obj = ui.item;
-        // Moving an element out of a repeater
-        var old_index = $obj.attr("formbuilder-index").split(".")[1];
-        var removed_elements = this.props.children.splice(old_index, 1);
-        var outer_index = $obj.index(".formbuilder-body > .formbuilder-element");
-        this.form.elements.splice(outer_index, 0, removed_elements[0]);
-        this.form.reload_form();
-      }.bind(this),
-      stop: function (event, ui) {
-        $obj = ui.item;
-        if ($obj.parent(".formbuilder-repeater").length > 0) {
+      this.$repeater.sortable({
+        cancel: null,
+        items: "> .formbuilder-selectable",
+        placeholder: "formbuilder-placeholder",
+        forcePlaceholderSize: true,
+        connectWith: ".formbuilder-sort-container",
+        remove: function (event, ui) {
+          $obj = ui.item;
+          // Moving an element out of a repeater
           var old_index = $obj.attr("formbuilder-index").split(".")[1];
           var removed_elements = this.props.children.splice(old_index, 1);
-          var new_index = $obj.index(".formbuilder-repeater > .formbuilder-element");
-          this.props.children.splice(new_index, 0, removed_elements[0]);
-          this.selected = null;
+          var outer_index = $obj.index(".formbuilder-body > .formbuilder-element");
+          this.form.elements.splice(outer_index, 0, removed_elements[0]);
           this.form.reload_form();
-        }
-      }.bind(this)
-    });
+        }.bind(this),
+        stop: function (event, ui) {
+          $obj = ui.item;
+          if ($obj.parent(".formbuilder-repeater").length > 0) {
+            var old_index = $obj.attr("formbuilder-index").split(".")[1];
+            var removed_elements = this.props.children.splice(old_index, 1);
+            var new_index = $obj.index(".formbuilder-repeater > .formbuilder-element");
+            this.props.children.splice(new_index, 0, removed_elements[0]);
+            this.selected = null;
+            this.form.reload_form();
+          }
+        }.bind(this)
+      });
+    }
+    else {
+      if (this.props.type == 0) {
+        var $button = $("<input>", { type: "button", class: "formbuilder-button" }).val(this.props.add_button);
+        var $newelem = $("<div>", { class: "formbuilder-repeat-container" }).append($button).attr("formbuilder-index", this.index);
+        this.$elem = $newelem;
+        $container.append($newelem);
+        $button.click(function () {
+          this.form.save.page_submission(this.current);
+          for (var i=0; i<this.props.children.length; i++) {
+            var new_element = new (window[this.props.children[i].constructor.name])(this.form);
+            new_element.props = Object.assign({}, this.props.children[i].props);
+            new_element.props.id = new_element.props.id + "_" + this.number_repetitions.toString();
+            this.form.pages.data[this.form.pages.current].splice(this.index, 0, new_element);
+            this.form.init_page();
+          }
+          this.number_repetitions += 1;
+        }.bind(this));
+      }
+    }
   }
 
   // Element settings
