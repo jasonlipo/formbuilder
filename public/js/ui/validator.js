@@ -19,6 +19,7 @@ function FormValidator(form) {
     }
     el.$elem.find(".formbuilder-errors").text("");
     
+    el_valid &= this.number(el);
     el_valid &= this.email(el);
     el_valid &= this.required(el);
 
@@ -61,6 +62,21 @@ function FormValidator(form) {
       if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(el.super.get_input().val())) {
         el.super.get_input().addClass('error');
         el.$elem.find(".formbuilder-errors").text("Please enter a valid email address.");
+        return false;
+      }
+    }
+    return true;
+  }
+
+  this.number = function (el) {
+    if (el.props.validation && el.props.validation.type == 2) {
+      if (!/^([0-9]+)$/.test(el.super.get_input().val()) ||
+          parseInt(el.super.get_input().val()) < el.props.validation.min ||
+          parseInt(el.super.get_input().val()) > el.props.validation.max) {
+        el.super.get_input().addClass('error');
+        el.$elem
+          .find(".formbuilder-errors")
+          .text("Please enter a number between "+el.props.validation.min+" and "+el.props.validation.max+".");
         return false;
       }
     }
