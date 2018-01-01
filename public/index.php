@@ -21,6 +21,7 @@ $router->get('/new', 'FormsController@build');
 
 $router->get('/form/(\d+)/build', 'FormsController@build');
 $router->get('/form/(\d+)/view', 'FormsController@view');
+$router->get('/form/(\d+)/responses', 'FormsController@responses');
 
 $router->get('/form/(\d+)/structure', 'FormsController@structure');
 $router->post('/form/(\d+)/structure', 'FormsController@save');

@@ -205,6 +205,7 @@ function FormElement_Repeater(form) {
           }.bind(this, $limit_input))
         )
         .appendTo(this.form.settings.$field_properties);
+      this.super.add_setting("&quot;Add More&quot; label", "add_button");
     }
     
     // Trigger repeating
@@ -241,7 +242,6 @@ function FormElement_Repeater(form) {
       this.form.reload_settings();
     }.bind(this, $settings_input));
 
-    this.super.add_setting("&quot;Add More&quot; label", "add_button");
     this.super.setting_delete();
   }
 

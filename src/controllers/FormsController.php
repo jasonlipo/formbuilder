@@ -39,6 +39,55 @@ class FormsController extends Controller {
     }
   }
 
+  public function responses($formId) {
+    try {
+      // Find form data
+      $f = Form::find($formId, array('include' => array('submissions')));
+      $structure = json_decode($f->structure, false);
+
+      // Get column headers
+      $headers = [];
+      array_walk($structure->elements, function ($element, $key) use (&$headers) {
+        if (property_exists($element->props, "label") && property_exists($element->props, "id")) {
+          if (property_exists($element->props, "validation") && $element->props->validation->type == 4) {
+            // First Name fields
+            $headers[] = [$element->props->label . " (First)", $element->props->id . "_0"];
+            $headers[] = [$element->props->label . " (Last)", $element->props->id . "_1"];
+          }
+          else {
+            $headers[] = [$element->props->label, $element->props->id];
+          }
+        }
+      });
+      
+      // Get row data
+      $rows = [];
+      foreach ($f->submissions as $response) {
+        $row = [];
+        $response_data = json_decode($response->data, false);
+        for ($i=0; $i<count($headers); $i++) {
+          $row[] = $response_data->{$headers[$i][1]};
+        }
+        $rows[] = $row;
+      }
+
+      // Reformat column array
+      $headers = array_map(function($col) {
+        return $col[0];
+      }, $headers);
+
+      // Render page
+      $this->render('forms_responses.html', [
+        'title' => $f->name,
+        'headers' => $headers,
+        'rows' => $rows
+      ]);
+    }
+    catch (ActiveRecord\RecordNotFound $e) {
+      header("Location: /");
+    }
+  }
+
   public function delete($formId) {
     Form::find($formId)->delete();
   }
