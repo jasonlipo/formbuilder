@@ -1,7 +1,16 @@
 <?php
 class FormsController extends Controller {
   public function index() {
-    $this->render('forms_all.html', ['forms' => Form::all()]);
+    $forms = Form::find('all', array('include' => array('submissions')));
+    $data = [];
+    foreach ($forms as $f) {
+      $data[] = [
+        "id" => $f->id,
+        "name" => $f->name,
+        "submissions" => $f->submissions
+      ];
+    }
+    $this->render('forms_all.html', ['forms' => $data]);
   }
 
   public function build($formId = -1) {

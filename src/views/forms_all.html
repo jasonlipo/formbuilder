@@ -1,4 +1,5 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<script type="text/javascript" src="/public/js/fontawesome-all.min.js"></script>
 <link rel="stylesheet" href="/public/css/style.css" />
 <div class="formcontrol-app">
   <div class="formcontrol-manage">
@@ -12,7 +13,8 @@
       <div class="formcontrol-entry-options">
         <a href="/form/{{ form.id|e }}/build" class="formcontrol-entry-option">Build</a>
         <a href="/form/{{ form.id|e }}/view" class="formcontrol-entry-option">View</a>
-        <a href="/form/{{ form.id|e }}/responses" class="formcontrol-entry-option">Responses</a>
+        <a href="/form/{{ form.id|e }}/responses" class="formcontrol-entry-option">Responses ({{ form.submissions|length }})</a>
+        <i class="formcontrol-entry-delete fas fa-times"></i>
       </div>
     </div>
     {% endfor %}
