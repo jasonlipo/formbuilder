@@ -47,15 +47,15 @@ function FormElement_Repeater(form) {
     }
     else {
       if (this.props.type == 0) {
-        this.add_more();
+        this.add_more($container);
       }
       else {
-        this.trigger();
+        this.trigger($container);
       }
     }
   }
 
-  this.trigger = function () {
+  this.trigger = function ($container) {
     this.$elem = $();
     var trigger = this.form.pages.data[this.form.pages.current].filter(function (i) {
       return i.props.id == this.props.trigger;
@@ -115,7 +115,7 @@ function FormElement_Repeater(form) {
     }
   }
 
-  this.add_more = function () {
+  this.add_more = function ($container) {
     if (this.number_repetitions == this.props.limit) {
       var $newelem = $("<div>", { class: "formbuilder-repeat-container" }).attr("formbuilder-index", this.index)
         .append("You have reached the maximum of <b>"+this.props.limit+"</b> additions.");
