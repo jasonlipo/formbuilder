@@ -70,6 +70,7 @@ body{font:14px/1.5 Arial,Helvetica,sans-serif}
 .formcontrol-entry-options .formcontrol-entry-delete {color: #5f5f5f;position: absolute;display: block;right: 0;top: 0;margin: 15px;font-size: 16px;cursor: pointer;}
 .formcontrol-entry-delete-confirm {font-size: 11px;padding: 6px 10px;position: absolute;top: 0;right: 0;margin: 5px 10px;}
 
-.formcontrol-responses {font: 14px/1.5 Arial,Helvetica,sans-serif;text-align: left;padding: 15px 20px 30px;width: 100%;}
+.formcontrol-responses {font: 14px/1.5 Arial,Helvetica,sans-serif;text-align: left;padding: 15px 20px 30px;width: 100%;border: none;border-spacing: 0px;border-collapse: collapse;}
 .formcontrol-responses th {color: #4C565E;}
-.formcontrol-responses td {font-size: 12px;}
+.formcontrol-responses tr {border: 1px solid #e2e2e2;}
+.formcontrol-responses th, .formcontrol-responses td {font-size: 12px;padding: 7px;}
