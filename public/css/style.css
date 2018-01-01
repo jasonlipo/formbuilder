@@ -56,3 +56,14 @@ body{font:14px/1.5 Arial,Helvetica,sans-serif}
 .formbuilder-half {display: flex;position: relative;flex-wrap: wrap;}
 .formbuilder-half .formbuilder-singleline, .formbuilder-half .formbuilder-settings-input, .formbuilder-half .formbuilder-label {width: 45%;width: -webkit-calc(50% - 10px);margin-right: 20px;}
 .formbuilder-half .formbuilder-singleline:last-of-type, .formbuilder-half .formbuilder-settings-input:last-of-type, .formbuilder-half .formbuilder-label:last-of-type{margin-right:0;}
+
+.formcontrol-title{font-weight:700;display:block;color:#4C565E;font-size:24px;margin:0}
+.formcontrol-description{display:inline-block;box-sizing:border-box;color:#4C565E;font-size:14px;padding:0 15px 10px;margin:0;border-bottom:2px solid #6CAEE0}
+.formcontrol-app{background:#f3f3f3;position:relative;padding:8px 20px 20px}
+.formcontrol-header{text-align:center;padding:20px 0}
+.formcontrol-manage{width:475px;background-color:#fff;box-shadow:0 1px 3px 0 rgba(0,0,0,0.1)}
+.formcontrol-entry{box-shadow:1px 2px 4px 0 rgba(0,0,0,0.08);margin:20px;padding:10px}
+.formcontrol-entry-name{color:#5f5f5f;font-weight:700;line-height:16px;padding:0 0 7px;display:inline-block;text-decoration:none}
+.formcontrol-entry-option{font-size:12px;font-weight:400;text-decoration:none;color:#5f5f5f;margin-right:10px}
+.formcontrol-entry-name:hover,.formcontrol-entry-option:hover{color:#929292}
+.formcontrol-new{margin:10px 20px 30px}

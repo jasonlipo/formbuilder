@@ -83,7 +83,7 @@ function FormBuilder($dom) {
     }
     if (this.elements.length == 0) {
       var $empty = $("<div>", { class: "formbuilder-element" });
-      var $empty_label = $("<label>", { class: "formbuilder-label" }).html("Empty Form!");
+      var $empty_label = $("<label>", { class: "formbuilder-label", style: "display: block;" }).html("Empty Form!");
       this.$body.append($empty.html($empty_label).append("Please insert an element"));
     }
     this.submit_button();

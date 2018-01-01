@@ -1,6 +1,21 @@
-<h1>Forms</h1>
-{% for form in forms %}
-<li><a href="/form/{{ form.id|e }}/build">{{ form.name|e }}</a></li>
-{% endfor %}
-<br />
-<a href="/new">+ New Form</a>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<link rel="stylesheet" href="/public/css/style.css" />
+<div class="formcontrol-app">
+  <div class="formcontrol-manage">
+    <div class="formcontrol-header">
+      <div class="formcontrol-title">Form Builder</div>
+      <div class="formcontrol-description">Manage all your forms here.</div>
+    </div>
+    {% for form in forms %}
+    <div class="formcontrol-entry">
+      <a href="/form/{{ form.id|e }}/view" class="formcontrol-entry-name">{{ form.name|e }}</a>
+      <div class="formcontrol-entry-options">
+        <a href="/form/{{ form.id|e }}/build" class="formcontrol-entry-option">Build</a>
+        <a href="/form/{{ form.id|e }}/view" class="formcontrol-entry-option">View</a>
+        <a href="/form/{{ form.id|e }}/responses" class="formcontrol-entry-option">Responses</a>
+      </div>
+    </div>
+    {% endfor %}
+    <a class="formcontrol-new formbuilder-button" href="/new">+ New Form</a>
+  </div>
+</div>
