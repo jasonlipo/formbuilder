@@ -68,4 +68,57 @@ function FormPayment(form) {
     this.update();
   }
 
+  this.init_payment = function (responseId) {
+    this.form.$body.html("");
+
+    // Add credit card form
+    $card_name = $("<div>", { class: "formbuilder-element formbuilder-half" })
+      .append(
+        $("<label>", { class: "formbuilder-label" })
+          .append("Credit Card")
+          .append($("<span>", { class: "formbuilder-required" }).text("*"))
+      )
+      .append(
+        $("<label>", { class: "formbuilder-label" }).append($("<small>").text("First Name"))
+      )
+      .append(
+        $("<label>", { class: "formbuilder-label" }).append($("<small>").text("Last Name"))
+      )
+      .append($("<input>", { class: "formbuilder-singleline" }))
+      .append($("<input>", { class: "formbuilder-singleline" }));
+
+    $card_number = $("<div>", { class: "formbuilder-element" })
+      .append(
+        $("<label>", { class: "formbuilder-label" }).append($("<small>").text("Card Number"))
+      )
+      .append($("<input>", { class: "formbuilder-singleline" }));
+
+    $cvv = $("<div>", { class: "formbuilder-element formbuilder-half" })
+      .append(
+        $("<label>", { class: "formbuilder-label" }).append($("<small>").text("Expiration Date"))
+      )
+      .append(
+        $("<label>", { class: "formbuilder-label" }).append($("<small>").text("CVV"))
+      )
+      .append($("<input>", { class: "formbuilder-singleline", placeholder: "MM/YY" }))
+      .append($("<input>", { class: "formbuilder-singleline" }));
+    
+    this.form.$body.append($card_name).append($card_number).append($cvv);
+
+    // Add nav buttons
+    var submit = new FormElement_Buttons(this.form);
+    submit.props.button1.value = this.form.props.prev;
+    submit.props.button1.onclick = function () {
+      this.form.pages.current--;
+      this.form.init_page();
+    }.bind(this);
+    submit.props.button2.value = this.form.props.submit;
+    submit.props.button2.onclick = this.submit_payment.bind(this);
+    submit.init(this.form.$body);
+  }
+
+  this.submit_payment = function () {
+
+  }
+
 }

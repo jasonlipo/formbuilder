@@ -154,10 +154,11 @@ class FormsController extends Controller {
   }
 
   public function submit($formId) {
-    Submission::create([
+    $response = Submission::create([
       "form_id" => $formId,
       "data" => $_POST["json"]
     ]);
+    echo $response->id;
   }
 
 
