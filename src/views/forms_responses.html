@@ -20,11 +20,18 @@
       </thead>
       <tbody>
           {% for r in rows %}
-          <tr>
-            {% for cell in r %}
-            <td>{{ cell }}</td>
+            <tr>
+              {% for cell in r.standard %}
+              <td rowspan="{{ cell[1] }}">{{ cell[0] }}</td>
+              {% endfor %}
+            </tr>
+            {% for column in r.repeats %}
+              <tr>
+                {% for cell in column %}
+                  <td>{{ cell }}</td>
+                {% endfor %}
+              </tr>
             {% endfor %}
-          </tr>
           {% endfor %}  
       </tbody>
     </table>
