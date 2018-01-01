@@ -62,8 +62,8 @@ class FormsController extends Controller {
       
       // Get row data
       $rows = [];
-      foreach ($f->submissions as $response) {
-        $row = [];
+      foreach ($f->submissions as $key => $response) {
+        $row = [$key+1, $response->created_at->format("d M Y H:i:s")];
         $response_data = json_decode($response->data, false);
         for ($i=0; $i<count($headers); $i++) {
           $row[] = $response_data->{$headers[$i][1]};
@@ -72,9 +72,9 @@ class FormsController extends Controller {
       }
 
       // Reformat column array
-      $headers = array_map(function($col) {
+      $headers = array_merge(["Response", "Submission Date"], array_map(function($col) {
         return $col[0];
-      }, $headers);
+      }, $headers));
 
       // Render page
       $this->render('forms_responses.html', [
