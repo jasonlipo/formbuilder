@@ -39,6 +39,10 @@ class FormsController extends Controller {
     }
   }
 
+  public function delete($formId) {
+    Form::find($formId)->delete();
+  }
+
   public function submit($formId) {
     Submission::create([
       "form_id" => $formId,

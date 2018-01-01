@@ -1,5 +1,7 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<script type="text/javascript" src="/public/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="/public/js/fontawesome-all.min.js"></script>
+<script type="text/javascript" src="/public/js/control/index.js"></script>
 <link rel="stylesheet" href="/public/css/style.css" />
 <div class="formcontrol-app">
   <div class="formcontrol-manage">
@@ -8,7 +10,7 @@
       <div class="formcontrol-description">Manage all your forms here.</div>
     </div>
     {% for form in forms %}
-    <div class="formcontrol-entry">
+    <div class="formcontrol-entry" data-form="{{ form.id|e }}">
       <a href="/form/{{ form.id|e }}/view" class="formcontrol-entry-name">{{ form.name|e }}</a>
       <div class="formcontrol-entry-options">
         <a href="/form/{{ form.id|e }}/build" class="formcontrol-entry-option">Build</a>

@@ -26,6 +26,7 @@ $router->get('/form/(\d+)/structure', 'FormsController@structure');
 $router->post('/form/(\d+)/structure', 'FormsController@save');
 
 $router->post('/form/(\d+)/submit', 'FormsController@submit');
+$router->post('/form/(\d+)/delete', 'FormsController@delete');
 
 $router->set404(function() {
   header('HTTP/1.1 404 Not Found');
