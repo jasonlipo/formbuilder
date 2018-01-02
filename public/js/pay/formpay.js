@@ -49,8 +49,13 @@ function FormPay($dom) {
     this.$body.append('\
     <form action="'+location.pathname+'" method="post" class="stripe-form">\
       <div class="formbuilder-element">\
+        <label class="formbuilder-label">Cardholder Name <span class="formbuilder-required">*</span></label>\
+        <input type="text" class="formbuilder-singleline formpay-cardholder" />\
+        <div class="formbuilder-errors"></div>\
+      </div>\
+      <div class="formbuilder-element">\
         <label class="formbuilder-label">\
-          Credit or debit card<span class="formbuilder-required">*</span>\
+          Credit or debit card <span class="formbuilder-required">*</span>\
           <small>Card Number</small>\
         </label>\
         <div class="formpay-card-number"></div>\
@@ -73,6 +78,20 @@ function FormPay($dom) {
       </div>\
     </form>');
 
+    this.$body.find(".formpay-cardholder").keyup(this.validate_cardholder.bind(this));
+
+  }
+
+  this.validate_cardholder = function () {
+    $el = this.$body.find(".formpay-cardholder");
+    $el.parents(".formbuilder-element").find(".formbuilder-errors").text("");
+    $el.parents(".formbuilder-element").find("input").removeClass("error");
+    if ($el.val() == "") {
+      $el.parents(".formbuilder-element").find(".formbuilder-errors").text("This field is required.");
+      $el.parents(".formbuilder-element").find("input").addClass("error");
+      return false;
+    }
+    return true;
   }
 
   this.find_all_prices = function (parent) {

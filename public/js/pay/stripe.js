@@ -29,16 +29,18 @@ function FormStripe(form) {
 
     this.form.$dom.find(".stripe-form")[0].addEventListener('submit', function(event) {
       event.preventDefault();
-      stripe.createToken(cardnumber).then(function(result) {
-        if (result.error) {
-          $err = $(cardnumber._component).parents(".formbuilder-element").find(".formbuilder-errors");
-          $err.text(result.error.message);
-        }
-        else {
-          // Send the token to your server
-          this.token_handler(result.token);
-        }
-      }.bind(this));
+      if (this.form.validate_cardholder()) {
+        stripe.createToken(cardnumber, { name: this.form.$dom.find(".formpay-cardholder").val() }).then(function(result) {
+          if (result.error) {
+            $err = $(cardnumber._component).parents(".formbuilder-element").find(".formbuilder-errors");
+            $err.text(result.error.message);
+          }
+          else {
+            // Send the token to your server
+            this.token_handler(result.token);
+          }
+        }.bind(this));
+      }
     }.bind(this));
   }
 
