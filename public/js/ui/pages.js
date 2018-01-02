@@ -56,8 +56,7 @@ function FormPages(form) {
       path.splice(-1);
       $.post(path.join("/") + "/submit", { json: this.form.save.json() }, function (result) {
         if (this.form.props.payment) {
-          this.current++;
-          this.form.payment.init_payment(result);
+          location.href = path.join("/") + "/pay/" + result;
         }
         else {
           location.href = this.form.props.redirect;

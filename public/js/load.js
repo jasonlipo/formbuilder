@@ -4,9 +4,8 @@ function FormLoad(form) {
   
   // Load the form's stored data
   this.do = function (callback) {
-    var path = location.pathname.split("/");
-    path.splice(-1);
-    $.get(path.join("/") + "/structure", function (response) {
+    var path = location.pathname.split("/").slice(0, 3).join("/");
+    $.get(path + "/structure", function (response) {
       if (response) {
         json = JSON.parse(response);
         $.extend(this.form.props, json["props"]);
