@@ -26,7 +26,12 @@ function FormPay($dom) {
       this.add_elements();
       this.find_all_prices(this.elements);
       this.prices_summary();
-      this.stripe.init();
+      if (this.total != this.response.total_price) {
+        this.$body.html("<b>Something has gone wrong!</b><br />Please contact your website manager.<br /><br />");
+      }
+      else {
+        this.stripe.init();
+      }
     }.bind(this));
   }
 

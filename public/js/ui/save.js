@@ -54,7 +54,8 @@ function FormSave(form) {
   this.json = function () {
     return JSON.stringify(
       $.extend({}, this.submission, {
-        "total_price": this.form.payment.total()
+        "total_price": this.form.payment.total(),
+        "payment_status": "unpaid"
       })
     );
   }
