@@ -11,7 +11,7 @@ function FormPayment(form) {
   }
 
   this.update = function () {
-    this.$elem.html("Price: &pound;" + this.total());
+    this.$elem.html("Price: &pound;" + this.total().toFixed(2));
   }
 
   this.total = function () {
@@ -19,7 +19,7 @@ function FormPayment(form) {
     for (key in this.prices) {
       running_total += this.prices[key].price
     }
-    return running_total.toFixed(2);
+    return running_total;
   }
 
   this.check_payment = function (element) {

@@ -27,7 +27,9 @@ $router->get('/form/(\d+)/structure', 'FormsController@structure');
 $router->post('/form/(\d+)/structure', 'FormsController@save');
 
 $router->get('/form/(\d+)/response/(.+)', 'FormsController@response');
+
 $router->get('/form/(\d+)/pay/(.+)', 'FormsController@pay');
+$router->post('/form/(\d+)/pay/(.+)', 'FormsController@stripe');
 
 $router->post('/form/(\d+)/submit', 'FormsController@submit');
 $router->post('/form/(\d+)/delete', 'FormsController@delete');

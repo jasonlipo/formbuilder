@@ -52,7 +52,11 @@ function FormSave(form) {
   }
 
   this.json = function () {
-    return JSON.stringify(this.submission);
+    return JSON.stringify(
+      $.extend({}, this.submission, {
+        "total_price": this.form.payment.total()
+      })
+    );
   }
 
 }

@@ -47,13 +47,13 @@ function FormPay($dom) {
     </div>');
 
     this.$body.append('\
-    <form action="/charge" method="post" class="stripe-form">\
+    <form action="'+location.pathname+'" method="post" class="stripe-form">\
       <div class="formbuilder-element">\
         <label class="formbuilder-label">\
           Credit or debit card<span class="formbuilder-required">*</span>\
           <small>Card Number</small>\
         </label>\
-        <div id="formpay-card-number"></div>\
+        <div class="formpay-card-number"></div>\
         <div class="formbuilder-errors"></div>\
       </div>\
       <div class="formbuilder-element formbuilder-half">\
@@ -63,8 +63,8 @@ function FormPay($dom) {
         <label class="formbuilder-label">\
           <small>CVC <span class="formbuilder-required">*</span></small>\
         </label>\
-        <div id="formpay-card-expiry"></div>\
-        <div id="formpay-card-cvc"></div>\
+        <div class="formpay-card-expiry"></div>\
+        <div class="formpay-card-cvc"></div>\
         <div class="formbuilder-errors"></div>\
         <div class="formbuilder-errors"></div>\
       </div>\

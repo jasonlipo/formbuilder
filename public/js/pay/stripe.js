@@ -8,9 +8,9 @@ function FormStripe(form) {
     var cardnumber = elements.create('cardNumber', { placeholder: "" });
     var cardexpiry = elements.create('cardExpiry');
     var cardCvc = elements.create('cardCvc', { placeholder: "" });
-    cardnumber.mount('#formpay-card-number');
-    cardexpiry.mount('#formpay-card-expiry');
-    cardCvc.mount('#formpay-card-cvc');
+    cardnumber.mount(this.form.$dom.find('.formpay-card-number')[0]);
+    cardexpiry.mount(this.form.$dom.find('.formpay-card-expiry')[0]);
+    cardCvc.mount(this.form.$dom.find('.formpay-card-cvc')[0]);
 
     cardnumber.addEventListener('change', function(event) {
       $err = $(cardnumber._component).parents(".formbuilder-element").find(".formbuilder-errors");

@@ -185,6 +185,9 @@ class FormsController extends Controller {
     echo Submission::find($this->decrypt_string($responseIdEnc))->data;
   }
 
+  public function stripe($formId, $responseIdEnc) {
+  }
+
   public function submit($formId) {
     $response = Submission::create([
       "form_id" => $formId,
