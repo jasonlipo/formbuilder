@@ -181,6 +181,10 @@ class FormsController extends Controller {
     $this->render('forms_pay.html', ["id" => $formId, "response" => $responseIdEnc]);
   }
 
+  public function response($formId, $responseIdEnc) {
+    echo Submission::find($this->decrypt_string($responseIdEnc))->data;
+  }
+
   public function submit($formId) {
     $response = Submission::create([
       "form_id" => $formId,

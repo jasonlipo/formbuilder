@@ -31,4 +31,16 @@ function FormLoad(form) {
     }.bind(this));
   }
 
+  // Load the form's structure and response
+  this.response = function (callback) {
+    this.do(function () {
+      var path = location.pathname.split("/").slice(0, 3).join("/");
+      $.get(path + "/response/" + this.form.$dom.attr("formresponse"), function (result) {
+        var json = JSON.parse(result);
+        this.form.response = json;
+        callback();
+      }.bind(this));
+    }.bind(this));
+  }
+
 }

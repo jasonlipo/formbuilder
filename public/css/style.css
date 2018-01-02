@@ -76,3 +76,6 @@ body{font:14px/1.5 Arial,Helvetica,sans-serif}
 .formcontrol-responses th, .formcontrol-responses td {font-size: 12px;padding: 7px;}
 
 .formbuilder-payment {background: #f6f6f6;padding: 10px 15px;margin: 0 10px 40px;font-weight: bold;color: #5f5f5f;}
+.formbuilder-summary {display: flex;flex-wrap: wrap;}
+.formbuilder-summary-quantity {flex-basis: 70%;}
+.formbuilder-summary-price {flex-basis: 30%;}
