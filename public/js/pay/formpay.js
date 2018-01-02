@@ -3,13 +3,12 @@ function FormPay($dom) {
   // Set up
   this.$dom = $dom;
   this.load = new FormLoad(this);
-  this.validator = new FormValidator(this);
+  this.stripe = new FormStripe(this);
   this.props = {};
   this.editable = false;
 
   this.response = {};
   this.elements = [];
-  this.payment_elements = [];
   this.prices = {};
   this.total = 0;
 
@@ -27,7 +26,7 @@ function FormPay($dom) {
       this.add_elements();
       this.find_all_prices(this.elements);
       this.prices_summary();
-      this.print_form();
+      this.stripe.init();
     }.bind(this));
   }
 
@@ -41,50 +40,39 @@ function FormPay($dom) {
     ).append($body);
     this.$body = $body;
 
-    // Add title
-    var title = new FormElement_Title(this);
-    title.props = { title: "Payment Summary", description: "" };
-    this.payment_elements.push(title);
+    this.$body.append('\
+    <div class="formbuilder-element">\
+      <div class="formbuilder-section-title">Payment Summary</div>\
+      <div class="formbuilder-section-description formpay-summary"></div>\
+    </div>');
 
-    // Add credit card form
-    var card_name = new FormElement_SingleLine(this);
-    card_name.props = {
-      label: "Name on Card",
-      required: true,
-      validation: { type: 4 }
-    }
+    this.$body.append('\
+    <form action="/charge" method="post" class="stripe-form">\
+      <div class="formbuilder-element">\
+        <label class="formbuilder-label">\
+          Credit or debit card<span class="formbuilder-required">*</span>\
+          <small>Card Number</small>\
+        </label>\
+        <div id="formpay-card-number"></div>\
+        <div class="formbuilder-errors"></div>\
+      </div>\
+      <div class="formbuilder-element formbuilder-half">\
+        <label class="formbuilder-label">\
+          <small>Expiry Date <span class="formbuilder-required">*</span></small>\
+        </label>\
+        <label class="formbuilder-label">\
+          <small>CVC <span class="formbuilder-required">*</span></small>\
+        </label>\
+        <div id="formpay-card-expiry"></div>\
+        <div id="formpay-card-cvc"></div>\
+        <div class="formbuilder-errors"></div>\
+        <div class="formbuilder-errors"></div>\
+      </div>\
+      <div class="formbuilder-buttons">\
+        <input type="submit" class="formbuilder-button formpay-submit" value="'+this.props.submit+'">\
+      </div>\
+    </form>');
 
-    var card_number = new FormElement_SingleLine(this);
-    card_number.props = {
-      label: "Card Number",
-      required: true,
-      validation: { type: 0 }
-    }
-
-    var cvv = new FormElement_SingleLine(this);
-    cvv.props = {
-      label: "CVV",
-      required: true,
-      validation: { type: 2, min: 0, max: 999 }
-    }
-    
-    this.payment_elements.push(card_name, card_number, cvv);
-
-    // Add nav buttons
-    var submit = new FormElement_Buttons(this);
-    submit.props.button1.value = this.props.submit;
-    submit.props.button1.onclick = this.submit.bind(this);
-    this.payment_elements.push(submit);
-  }
-
-  // Prints all the payment elements
-  this.print_form = function () {
-    this.$body.html("");
-    for (var i=0; i<this.payment_elements.length; i++) {
-      this.payment_elements[i].super.setIndex(i);
-      this.payment_elements[i].init(this.$body);
-    }
-    this.pages = { data: [this.payment_elements] };
   }
 
   this.find_all_prices = function (parent) {
@@ -152,11 +140,6 @@ function FormPay($dom) {
     $summary.append(
       $("<div>", { class: "formbuilder-summary-price" }).html($("<b>").html("&pound;" + this.total.toFixed(2)))
     );
-    this.payment_elements[0].props.description = $summary[0].outerHTML;
+    this.$body.find(".formpay-summary").html($summary[0].outerHTML);
   }
-
-  this.submit = function () {
-    this.validator.validate_page(0);
-  }
-
 }
