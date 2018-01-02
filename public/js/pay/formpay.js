@@ -67,13 +67,8 @@ function FormPay($dom) {
 
     // Add nav buttons
     var submit = new FormElement_Buttons(this);
-    submit.props.button1.value = this.props.prev;
-    submit.props.button1.onclick = function () {
-      this.form.pages.current--;
-      this.form.init_page();
-    }.bind(this);
-    submit.props.button2.value = this.props.submit;
-    submit.props.button2.onclick = this.submit.bind(this);
+    submit.props.button1.value = this.props.submit;
+    submit.props.button1.onclick = this.submit.bind(this);
     this.payment_elements.push(submit);
   }
 
@@ -84,10 +79,11 @@ function FormPay($dom) {
       this.payment_elements[i].super.setIndex(i);
       this.payment_elements[i].init(this.$body);
     }
+    this.pages = { data: [this.payment_elements] };
   }
 
   this.submit = function () {
-
+    this.validator.validate_page(0);
   }
 
 }
