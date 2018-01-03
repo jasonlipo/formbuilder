@@ -27,7 +27,26 @@ function FormPay($dom) {
       this.find_all_prices(this.elements);
       this.prices_summary();
       if (this.total != this.response.total_price) {
-        this.$body.html("<b>Something has gone wrong!</b><br />Please contact your website manager.<br /><br />");
+        this.$body.html(
+          $("<div>", { class: "formbuilder-element" }).html("<b>Something has gone wrong!</b><br />Please contact your website manager.")
+        ).append(
+          $("<div>", { class: "formbuilder-buttons" }).html(
+            $("<a>", { href: "/" }).html(
+              $("<input>", { class: "formbuilder-button", value: "Back", type: "button" })
+            )
+          )
+        );
+      }
+      else if (this.response.payment_status == "paid") {
+        this.$body.html(
+          $("<div>", { class: "formbuilder-element" }).html("<b>You've already paid</b><br />If this is a mistake, please contact your website manager.")
+        ).append(
+          $("<div>", { class: "formbuilder-buttons" }).html(
+            $("<a>", { href: "/" }).html(
+              $("<input>", { class: "formbuilder-button", value: "Back", type: "button" })
+            )
+          )
+        );
       }
       else {
         this.stripe.init();
