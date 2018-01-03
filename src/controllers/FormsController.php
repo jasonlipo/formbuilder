@@ -66,7 +66,11 @@ class FormsController extends Controller {
             $this_field = [];
             foreach (array_keys($response_data) as $k) {
               if (preg_match("/^(".$headers[$i][1] . ")$/", $k, $matches)) {
-                $this_field[] = $response_data[$matches[1]];
+                $value = $response_data[$matches[1]];
+                if (is_array($value)) {
+                  $value = implode(", ", $value);
+                }
+                $this_field[] = $value;
               }
             }
             $this_row['standard'][$i] = $this_field;
