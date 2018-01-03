@@ -21,7 +21,9 @@
           {% for r in rows %}
             <tr>
               {% for cell in r.standard %}
-              <td rowspan="{{ cell[1] }}">{{ cell[0] }}</td>
+              <td rowspan="{{ cell[1] }}" {% if cell[0] in values_with_class %} class="{{ cell[0]|lower }}" {% endif %}>
+                {{ cell[0]|raw }}
+              </td>
               {% endfor %}
             </tr>
             {% for column in r.repeats %}

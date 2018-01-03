@@ -102,8 +102,11 @@ class FormsController extends Controller {
           $this_row['repeats'][$i] = array_column($temp_repeats, $i);
         }
 
-        // Add the response count and timestamps
+        // Add the columns at the beginning
         array_unshift($this_row['standard'], $key+1, $response->created_at->format("d M Y H:i:s"));
+
+        // Add the columns at the end
+        array_push($this_row['standard'], "&pound;" . number_format($response_data["total_price"], 2), strtoupper($response_data["payment_status"]));
 
         // Set the row span of the standard columns
         for ($i=0; $i<count($this_row['standard']); $i++) {
@@ -118,13 +121,14 @@ class FormsController extends Controller {
       // Reformat column array
       $headers = array_merge(["Response", "Submission Date"], array_map(function($col) {
         return $col[0];
-      }, $headers));
+      }, $headers), ["Total Price", "Payment Status"]);
 
       // Render page
       $this->render('forms_responses.html', [
         'title' => $f->name,
         'headers' => $headers,
-        'rows' => $rows
+        'rows' => $rows,
+        'values_with_class' => ['UNPAID', 'PAID', 'DECLINED']
       ]);
     }
     catch (ActiveRecord\RecordNotFound $e) {

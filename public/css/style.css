@@ -74,6 +74,8 @@ body{font:14px/1.5 Arial,Helvetica,sans-serif}
 .formcontrol-responses th {color: #4C565E;}
 .formcontrol-responses tr {border: 1px solid #e2e2e2;}
 .formcontrol-responses th, .formcontrol-responses td {font-size: 12px;padding: 7px;}
+.formcontrol-responses td.unpaid, .formcontrol-responses td.declined { font-weight: bold; color: #de1b1b;}
+.formcontrol-responses td.paid {font-weight: bold; color: #12a217;}
 
 .formbuilder-payment {background: #f6f6f6;padding: 10px 15px;margin: 0 10px 40px;font-weight: bold;color: #5f5f5f;}
 .formbuilder-summary {display: flex;flex-wrap: wrap;}
