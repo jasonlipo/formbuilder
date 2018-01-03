@@ -46,17 +46,22 @@
       <br />
       <div class="metric-add-form">
         <input class="metric-name" placeholder="[Enter a Label]" />
+        <br />
         <select class="metric-type">
           <option>[Select a Type]</option>
           <option value="0">Count</option>
           <option value="1">Sum</option>
         </select>
+        <br />
         <select class="metric-column">
           <option>[Select a Column]</option>
           {% for h in headers %}
           <option value="{{ h }}">{{ h }}</option>
           {% endfor %}  
         </select>
+        <br />
+        <input class="metric-matches" placeholder="[Enter a Value, blank for Any]" />
+        <br />
         <a class="metric-button formbuilder-button">Add Metric</a>
       </div>
     </div>

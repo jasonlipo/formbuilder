@@ -41,7 +41,7 @@ class FormsController extends Controller {
 
   public function metric($formId) {
     $form = Form::find($formId);
-    $new_metric = ["type" => $_POST['type'], "column" => $_POST['column']];
+    $new_metric = $_POST['data'];
     if (is_null($form->metrics)) {
       $form->metrics = "[]";
     }
@@ -85,15 +85,24 @@ class FormsController extends Controller {
             foreach (array_keys($response_data) as $k) {
               if (preg_match("/^(".$headers[$i][1] . ")$/", $k, $matches)) {
                 $value = $response_data[$matches[1]];
-                if (is_array($value)) {
-                  $value = implode(", ", $value);
-                }
                 // Record metric
                 for ($j=0; $j<count($metrics); $j++) {
                   if ($metrics[$j]->column == $headers[$i][0]) {
+                    // Check if we need to match to a specific value
+                    if ($metrics[$j]->matches != "") {
+                      if (is_array($value)) {
+                        if (!in_array(strtolower($metrics[$j]->matches), array_map('strtolower', $value))) continue;
+                      }
+                      else {
+                        if (strcasecmp($metrics[$j]->matches, $value) != 0) continue;
+                      }
+                    }
                     if ($metrics[$j]->type == 0) { $metrics[$j]->value++; }
                     else { $metrics[$j]->value += $value; }
                   }
+                }
+                if (is_array($value)) {
+                  $value = implode(", ", $value);
                 }
                 $this_field[] = $value;
               }
@@ -109,6 +118,15 @@ class FormsController extends Controller {
             // Record metric
             for ($j=0; $j<count($metrics); $j++) {
               if ($metrics[$j]->column == $headers[$i][0]) {
+                // Check if we need to match to a specific value
+                if ($metrics[$j]->matches != "") {
+                  if (is_array($value)) {
+                    if (!in_array(strtolower($metrics[$j]->matches), array_map('strtolower', $value))) continue;
+                  }
+                  else {
+                    if (strcasecmp($metrics[$j]->matches, $value) != 0) continue;
+                  }
+                }
                 if ($metrics[$j]->type == 0) { $metrics[$j]->value++; }
                 else { $metrics[$j]->value += $value; }
               }
@@ -142,18 +160,31 @@ class FormsController extends Controller {
 
         // Record metrics for special columns
         for ($j=0; $j<count($metrics); $j++) {
-          if ($metrics[$j]->type == 0) {
-            $metrics[$j]->value++;
-          }
-          else {
-            switch ($metrics[$j]->column) {
-              case "Response":
-                $metrics[$j]->value += $key+1;
-                break;
-              case "Total Price":
-                $metrics[$j]->value += $response_data["total_price"];
-                break;
-            }
+          switch ($metrics[$j]->column) {
+            case "Response":
+              // Check if we need to match to a specific value
+              if ($metrics[$j]->matches != "") {
+                if (strcasecmp($metrics[$j]->matches, $key+1) != 0) continue;
+              }
+              if ($metrics[$j]->type == 0) { $metrics[$j]->value++; }
+              else { $metrics[$j]->value += $key+1; }
+              break;
+            case "Total Price":
+              // Check if we need to match to a specific value
+              if ($metrics[$j]->matches != "") {
+                if (strcasecmp($metrics[$j]->matches, $response_data["total_price"]) != 0) continue;
+              }
+              if ($metrics[$j]->type == 0) { $metrics[$j]->value++; }
+              else { $metrics[$j]->value += $response_data["total_price"]; }
+              break;
+            case "Payment Status":
+              // Check if we need to match to a specific value
+              if ($metrics[$j]->matches != "") {
+                if (strcasecmp($metrics[$j]->matches, $response_data["payment_status"]) != 0) continue;
+              }
+              if ($metrics[$j]->type == 0) { $metrics[$j]->value++; }
+              else { $metrics[$j]->value += $response_data["payment_status"]; }
+              break;
           }
         }
 
