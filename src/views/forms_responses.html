@@ -41,9 +41,11 @@
     <div class="formcontrol-metrics">
       <div class="metric-add-title">Metrics</div>
       {% for m in metrics %}
-        {{ m.type }}, {{ m.column }}, {{ m.value }}<br />
+        {{ m.name }}: {{ m.value }}<br />
       {% endfor %}
+      <br />
       <div class="metric-add-form">
+        <input class="metric-name" placeholder="[Enter a Label]" />
         <select class="metric-type">
           <option>[Select a Type]</option>
           <option value="0">Count</option>
