@@ -1,6 +1,7 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 <script type="text/javascript" src="/public/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="/public/js/fontawesome-all.min.js"></script>
+<script type="text/javascript" src="/public/js/control/responses.js"></script>
 <link rel="stylesheet" href="/public/css/style.css" />
 <div class="formcontrol-app">
   <div class="formbuilder-save">
@@ -22,7 +23,7 @@
             <tr>
               {% for cell in r.standard %}
               <td rowspan="{{ cell[1] }}" {% if cell[0] in values_with_class %} class="{{ cell[0]|lower }}" {% endif %}>
-                {{ cell[0]|raw }}
+                {{ cell[0] }}
               </td>
               {% endfor %}
             </tr>
@@ -36,5 +37,26 @@
           {% endfor %}  
       </tbody>
     </table>
+
+    <div class="formcontrol-metrics">
+      <div class="metric-add-title">Metrics</div>
+      {% for m in metrics %}
+        {{ m.type }}, {{ m.column }}, {{ m.value }}<br />
+      {% endfor %}
+      <div class="metric-add-form">
+        <select class="metric-type">
+          <option>[Select a Type]</option>
+          <option value="0">Count</option>
+          <option value="1">Sum</option>
+        </select>
+        <select class="metric-column">
+          <option>[Select a Column]</option>
+          {% for h in headers %}
+          <option value="{{ h }}">{{ h }}</option>
+          {% endfor %}  
+        </select>
+        <a class="metric-button formbuilder-button">Add Metric</a>
+      </div>
+    </div>
   </div>
 </div>

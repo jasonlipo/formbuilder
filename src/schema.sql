@@ -21,6 +21,7 @@ CREATE TABLE `forms` (
   `id` int(10) NOT NULL AUTO_INCREMENT, PRIMARY KEY (`id`),
   `name` varchar(255) NULL DEFAULT NULL,
   `structure` text NULL DEFAULT NULL,
+  `metrics` text NULL DEFAULT NULL,
   `created_at` datetime NULL DEFAULT NULL,
   `updated_at` datetime NULL DEFAULT NULL
 ) ENGINE=InnoDB;

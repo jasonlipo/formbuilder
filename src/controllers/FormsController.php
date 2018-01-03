@@ -39,11 +39,29 @@ class FormsController extends Controller {
     }
   }
 
+  public function metric($formId) {
+    $form = Form::find($formId);
+    $new_metric = ["type" => $_POST['type'], "column" => $_POST['column']];
+    if (is_null($form->metrics)) {
+      $form->metrics = "[]";
+    }
+    $metrics = json_decode($form->metrics, true);
+    $metrics[] = $new_metric;
+    $form->metrics = json_encode($metrics);
+    $form->save();
+  }
+
   public function responses($formId) {
     try {
       // Find form data
       $f = Form::find($formId, array('include' => array('submissions')));
       $structure = json_decode($f->structure, false);
+      $metrics = json_decode($f->metrics, false);
+
+      // Add a "value" attribute to every metric
+      for ($i=0; $i<count($metrics); $i++) {
+        $metrics[$i]->value = 0;
+      }
 
       // Get column headers
       $headers = $this->walk_elements($structure->elements);
@@ -70,6 +88,13 @@ class FormsController extends Controller {
                 if (is_array($value)) {
                   $value = implode(", ", $value);
                 }
+                // Record metric
+                for ($j=0; $j<count($metrics); $j++) {
+                  if ($metrics[$j]->column == $headers[$i][0]) {
+                    if ($metrics[$j]->type == 0) { $metrics[$j]->value++; }
+                    else { $metrics[$j]->value += $value; }
+                  }
+                }
                 $this_field[] = $value;
               }
             }
@@ -80,6 +105,13 @@ class FormsController extends Controller {
             $value = $response_data[$headers[$i][1]];
             if (is_array($value)) {
               $value = implode(", ", $value);
+            }
+            // Record metric
+            for ($j=0; $j<count($metrics); $j++) {
+              if ($metrics[$j]->column == $headers[$i][0]) {
+                if ($metrics[$j]->type == 0) { $metrics[$j]->value++; }
+                else { $metrics[$j]->value += $value; }
+              }
             }
             $this_row['standard'][$i] = $value;
           }
@@ -106,7 +138,24 @@ class FormsController extends Controller {
         array_unshift($this_row['standard'], $key+1, $response->created_at->format("d M Y H:i:s"));
 
         // Add the columns at the end
-        array_push($this_row['standard'], "&pound;" . number_format($response_data["total_price"], 2), strtoupper($response_data["payment_status"]));
+        array_push($this_row['standard'], html_entity_decode("&pound;") . number_format($response_data["total_price"], 2), strtoupper($response_data["payment_status"]));
+
+        // Record metrics for special columns
+        for ($j=0; $j<count($metrics); $j++) {
+          if ($metrics[$j]->type == 0) {
+            $metrics[$j]->value++;
+          }
+          else {
+            switch ($metrics[$j]->column) {
+              case "Response":
+                $metrics[$j]->value += $key+1;
+                break;
+              case "Total Price":
+                $metrics[$j]->value += $response_data["total_price"];
+                break;
+            }
+          }
+        }
 
         // Set the row span of the standard columns
         for ($i=0; $i<count($this_row['standard']); $i++) {
@@ -123,12 +172,20 @@ class FormsController extends Controller {
         return $col[0];
       }, $headers), ["Total Price", "Payment Status"]);
 
+      // Display any metric involving "Total Price" with currency format
+      for ($j=0; $j<count($metrics); $j++) {
+        if ($metrics[$j]->column == "Total Price") {
+          $metrics[$j]->value = html_entity_decode("&pound;") . number_format($metrics[$j]->value, 2);
+        }
+      }
+
       // Render page
       $this->render('forms_responses.html', [
         'title' => $f->name,
         'headers' => $headers,
         'rows' => $rows,
-        'values_with_class' => ['UNPAID', 'PAID', 'DECLINED']
+        'values_with_class' => ['UNPAID', 'PAID', 'DECLINED'],
+        'metrics' => $metrics
       ]);
     }
     catch (ActiveRecord\RecordNotFound $e) {
