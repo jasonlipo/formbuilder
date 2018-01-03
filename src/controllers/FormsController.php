@@ -198,12 +198,12 @@ class FormsController extends Controller {
     \Stripe\Stripe::setApiKey($stripe_sk_key);
     $token = $_POST['stripeToken'];
 
-    $customer = \Stripe\Customer::create(array(
-      "source" => $token,
-      "description" => $_POST['formpay-cardholder']
-    ));
-    
     try {
+      $customer = \Stripe\Customer::create(array(
+        "source" => $token,
+        "description" => $_POST['formpay-cardholder']
+      ));
+
       $charge = \Stripe\Charge::create(array(
         "amount" => floatval($total_price)*100,
         "currency" => "gbp",
@@ -212,8 +212,11 @@ class FormsController extends Controller {
         "customer" => $customer->id
       ));
     }
-    catch (Stripe_CardError $e) {
+    catch (\Stripe\Error\Card $e) {
       $submit_data->payment_status = "declined";
+    }
+    catch (\Stripe\Error\ApiConnection $e) {
+      $submit_data->payment_status = "stripeerror";
     }
     catch (Exception $e) {
       $submit_data->payment_status = "unknown";

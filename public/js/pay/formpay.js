@@ -87,6 +87,16 @@ function FormPay($dom) {
 
   }
 
+  this.loading = function () {
+    if (this.$form.find(".formpay-loading").length > 0) {
+      this.$form.find(".formpay-loading, .formpay-spinner").remove();
+    }
+    else {
+      this.$form.append($("<div>", { class: "formpay-loading" }))
+                .append($("<i>", { class: "fas fa-circle-notch fa-spin formpay-spinner" }));
+    }
+  }
+
   this.validate_cardholder = function () {
     $el = this.$body.find(".formpay-cardholder");
     $el.parents(".formbuilder-element").find(".formbuilder-errors").text("");

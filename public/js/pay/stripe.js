@@ -30,8 +30,10 @@ function FormStripe(form) {
     this.form.$dom.find(".stripe-form")[0].addEventListener('submit', function(event) {
       event.preventDefault();
       if (this.form.validate_cardholder()) {
+        this.form.loading();
         stripe.createToken(cardnumber, { name: this.form.$dom.find(".formpay-cardholder").val() }).then(function(result) {
           if (result.error) {
+            this.form.loading();
             $err = $(cardnumber._component).parents(".formbuilder-element").find(".formbuilder-errors");
             $err.text(result.error.message);
           }
