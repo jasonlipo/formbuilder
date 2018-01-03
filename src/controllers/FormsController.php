@@ -200,6 +200,7 @@ class FormsController extends Controller {
 
     $customer = \Stripe\Customer::create(array(
       "source" => $token,
+      "description" => $_POST['formpay-cardholder']
     ));
     
     try {

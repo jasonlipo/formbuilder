@@ -55,7 +55,7 @@ function FormPay($dom) {
     <form action="'+location.pathname+'" method="post" class="stripe-form">\
       <div class="formbuilder-element">\
         <label class="formbuilder-label">Cardholder Name <span class="formbuilder-required">*</span></label>\
-        <input type="text" class="formbuilder-singleline formpay-cardholder" />\
+        <input type="text" class="formbuilder-singleline formpay-cardholder" name="formpay-cardholder" />\
         <div class="formbuilder-errors"></div>\
       </div>\
       <div class="formbuilder-element">\
