@@ -30,5 +30,9 @@ class Submission extends ActiveRecord\Model {
     }
     return $output;
   }
+
+  public function data() {
+    return json_decode($this->data, true);
+  }
 }
 ?>

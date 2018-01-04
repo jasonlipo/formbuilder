@@ -1,177 +1,6 @@
 <?php
 class SubmissionController extends Controller {
-  public function index($formId) {
-    try {
-      // Find form data
-      $f = Form::find($formId, array('include' => array('submissions')));
-      $structure = $f->structure();
-      $metrics = json_decode($f->metrics, false);
-
-      // Add a "value" attribute to every metric
-      for ($i=0; $i<count($metrics); $i++) {
-        $metrics[$i]->value = 0;
-      }
-
-      // Get column headers
-      $headers = $this->walk_elements($structure->elements);
-      
-      // Get row data
-      $rows = [];
-      foreach ($f->submissions as $key => $response) {
-        // Store the repeat count
-        $repeat_count = 0;
-
-        $this_row = [
-          'standard' => [],
-          'repeats' => []
-        ];
-        $response_data = json_decode($response->data, true);
-        for ($i=0; $i<count($headers); $i++) {
-          if ($headers[$i][2]) {
-            // We're dealing with a repeated field
-            // so use regular expressions
-            $this_field = [];
-            foreach (array_keys($response_data) as $k) {
-              if (preg_match("/^(".$headers[$i][1] . ")$/", $k, $matches)) {
-                $value = $response_data[$matches[1]];
-                // Record metric
-                for ($j=0; $j<count($metrics); $j++) {
-                  if ($metrics[$j]->column == $headers[$i][0]) {
-                    // Check if we need to match to a specific value
-                    if ($metrics[$j]->matches != "") {
-                      if (is_array($value)) {
-                        if (!in_array(strtolower($metrics[$j]->matches), array_map('strtolower', $value))) continue;
-                      }
-                      else {
-                        if (strcasecmp($metrics[$j]->matches, $value) != 0) continue;
-                      }
-                    }
-                    if ($metrics[$j]->type == 0) { $metrics[$j]->value++; }
-                    else { $metrics[$j]->value += $value; }
-                  }
-                }
-                if (is_array($value)) {
-                  $value = implode(", ", $value);
-                }
-                $this_field[] = $value;
-              }
-            }
-            $this_row['standard'][$i] = $this_field;
-            $repeat_count = max($repeat_count, count($this_field));
-          }
-          else {
-            $value = $response_data[$headers[$i][1]];
-            if (is_array($value)) {
-              $value = implode(", ", $value);
-            }
-            // Record metric
-            for ($j=0; $j<count($metrics); $j++) {
-              if ($metrics[$j]->column == $headers[$i][0]) {
-                // Check if we need to match to a specific value
-                if ($metrics[$j]->matches != "") {
-                  if (is_array($value)) {
-                    if (!in_array(strtolower($metrics[$j]->matches), array_map('strtolower', $value))) continue;
-                  }
-                  else {
-                    if (strcasecmp($metrics[$j]->matches, $value) != 0) continue;
-                  }
-                }
-                if ($metrics[$j]->type == 0) { $metrics[$j]->value++; }
-                else { $metrics[$j]->value += $value; }
-              }
-            }
-            $this_row['standard'][$i] = $value;
-          }
-        }
-
-        // For all repeaters, leave the first one and extract the rest
-        for ($i=0; $i<count($this_row['standard']); $i++) {
-          if (is_array($this_row['standard'][$i])) {
-            $first = array_shift($this_row['standard'][$i]);
-            $this_row['repeats'][] = $this_row['standard'][$i];
-            $this_row['standard'][$i] = [$first, 0];
-          }
-        }
-
-        // Convert the repeats array into columns
-        $temp_repeats = $this_row['repeats'];
-        $num_repeats = count(current($temp_repeats));
-        $this_row['repeats'] = [];
-        for ($i=0; $i<$num_repeats; $i++) {
-          $this_row['repeats'][$i] = array_column($temp_repeats, $i);
-        }
-
-        // Add the columns at the beginning
-        array_unshift($this_row['standard'], $key+1, $response->created_at->format("d M Y H:i:s"));
-
-        // Add the columns at the end
-        array_push($this_row['standard'], html_entity_decode("&pound;") . number_format($response_data["total_price"], 2), strtoupper($response_data["payment_status"]));
-
-        // Record metrics for special columns
-        for ($j=0; $j<count($metrics); $j++) {
-          switch ($metrics[$j]->column) {
-            case "Response":
-              // Check if we need to match to a specific value
-              if ($metrics[$j]->matches != "") {
-                if (strcasecmp($metrics[$j]->matches, $key+1) != 0) continue;
-              }
-              if ($metrics[$j]->type == 0) { $metrics[$j]->value++; }
-              else { $metrics[$j]->value += $key+1; }
-              break;
-            case "Total Price":
-              // Check if we need to match to a specific value
-              if ($metrics[$j]->matches != "") {
-                if (strcasecmp($metrics[$j]->matches, $response_data["total_price"]) != 0) continue;
-              }
-              if ($metrics[$j]->type == 0) { $metrics[$j]->value++; }
-              else { $metrics[$j]->value += $response_data["total_price"]; }
-              break;
-            case "Payment Status":
-              // Check if we need to match to a specific value
-              if ($metrics[$j]->matches != "") {
-                if (strcasecmp($metrics[$j]->matches, $response_data["payment_status"]) != 0) continue;
-              }
-              if ($metrics[$j]->type == 0) { $metrics[$j]->value++; }
-              else { $metrics[$j]->value += $response_data["payment_status"]; }
-              break;
-          }
-        }
-
-        // Set the row span of the standard columns
-        for ($i=0; $i<count($this_row['standard']); $i++) {
-          if (!is_array($this_row['standard'][$i])) {
-            $this_row['standard'][$i] = [$this_row['standard'][$i], $repeat_count];
-          }
-        }
-
-        $rows[] = $this_row;
-      }
-    
-      // Reformat column array
-      $headers = array_merge(["Response", "Submission Date"], array_map(function($col) {
-        return $col[0];
-      }, $headers), ["Total Price", "Payment Status"]);
-
-      // Display any metric involving "Total Price" with currency format
-      for ($j=0; $j<count($metrics); $j++) {
-        if ($metrics[$j]->column == "Total Price") {
-          $metrics[$j]->value = html_entity_decode("&pound;") . number_format($metrics[$j]->value, 2);
-        }
-      }
-
-      // Render page
-      $this->render('forms_responses.html', [
-        'title' => $f->name,
-        'headers' => $headers,
-        'rows' => $rows,
-        'values_with_class' => ['UNPAID', 'PAID', 'DECLINED'],
-        'metrics' => $metrics
-      ]);
-    }
-    catch (ActiveRecord\RecordNotFound $e) {
-      header("Location: /");
-    }
-  }
+  private $metrics, $special_before, $special_after;
 
   public function show($formId, $responseIdEnc) {
     echo Submission::from_encrypted($responseIdEnc)->data;
@@ -183,6 +12,172 @@ class SubmissionController extends Controller {
       "data" => $_POST["json"]
     ]);
     echo $response->encrypt_id();
+  }
+
+  public function index($formId) {
+    try {
+      $f = Form::find($formId, array('include' => array('submissions')));
+      $structure = $f->structure();
+      $this->metrics = json_decode($f->metrics, false);
+      
+      $this->init_metrics();
+      $headers = $this->walk_elements($structure->elements);
+      
+      $rows = [];
+
+      foreach ($f->submissions as $key => $response) {
+        $repeat_count = 0;
+        $this_row = ['standard' => [], 'repeats' => []];
+
+        for ($i=0; $i<count($headers); $i++) {
+          if ($headers[$i][2]) {
+            $this_field = $this->match_repeater_field($response->data(), $headers[$i]);
+            $this_row['standard'][$i] = $this_field;
+            $repeat_count = max($repeat_count, count($this_field));
+          }
+          else {
+            $this_row['standard'][$i] = $this->match_regular_field($response->data(), $headers[$i]);
+          }
+        }
+
+        $this->extract_first_repeat($this_row);
+        $this->rotate_repeats($this_row);
+        $this->special_columns($this_row, $response, $key);
+        $this->row_span($this_row, $repeat_count);        
+
+        $rows[] = $this_row;
+      }
+    
+      $headers = $this->reformat_headers($headers);
+
+      // Render page
+      $this->render('forms_responses.html', [
+        'title' => $f->name,
+        'headers' => $headers,
+        'rows' => $rows,
+        'values_with_class' => ['UNPAID', 'PAID', 'DECLINED'],
+        'metrics' => $this->metrics
+      ]);
+    }
+    catch (ActiveRecord\RecordNotFound $e) {
+      header("Location: /");
+    }
+  }
+
+  private function match_repeater_field($response_data, $to_match) {
+    $this_field = [];
+    foreach (array_keys($response_data) as $k) {
+      if (preg_match("/^(".$to_match[1] . ")$/", $k, $matches)) {
+        $value = $response_data[$matches[1]];
+        $this->record_metric($value, $to_match[0]);
+        if (is_array($value)) {
+          $value = implode(", ", $value);
+        }
+        $this_field[] = $value;
+      }
+    }
+    return $this_field;
+  }
+
+  private function match_regular_field($response_data, $to_match) {
+    $value = $response_data[$to_match[1]];
+    if (is_array($value)) {
+      $value = implode(", ", $value);
+    }
+    $this->record_metric($value, $to_match[0]);
+    return $value;
+  }
+
+  private function extract_first_repeat(&$this_row) {
+    for ($i=0; $i<count($this_row['standard']); $i++) {
+      if (is_array($this_row['standard'][$i])) {
+        $first = array_shift($this_row['standard'][$i]);
+        $this_row['repeats'][] = $this_row['standard'][$i];
+        $this_row['standard'][$i] = [$first, 0];
+      }
+    }
+  }
+
+  private function rotate_repeats(&$this_row) {
+    $temp_repeats = $this_row['repeats'];
+    $num_repeats = count(current($temp_repeats));
+    $this_row['repeats'] = [];
+    for ($i=0; $i<$num_repeats; $i++) {
+      $this_row['repeats'][$i] = array_column($temp_repeats, $i);
+    }
+  }
+
+  private function special_columns(&$this_row, $response, $key) {
+    $this->special_before = [
+      "Response" => $key+1,
+      "Submission Date" => $response->created_at->format("d M Y H:i:s")
+    ];
+    $this->special_after = [
+      "Total Price" => $response->data()["total_price"],
+      "Payment Status" => strtoupper($response->data()["payment_status"])
+    ];
+    $this->special_columns_values($this_row, $this->special_before, $this->special_after);
+    $this->special_columns_metrics($this_row);
+  }
+
+  private function special_columns_values(&$this_row, $before, $after) {
+    foreach (array_reverse($before, true) as $key => $value) {
+      array_unshift($this_row['standard'], $value);
+    }
+    foreach ($after as $key => $value) {
+      array_push($this_row['standard'], $value);
+    }
+  }
+
+  private function special_columns_metrics(&$this_row) {
+    $special = array_merge($this->special_before, $this->special_after);
+    for ($j=0; $j<count($this->metrics); $j++) {
+      if (in_array($this->metrics[$j]->column, array_keys($special))) {
+        $val = $special[$this->metrics[$j]->column];
+        if ($this->metrics[$j]->matches != "") {
+          if (strcasecmp($this->metrics[$j]->matches, $val) != 0) continue;
+        }
+        if ($this->metrics[$j]->type == 0) { $this->metrics[$j]->value++; }
+        else { $this->metrics[$j]->value += $val; }
+      }
+    }
+  }
+
+  private function row_span(&$this_row, $repeat_count) {
+    for ($i=0; $i<count($this_row['standard']); $i++) {
+      if (!is_array($this_row['standard'][$i])) {
+        $this_row['standard'][$i] = [$this_row['standard'][$i], $repeat_count];
+      }
+    }
+  }
+
+  private function reformat_headers($headers) {
+    return array_merge(array_keys($this->special_before), array_map(function($col) {
+      return $col[0];
+    }, $headers), array_keys($this->special_after));
+  }
+
+  private function init_metrics() {
+    for ($i=0; $i<count($this->metrics); $i++) {
+      $this->metrics[$i]->value = 0;
+    }
+  }
+
+  private function record_metric($value, $to_match) {
+    for ($j=0; $j<count($this->metrics); $j++) {
+      if ($this->metrics[$j]->column == $to_match) {
+        if ($this->metrics[$j]->matches != "") {
+          if (is_array($value)) {
+            if (!in_array(strtolower($this->metrics[$j]->matches), array_map('strtolower', $value))) continue;
+          }
+          else {
+            if (strcasecmp($this->metrics[$j]->matches, $value) != 0) continue;
+          }
+        }
+        if ($this->metrics[$j]->type == 0) { $this->metrics[$j]->value++; }
+        else { $this->metrics[$j]->value += $value; }
+      }
+    }
   }
 
   private function walk_elements($arr, $repeater=false) {
