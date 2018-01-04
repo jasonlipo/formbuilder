@@ -15,26 +15,27 @@ $router = new Router();
 
 $router->before('GET', '/(?!install)(.*)', 'InstallController@check');
 
-$router->get('/', 'FormsController@index');
-$router->get('/install', 'InstallController@install');
-$router->get('/new', 'FormsController@build');
+$router->get('/', 'DashboardController@index');
 
-$router->get('/form/(\d+)/build', 'FormsController@build');
-$router->get('/form/(\d+)/view', 'FormsController@view');
-$router->get('/form/(\d+)/responses', 'FormsController@responses');
+$router->get('/install', 'InstallController@show');
 
-$router->get('/form/(\d+)/structure', 'FormsController@structure');
-$router->post('/form/(\d+)/structure', 'FormsController@save');
+$router->get('/new', 'FormController@create');
+$router->get('/form/(\d+)/build', 'FormController@index');
+$router->post('/form/(\d+)/delete', 'FormController@delete');
 
-$router->get('/form/(\d+)/response/(.+)', 'FormsController@response');
+$router->get('/form/(\d+)/view', 'UIController@index');
 
-$router->get('/form/(\d+)/pay/(.+)', 'FormsController@pay');
-$router->post('/form/(\d+)/pay/(.+)', 'FormsController@stripe');
+$router->get('/form/(\d+)/responses', 'SubmissionController@index');
+$router->get('/form/(\d+)/response/(.+)', 'SubmissionController@show');
+$router->post('/form/(\d+)/submit', 'SubmissionController@create');
 
-$router->post('/form/(\d+)/metric', 'FormsController@metric');
+$router->get('/form/(\d+)/structure', 'StructureController@index');
+$router->post('/form/(\d+)/structure', 'StructureController@update');
 
-$router->post('/form/(\d+)/submit', 'FormsController@submit');
-$router->post('/form/(\d+)/delete', 'FormsController@delete');
+$router->get('/form/(\d+)/pay/(.+)', 'PayController@show');
+$router->post('/form/(\d+)/pay/(.+)', 'PayController@update');
+
+$router->post('/form/(\d+)/metric', 'MetricController@update');
 
 $router->set404(function() {
   header('HTTP/1.1 404 Not Found');

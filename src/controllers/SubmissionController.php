@@ -1,57 +1,6 @@
 <?php
-class FormsController extends Controller {
-  public function index() {
-    $forms = Form::find('all', array('include' => array('submissions')));
-    $data = [];
-    foreach ($forms as $f) {
-      $data[] = [
-        "id" => $f->id,
-        "name" => $f->name,
-        "submissions" => $f->submissions
-      ];
-    }
-    $this->render('forms_all.html', ['forms' => $data]);
-  }
-
-  public function build($formId = -1) {
-    if ($formId == -1) {
-      $form = Form::create([]);
-      header("Location: /build/" . $form->id);
-    }
-    else {
-      try {
-        Form::find($formId);
-        $this->render('forms_build.html', ['id' => $formId]);
-      }
-      catch (ActiveRecord\RecordNotFound $e) {
-        header("Location: /");
-      }
-    }
-  }
-
-  public function view($formId) {
-    try {
-      Form::find($formId);
-      $this->render('forms_view.html', ['id' => $formId]);
-    }
-    catch (ActiveRecord\RecordNotFound $e) {
-      header("Location: /");
-    }
-  }
-
-  public function metric($formId) {
-    $form = Form::find($formId);
-    $new_metric = $_POST['data'];
-    if (is_null($form->metrics)) {
-      $form->metrics = "[]";
-    }
-    $metrics = json_decode($form->metrics, true);
-    $metrics[] = $new_metric;
-    $form->metrics = json_encode($metrics);
-    $form->save();
-  }
-
-  public function responses($formId) {
+class SubmissionController extends Controller {
+  public function index($formId) {
     try {
       // Find form data
       $f = Form::find($formId, array('include' => array('submissions')));
@@ -224,6 +173,18 @@ class FormsController extends Controller {
     }
   }
 
+  public function show($formId, $responseIdEnc) {
+    echo Submission::find($this->decrypt_string($responseIdEnc))->data;
+  }
+
+  public function create($formId) {
+    $response = Submission::create([
+      "form_id" => $formId,
+      "data" => $_POST["json"]
+    ]);
+    echo $this->encrypt_string($response->id);
+  }
+
   private function walk_elements($arr, $repeater=false) {
     $result = [];
     array_walk($arr, function ($element, $key) use (&$result, $repeater) {
@@ -269,95 +230,5 @@ class FormsController extends Controller {
     }
   }
 
-  public function delete($formId) {
-    Form::find($formId)->delete();
-  }
-
-  public function pay($formId, $responseIdEnc) {
-    $this->render('forms_pay.html', ["id" => $formId, "response" => $responseIdEnc]);
-  }
-
-  public function response($formId, $responseIdEnc) {
-    echo Submission::find($this->decrypt_string($responseIdEnc))->data;
-  }
-
-  public function stripe($formId, $responseIdEnc) {
-    $form = Form::find($formId);
-    $form_structure = json_decode($form->structure, false);
-    $stripe_sk_key = $form_structure->props->stripe_secret_key;
-    
-    $submission = Submission::find($this->decrypt_string($responseIdEnc));
-    $submit_data = json_decode($submission->data, false);
-    $total_price = $submit_data->total_price;
-    
-    require_once "../vendor/stripe-php-5.8.0/init.php";
-    \Stripe\Stripe::setApiKey($stripe_sk_key);
-    $token = $_POST['stripeToken'];
-
-    try {
-      $customer = \Stripe\Customer::create(array(
-        "source" => $token,
-        "description" => $_POST['formpay-cardholder']
-      ));
-
-      $charge = \Stripe\Charge::create(array(
-        "amount" => floatval($total_price)*100,
-        "currency" => "gbp",
-        "description" => $form->name,
-        "metadata" => ["form_id" => $form->id, "submission_id" => $submission->id],
-        "customer" => $customer->id
-      ));
-    }
-    catch (\Stripe\Error\Card $e) {
-      $submit_data->payment_status = "declined";
-    }
-    catch (\Stripe\Error\ApiConnection $e) {
-      $submit_data->payment_status = "stripeerror";
-    }
-    catch (Exception $e) {
-      $submit_data->payment_status = "unknown";
-    }
-
-    if ($charge->paid === true) {
-      $submit_data->payment_status = "paid";
-      $submit_data->payment_date = date("Y-m-d H:i:s");
-      $submit_data->payment_currency = $charge->currency;
-    }
-
-    $submission->data = json_encode($submit_data);
-    $submission->save();
-
-    header("Location: " . $form_structure->props->redirect);
-
-  }
-
-  public function submit($formId) {
-    $response = Submission::create([
-      "form_id" => $formId,
-      "data" => $_POST["json"]
-    ]);
-    echo $this->encrypt_string($response->id);
-  }
-
-
-  public function structure($formId) {
-    echo Form::find($formId)->structure;
-  }
-
-  public function save($formId) {
-    $json = json_decode($_POST["json"], true);
-    try {
-      $form = Form::find($formId);
-      $form->name = $json["props"]["name"];
-      $form->structure = $_POST["json"];
-      $form->save();
-    }
-    catch (ActiveRecord\RecordNotFound $e) {
-      $form = Form::create([
-        "name" => $json["props"]["name"],
-        "structure" => $_POST["json"]
-      ]);
-    }
-  }
 }
 ?>
