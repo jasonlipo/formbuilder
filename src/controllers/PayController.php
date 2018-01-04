@@ -6,10 +6,10 @@ class PayController extends Controller {
 
   public function update($formId, $responseIdEnc) {
     $form = Form::find($formId);
-    $form_structure = json_decode($form->structure, false);
+    $form_structure = $form->structure();
     $stripe_sk_key = $form_structure->props->stripe_secret_key;
     
-    $submission = Submission::find($this->decrypt_string($responseIdEnc));
+    $submission = Submission::from_encrypted($responseIdEnc);
     $submit_data = json_decode($submission->data, false);
     $total_price = $submit_data->total_price;
     

@@ -4,7 +4,7 @@ class SubmissionController extends Controller {
     try {
       // Find form data
       $f = Form::find($formId, array('include' => array('submissions')));
-      $structure = json_decode($f->structure, false);
+      $structure = $f->structure();
       $metrics = json_decode($f->metrics, false);
 
       // Add a "value" attribute to every metric
@@ -174,7 +174,7 @@ class SubmissionController extends Controller {
   }
 
   public function show($formId, $responseIdEnc) {
-    echo Submission::find($this->decrypt_string($responseIdEnc))->data;
+    echo Submission::from_encrypted($responseIdEnc)->data;
   }
 
   public function create($formId) {
@@ -182,7 +182,7 @@ class SubmissionController extends Controller {
       "form_id" => $formId,
       "data" => $_POST["json"]
     ]);
-    echo $this->encrypt_string($response->id);
+    echo $response->encrypt_id();
   }
 
   private function walk_elements($arr, $repeater=false) {
@@ -204,30 +204,6 @@ class SubmissionController extends Controller {
       }
     });
     return $result;
-  }
-
-  private function encrypt_string($plaintext) {
-    $key = "bCa7h2Gdio7V_u3Tds";
-    $ivlen = openssl_cipher_iv_length($cipher="AES-128-CBC");
-    $iv = openssl_random_pseudo_bytes($ivlen);
-    $ciphertext_raw = openssl_encrypt($plaintext, $cipher, $key, $options=OPENSSL_RAW_DATA, $iv);
-    $hmac = hash_hmac('sha256', $ciphertext_raw, $key, $as_binary=true);
-    $ciphertext = base64_encode( $iv.$hmac.$ciphertext_raw );
-    return $ciphertext;
-  }
-
-  private function decrypt_string($ciphertext) {
-    $key = "bCa7h2Gdio7V_u3Tds";
-    $c = base64_decode($ciphertext);
-    $ivlen = openssl_cipher_iv_length($cipher="AES-128-CBC");
-    $iv = substr($c, 0, $ivlen);
-    $hmac = substr($c, $ivlen, $sha2len=32);
-    $ciphertext_raw = substr($c, $ivlen+$sha2len);
-    $original_plaintext = openssl_decrypt($ciphertext_raw, $cipher, $key, $options=OPENSSL_RAW_DATA, $iv);
-    $calcmac = hash_hmac('sha256', $ciphertext_raw, $key, $as_binary=true);
-    if (hash_equals($hmac, $calcmac)) {
-      return $original_plaintext;
-    }
   }
 
 }
