@@ -31,6 +31,7 @@ class PayController extends Controller {
       $submit_data->payment_status = "paid";
       $submit_data->payment_date = date("Y-m-d H:i:s");
       $submit_data->payment_currency = $charge->currency;
+      EmailController::confirm_payment($submission);
     }
 
     $submission->data = json_encode($submit_data);

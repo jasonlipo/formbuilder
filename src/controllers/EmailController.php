@@ -33,6 +33,26 @@ class EmailController extends Controller {
     $message .= "<b>NOTICE: This email is not confirmation of payment, you will receive a separate email for this.</b><br /><br />";
     $message .= "Kind Regards,<br />Mill Hill Synagogue";
 
+    self::send_email($props, $confirmation_email, 'Booking Confirmation - ' . $props->name, $message);
+  }
+
+  public static function confirm_payment(Submission $submission) {
+    $response_data = json_decode($submission->data, true);
+    $total_price = $response_data["total_price"];
+    $structure = json_decode($submission->form->structure, false);
+    $props = $structure->props;
+    $confirmation_email = $response_data[$props->email_confirmation];
+
+    $message = "Dear Member ---<br /><br />";
+    $message .= "This email is confirmation that we have received your payment for " . $props->name . ".<br /><br />";
+    $message .= "<b>You have paid &pound;".number_format($total_price, 2).".</b><br /><br />";
+    $message .= "Kind Regards,<br />Mill Hill Synagogue";
+
+    self::send_email($props, $confirmation_email, 'Payment Confirmation - ' . $props->name, $message);
+  }
+
+  private static function send_email($props, $to, $subject, $message) {
+
     $mail = new PHPMailer(true);
     try {
       $mail->isSMTP();
@@ -44,10 +64,10 @@ class EmailController extends Controller {
       $mail->Port = intval($props->smtp_port);
 
       $mail->setFrom('admin@shul.co.uk', 'Mill Hill Synagogue');
-      $mail->addAddress($confirmation_email);
+      $mail->addAddress($to);
 
       $mail->isHTML(true);
-      $mail->Subject = 'Booking Confirmation - ' . $props->name;
+      $mail->Subject = $subject;
       $mail->Body    = $message;
 
       $mail->send();
