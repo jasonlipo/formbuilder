@@ -11,6 +11,7 @@ class SubmissionController extends Controller {
       "form_id" => $formId,
       "data" => $_POST["json"]
     ]);
+    EmailController::confirm_booking($response);
     echo $response->encrypt_id();
   }
 
@@ -22,30 +23,11 @@ class SubmissionController extends Controller {
       
       $this->init_metrics();
       $headers = $this->walk_elements($structure->elements);
-      
+
       $rows = [];
 
       foreach ($f->submissions as $key => $response) {
-        $repeat_count = 0;
-        $this_row = ['standard' => [], 'repeats' => []];
-
-        for ($i=0; $i<count($headers); $i++) {
-          if ($headers[$i][2]) {
-            $this_field = $this->match_repeater_field($response->data(), $headers[$i]);
-            $this_row['standard'][$i] = $this_field;
-            $repeat_count = max($repeat_count, count($this_field));
-          }
-          else {
-            $this_row['standard'][$i] = $this->match_regular_field($response->data(), $headers[$i]);
-          }
-        }
-
-        $this->extract_first_repeat($this_row);
-        $this->rotate_repeats($this_row);
-        $this->special_columns($this_row, $response, $key);
-        $this->row_span($this_row, $repeat_count);        
-
-        $rows[] = $this_row;
+        $rows[] = $this->submission_table($headers, $key, $response, true);
       }
     
       $headers = $this->reformat_headers($headers);
@@ -62,6 +44,30 @@ class SubmissionController extends Controller {
     catch (ActiveRecord\RecordNotFound $e) {
       header("Location: /");
     }
+  }
+
+  public function submission_table($headers, $key, $response, $special=false) {
+    $repeat_count = 0;
+    $this_row = ['standard' => [], 'repeats' => []];
+
+    for ($i=0; $i<count($headers); $i++) {
+      if ($headers[$i][2]) {
+        $this_field = $this->match_repeater_field($response->data(), $headers[$i]);
+        $this_row['standard'][$i] = $this_field;
+        $repeat_count = max($repeat_count, count($this_field));
+      }
+      else {
+        $this_row['standard'][$i] = $this->match_regular_field($response->data(), $headers[$i]);
+      }
+    }
+    
+    $this->extract_first_repeat($this_row);
+    $this->rotate_repeats($this_row);
+    if ($special) {
+      $this->special_columns($this_row, $response, $key);
+    }
+    $this->row_span($this_row, $repeat_count);
+    return $this_row;     
   }
 
   private function match_repeater_field($response_data, $to_match) {
@@ -151,7 +157,7 @@ class SubmissionController extends Controller {
     }
   }
 
-  private function reformat_headers($headers) {
+  public function reformat_headers($headers) {
     return array_merge(array_keys($this->special_before), array_map(function($col) {
       return $col[0];
     }, $headers), array_keys($this->special_after));
@@ -180,7 +186,7 @@ class SubmissionController extends Controller {
     }
   }
 
-  private function walk_elements($arr, $repeater=false) {
+  public function walk_elements($arr, $repeater=false) {
     $result = [];
     array_walk($arr, function ($element, $key) use (&$result, $repeater) {
       if (property_exists($element->props, "validation") &&

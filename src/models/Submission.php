@@ -6,14 +6,14 @@ class Submission extends ActiveRecord\Model {
   );
 
   public static function from_encrypted($encID) {
-    return Submission::find($this->id_crypt($encID, 'd'));
+    return Submission::find(self::id_crypt($encID, 'd'));
   }
 
   public function encrypt_id() {
-    return $this->id_crypt($this->id);
+    return self::id_crypt($this->id);
   }
 
-  private function id_crypt($string, $action = 'e') {
+  private static function id_crypt($string, $action = 'e') {
     $secret_key = 'secret_key';
     $secret_iv = 'secret_iv';
   

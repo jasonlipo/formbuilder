@@ -1,6 +1,6 @@
 <?php
 class Controller {
-  private $twig;
+  public $twig;
 
   public function __construct() {
     $loader = new Twig_Loader_Filesystem('../src/views');

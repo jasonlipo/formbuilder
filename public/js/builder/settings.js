@@ -80,6 +80,10 @@ function FormSettings(builder) {
 
     this.setting_section("Submission");
     this.add_setting("Redirect after Submission", "redirect");
+    this.add_setting("SMTP Server", "smtp_server");
+    this.add_setting("SMTP Username", "smtp_username");
+    this.add_setting("SMTP Password", "smtp_password");
+    this.add_setting("SMTP Port", "smtp_port");
     this.email_confirmation();
 
     this.choose_element();

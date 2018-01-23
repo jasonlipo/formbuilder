@@ -1,0 +1,25 @@
+<table class="formcontrol-responses" border="1">
+  <thead>
+      {% for h in headers %}
+      <th>{{ h }}</th>
+      {% endfor %}  
+  </thead>
+  <tbody>
+      {% for r in rows %}
+        <tr>
+          {% for cell in r.standard %}
+          <td rowspan="{{ cell[1] }}" {% if cell[0] in values_with_class %} class="{{ cell[0]|lower }}" {% endif %}>
+            {{ cell[0] }}
+          </td>
+          {% endfor %}
+        </tr>
+        {% for column in r.repeats %}
+          <tr>
+            {% for cell in column %}
+              <td>{{ cell }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      {% endfor %}  
+  </tbody>
+</table>

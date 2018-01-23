@@ -49,12 +49,24 @@ function FormPages(form) {
     }
   }
 
+  this.loading = function () {
+    if (this.form.$form.find(".formpay-loading").length > 0) {
+      this.form.$form.find(".formpay-loading, .formpay-spinner").remove();
+    }
+    else {
+      this.form.$form.append($("<div>", { class: "formpay-loading" }))
+                .append($("<i>", { class: "fas fa-circle-notch fa-spin formpay-spinner" }));
+    }
+  }
+
   this.submit_form = function () {
     if (this.form.validate()) {
       this.form.save.page_submission(this.current);
       var path = location.pathname.split("/");
       path.splice(-1);
+      this.loading();
       $.post(path.join("/") + "/submit", { json: this.form.save.json() }, function (result) {
+        this.loading();
         if (this.form.props.payment) {
           location.href = path.join("/") + "/pay/" + result;
         }
