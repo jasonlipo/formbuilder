@@ -11,15 +11,15 @@
     </div>
     {% for form in forms %}
     <div class="formcontrol-entry" data-form="{{ form.id|e }}">
-      <a href="/form/{{ form.id|e }}/view" class="formcontrol-entry-name">{{ form.name|e }}</a>
+      <a href="{{ view_url }}?id={{ form.id|e }}" class="formcontrol-entry-name">{{ form.name|e }}</a>
       <div class="formcontrol-entry-options">
-        <a href="/form/{{ form.id|e }}/build" class="formcontrol-entry-option">Build</a>
-        <a href="/form/{{ form.id|e }}/view" class="formcontrol-entry-option">View</a>
-        <a href="/form/{{ form.id|e }}/responses" class="formcontrol-entry-option">Responses ({{ form.submissions|length }})</a>
+        <a href="{{ build_url }}?id={{ form.id|e }}" class="formcontrol-entry-option">Build</a>
+        <a href="{{ view_url }}?id={{ form.id|e }}" class="formcontrol-entry-option">View</a>
+        <a href="{{ responses_url }}?id={{ form.id|e }}" class="formcontrol-entry-option">Responses ({{ form.submissions|length }})</a>
         <i class="formcontrol-entry-delete fas fa-times"></i>
       </div>
     </div>
     {% endfor %}
-    <a class="formcontrol-new formbuilder-button" href="/new">+ New Form</a>
+    <a class="formcontrol-new formbuilder-button" href="{{ new_url }}">+ New Form</a>
   </div>
 </div>

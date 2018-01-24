@@ -6,12 +6,6 @@ require_once "includes/twig.php";
 require_once "includes/controllers.php";
 
 class FormBuilder {
-  private $path;
-
-  public function __construct($path) {
-    $this->path = trim($path, "/");
-  }
-
   public function build($formId) {
     $controller = new FormController($this->path);
     $controller->index($formId);
@@ -22,8 +16,8 @@ class FormBuilder {
     $controller->index($formId);
   }
 
-  public function list() {
-    $controller = new DashboardController($this->path);
+  public function list($settings) {
+    $controller = new DashboardController($settings);
     $controller->index();
   }
 
