@@ -14,7 +14,6 @@ $router = new Router();
 
 $router->before('GET', '/(?!install)(.*)', 'InstallController@check');
 $router->get('/install', 'InstallController@show');
-$router->get('/new', 'FormController@create');
 $router->post('/(\d+)/delete', 'FormController@delete');
 $router->get('/(\d+)/response/(.+)', 'SubmissionController@show');
 $router->post('/(\d+)/submit', 'SubmissionController@create');

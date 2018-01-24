@@ -10,7 +10,6 @@ function FormSave(builder) {
   // Initialise
   this.init = function () {
     var $save  = $("<div>", { class: "formbuilder-save" });
-    $("<a>", { class: "formbuilder-button", href: "/" }).html("Back").appendTo($save);
     this.$dom = $("<span>").appendTo($save);
     this.loading();
     this.builder.$dom.prepend($save);

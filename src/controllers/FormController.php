@@ -2,7 +2,7 @@
 class FormController extends Controller {
   public function create() {
     $form = Form::create([]);
-    header("Location: /form/" . $form->id . "/build");
+    header("Location: " . $this->variables["build_url"] . "?id=" . $form->id);
   }
 
   public function index($formId) {
