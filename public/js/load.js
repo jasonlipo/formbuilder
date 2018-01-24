@@ -4,8 +4,8 @@ function FormLoad(form) {
   
   // Load the form's stored data
   this.do = function (callback) {
-    var path = location.pathname.split("/").slice(0, 3).join("/");
-    $.get(path + "/structure", function (response) {
+    var id = this.form.$dom.attr('formbuilder');
+    $.get("/form/" + id + "/structure", function (response) {
       if (response) {
         json = JSON.parse(response);
         $.extend(this.form.props, json["props"]);
@@ -34,8 +34,8 @@ function FormLoad(form) {
   // Load the form's structure and response
   this.response = function (callback) {
     this.do(function () {
-      var path = location.pathname.split("/").slice(0, 3).join("/");
-      $.get(path + "/response/" + this.form.$dom.attr("formresponse"), function (result) {
+      var id = this.builder.$dom.attr('formbuilder');
+      $.get("/form/" + id + "/response/" + this.form.$dom.attr("formresponse"), function (result) {
         var json = JSON.parse(result);
         this.form.response = json;
         callback();

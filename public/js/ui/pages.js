@@ -62,13 +62,12 @@ function FormPages(form) {
   this.submit_form = function () {
     if (this.form.validate()) {
       this.form.save.page_submission(this.current);
-      var path = location.pathname.split("/");
-      path.splice(-1);
+      var id = this.form.$dom.attr('formbuilder');
       this.loading();
-      $.post(path.join("/") + "/submit", { json: this.form.save.json() }, function (result) {
+      $.post("/form/" + id + "/submit", { json: this.form.save.json() }, function (result) {
         this.loading();
         if (this.form.props.payment) {
-          location.href = path.join("/") + "/pay/" + result;
+          location.href = "/form/" + id + "/pay/" + result;
         }
         else {
           location.href = this.form.props.redirect;

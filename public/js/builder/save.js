@@ -20,9 +20,8 @@ function FormSave(builder) {
   this.save = function () {
     clearTimeout(this.timeout);
     this.waiting();
-    var path = location.pathname.split("/");
-    path.splice(-1);
-    $.post(path.join("/") + "/structure", { json: this.builder.structure.json() }, function (result) {
+    var id = this.builder.$dom.attr('formbuilder');
+    $.post("/form/" + id + "/structure", { json: this.builder.structure.json() }, function (result) {
       this.success();
     }.bind(this));
   }
