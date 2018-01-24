@@ -20,7 +20,7 @@ function refreshEvent() {
         .text("Confirm Delete")
         .click(function (event) {
           event.stopPropagation();
-          $.post(location.pathname + "form/" + form_id + "/delete", function (result) {
+          $.post(path + "/" + form_id + "/delete", function (result) {
             location.reload();
           });
         })

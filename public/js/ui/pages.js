@@ -64,7 +64,8 @@ function FormPages(form) {
       this.form.save.page_submission(this.current);
       var id = this.form.$dom.attr('formbuilder');
       this.loading();
-      $.post("/form/" + id + "/submit", { json: this.form.save.json() }, function (result) {
+      var path = this.form.$dom.attr('formpath');
+      $.post(path + "/" + id + "/submit", { json: this.form.save.json() }, function (result) {
         this.loading();
         if (this.form.props.payment) {
           location.href = "/form/" + id + "/pay/" + result;

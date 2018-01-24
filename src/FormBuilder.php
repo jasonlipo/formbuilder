@@ -9,7 +9,7 @@ class FormBuilder {
   private $path;
 
   public function __construct($path) {
-    $this->path = $path;
+    $this->path = trim($path, "/");
   }
 
   public function build($formId) {

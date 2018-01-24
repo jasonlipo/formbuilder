@@ -1,6 +1,6 @@
 $(function () {
   $('.metric-button').click(function () {
-    var path = location.pathname.split("/").slice(0, 3).join("/");
+    var path = this.form.$dom.attr('formpath');
     var metric_data = { data: {
       name: $('.metric-name').val(),
       type: $('.metric-type').val(),
