@@ -6,28 +6,34 @@ require_once "includes/twig.php";
 require_once "includes/controllers.php";
 
 class FormBuilder {
-  public static function build($formId) {
-    $controller = new FormController();
+  private $path;
+
+  public function __construct($path) {
+    $this->path = $path;
+  }
+
+  public function build($formId) {
+    $controller = new FormController($this->path);
     $controller->index($formId);
   }
 
-  public static function view($formId) {
-    $controller = new UIController();
+  public function view($formId) {
+    $controller = new UIController($this->path);
     $controller->index($formId);
   }
 
-  public static function list() {
-    $controller = new DashboardController();
+  public function list() {
+    $controller = new DashboardController($this->path);
     $controller->index();
   }
 
-  public static function responses($formId) {
-    $controller = new SubmissionController();
+  public function responses($formId) {
+    $controller = new SubmissionController($this->path);
     $controller->index($formId);
   }
 
-  public static function pay($formId, $responseId) {
-    $controller = new PayController();
+  public function pay($formId, $responseId) {
+    $controller = new PayController($this->path);
     $controller->show($formId);
   }
 }
