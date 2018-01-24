@@ -1,8 +1,9 @@
 <?php
-require_once "../src/includes/database.php";
-require_once "../src/includes/router.php";
-require_once "../src/includes/twig.php";
-require_once "../src/includes/controllers.php";
+chdir(dirname(__FILE__));
+require_once "includes/database.php";
+require_once "includes/router.php";
+require_once "includes/twig.php";
+require_once "includes/controllers.php";
 
 class FormBuilder {
   public static function build($formId) {
@@ -15,9 +16,9 @@ class FormBuilder {
     $controller->index($formId);
   }
 
-  public static function list($formId) {
+  public static function list() {
     $controller = new DashboardController();
-    $controller->index($formId);
+    $controller->index();
   }
 
   public static function responses($formId) {
