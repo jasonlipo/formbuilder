@@ -33,7 +33,7 @@ class FormBuilder {
 
   public function pay($formId, $responseId, $settings) {
     $controller = new PayController($settings);
-    $controller->show($formId);
+    $controller->show($formId, $responseId);
   }
 }
 ?>
