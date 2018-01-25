@@ -35,6 +35,7 @@ class SubmissionController extends Controller {
       // Render page
       $this->render('forms_responses.html', [
         'title' => $f->name,
+        'id' => $f->id,
         'headers' => $headers,
         'rows' => $rows,
         'values_with_class' => ['UNPAID', 'PAID', 'DECLINED'],
