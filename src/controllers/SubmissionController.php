@@ -181,7 +181,7 @@ class SubmissionController extends Controller {
             if (strcasecmp($this->metrics[$j]->matches, $value) != 0) continue;
           }
         }
-        if ($this->metrics[$j]->type == 0) { $this->metrics[$j]->value++; }
+        if ($this->metrics[$j]->type == 0 && !empty($value)) { $this->metrics[$j]->value++; }
         else { $this->metrics[$j]->value += $value; }
       }
     }
