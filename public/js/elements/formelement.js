@@ -2,8 +2,8 @@ function FormElement(element) {
   this.element = element;
 
   this.props = {
-    label: "Label",
-    help: "Help text goes here",
+    label: "Element Label",
+    help: "",
     required: false,
     validation: {}
   }
