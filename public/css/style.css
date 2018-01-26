@@ -78,6 +78,7 @@
 .metric-add-title{font-weight:700;color:#4C565E;font-size:19px;margin-bottom:10px}
 .formcontrol-metrics .metric-name,.formcontrol-metrics .metric-matches,.formcontrol-metrics .metric-type,.formcontrol-metrics .metric-column{outline:none;background-color:#fff;color:#5f5f5f;box-sizing:border-box;width:240px;box-shadow:1px 2px 4px 0 rgba(0,0,0,0.08);padding:12px 18px;border:1px solid #dbdbdb;margin-bottom:8px}
 .formcontrol-metrics .metric-button{padding:13px 22px;margin-top: 5px;}
+.formcontrol-metrics-delete { font-size:13px; color: #999; margin-right: 10px; cursor: pointer; }
 
 .formbuilder-payment {background: #f6f6f6;padding: 10px 15px;margin: 0 10px 40px;font-weight: bold;color: #5f5f5f;}
 .formbuilder-summary {display: flex;flex-wrap: wrap;}

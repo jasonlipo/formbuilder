@@ -21,6 +21,7 @@ $router->get('/(\d+)/structure', 'StructureController@index');
 $router->post('/(\d+)/structure', 'StructureController@update');
 $router->post('/(\d+)/pay/(.+)', 'PayController@update');
 $router->post('/(\d+)/metric', 'MetricController@update');
+$router->post('/(\d+)/metric/(.+)/remove', 'MetricController@delete');
 
 $router->set404(function() {
   header('HTTP/1.1 404 Not Found');

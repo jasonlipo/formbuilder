@@ -13,3 +13,11 @@ $(function () {
     });
   });
 });
+
+function deleteMetric(i) {
+  var path = $('.formcontrol-app').attr('formpath');
+  var id = $('.formcontrol-app').attr('formbuilder');
+  $.post(path + "/" + id + "/metric/" + i + "/remove", function () {
+    location.reload();
+  });
+}
