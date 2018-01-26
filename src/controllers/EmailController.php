@@ -42,7 +42,9 @@ class EmailController extends Controller {
     $message .= "This email is confirmation that we have received your details for {$props->name}.<br /><br />";
     $message .= "{$props->email_confirmation_message}<br /><br />Here are the details you have submitted: <br /><br />";
     $message .= "{$table}<br /><br />";
-    $message .= "<b>NOTICE: This email is not confirmation of payment, you will receive a separate email for this.</b><br /><br />";
+    if ($response_data["total_price"] > 0) {
+      $message .= "<b>This email is not confirmation of payment, you will receive a separate email for this.</b><br /><br />";
+    }
     $message .= "Kind Regards,<br />Mill Hill Synagogue";
 
     self::send_email($props, $confirmation_email, 'Booking Confirmation - ' . $props->name, $message);
