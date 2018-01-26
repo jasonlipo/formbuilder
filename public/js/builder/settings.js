@@ -144,6 +144,30 @@ function FormSettings(builder) {
       )
       .appendTo(this.$form_properties);
 
+    var text_elements = this.builder.elements.filter(function (i) {
+      return i.props.validation && (i.props.validation.type == 0 || i.props.validation.type == 4);
+    });
+    var $text_block = $("<div>", { class: "formbuilder-settings-block" });
+    var $text_label = $("<label>", { class: "formbuilder-label" });
+    var $text_input = $("<select>", { class: "formbuilder-settings-input" });
+    $text_input.append($("<option>").html("\"Guest\""));
+    for (var i=0; i<text_elements.length; i++) {
+      $option = $("<option>", { value: text_elements[i].props.id }).html(text_elements[i].props.label);
+      if (this.builder.props.email_to === $option.val()) {
+        $option.attr("selected", true);
+      }
+      $text_input.append($option);
+    }
+    $text_block
+      .append($text_label.html("Name in confirmation email"))
+      .append(
+        $text_input.change(function ($el) {
+          this.builder.props.email_to = $el.val();
+          this.builder.reload_form();
+        }.bind(this, $text_input))
+      )
+      .appendTo(this.$form_properties);
+
     var $msg_block = $("<div>", { class: "formbuilder-settings-block" });
     var $msg_input = $("<textarea>", { class: "formbuilder-settings-input" });
     var $msg_label = $("<label>", { class: "formbuilder-label" });
