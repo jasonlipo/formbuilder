@@ -209,6 +209,7 @@ function FormSettings(builder) {
     }
     this.builder.reload_form();
     this.builder.reload_settings();
+    $('html,body').animate({ scrollTop: this.builder.elements[this.builder.selected].$elem.offset().top }, 0);
   }
 
 }
