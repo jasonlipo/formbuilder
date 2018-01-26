@@ -53,6 +53,9 @@ function FormBuilder($dom) {
     var $title = $("<div>", { class: "formbuilder-title" }).html(this.props.name);
     var $desc = $("<div>", { class: "formbuilder-description" }).html(this.props.description);
     var $header = $("<div>", { class: "formbuilder-header" });
+    $header.click(function () {
+      this.settings.$tab.tabs("option", "active", 2);
+    }.bind(this));
     var $body = $("<div>", { class: "formbuilder-body formbuilder-sort-container" });
     this.$form.html(
       $header.html($title).append($desc)
@@ -128,6 +131,9 @@ function FormBuilder($dom) {
   // Adds the submit button
   this.submit_button = function () {
     var $submit = $("<input>", { value: this.props.submit, type: "button", class: "formbuilder-button" });
+    $submit.click(function () {
+      this.settings.$tab.tabs("option", "active", 2);
+    }.bind(this));
     var $newelem = $("<div>", { class: "formbuilder-buttons" }).append($submit);
     this.$body.append($newelem);
   }
