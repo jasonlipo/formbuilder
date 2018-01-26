@@ -187,6 +187,7 @@ function FormSettings(builder) {
     var element = new (widget)(this.builder);
     if (this.builder.selected == null) {
       this.builder.elements.push(element);
+      this.builder.selected = this.builder.elements.length - 1;
     }
     else {
       if (this.builder.selected.toString().indexOf(".") > -1) {
