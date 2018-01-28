@@ -27,7 +27,7 @@ class EmailController extends Controller {
 
     $submission_controller = new SubmissionController();
     $headers = $submission_controller->walk_elements($structure->elements);
-    $rows = [$submission_controller->submission_table($headers, 0, $submission)];
+    $rows = [$submission_controller->submission_table($structure, $headers, 0, $submission)];
 
     $headers = array_map(function($col) {
       return $col[0];
