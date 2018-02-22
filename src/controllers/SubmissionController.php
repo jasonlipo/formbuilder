@@ -27,7 +27,7 @@ class SubmissionController extends Controller {
       $rows = [];
 
       foreach ($f->submissions as $key => $response) {
-        $rows[] = $this->submission_table($headers, $key, $response, true);
+        $rows[] = $this->submission_table($structure, $headers, $key, $response, true);
       }
     
       $headers = $this->reformat_headers($headers);
@@ -35,6 +35,7 @@ class SubmissionController extends Controller {
       // Render page
       $this->render('forms_responses.html', [
         'title' => $f->name,
+        'id' => $f->id,
         'headers' => $headers,
         'rows' => $rows,
         'values_with_class' => ['UNPAID', 'PAID', 'DECLINED'],
@@ -46,7 +47,7 @@ class SubmissionController extends Controller {
     }
   }
 
-  public function submission_table($headers, $key, $response, $special=false) {
+  public function submission_table($structure, $headers, $key, $response, $special=false) {
     $repeat_count = 0;
     $this_row = ['standard' => [], 'repeats' => []];
 
@@ -64,7 +65,7 @@ class SubmissionController extends Controller {
     $this->extract_first_repeat($this_row);
     $this->rotate_repeats($this_row);
     if ($special) {
-      $this->special_columns($this_row, $response, $key);
+      $this->special_columns($structure, $this_row, $response, $key);
     }
     $this->row_span($this_row, $repeat_count);
     return $this_row;     
@@ -113,15 +114,20 @@ class SubmissionController extends Controller {
     }
   }
 
-  private function special_columns(&$this_row, $response, $key) {
+  private function special_columns($structure, &$this_row, $response, $key) {
     $this->special_before = [
       "Response" => $key+1,
       "Submission Date" => $response->created_at->format("d M Y H:i:s")
     ];
-    $this->special_after = [
-      "Total Price" => $response->data()["total_price"],
-      "Payment Status" => strtoupper($response->data()["payment_status"])
-    ];
+    if ($structure->props->payment) {
+      $this->special_after = [
+        "Total Price" => $response->data()["total_price"],
+        "Payment Status" => strtoupper($response->data()["payment_status"])
+      ];
+    }
+    else {
+      $this->special_after = [];
+    }
     $this->special_columns_values($this_row, $this->special_before, $this->special_after);
     $this->special_columns_metrics($this_row);
   }
@@ -180,7 +186,7 @@ class SubmissionController extends Controller {
             if (strcasecmp($this->metrics[$j]->matches, $value) != 0) continue;
           }
         }
-        if ($this->metrics[$j]->type == 0) { $this->metrics[$j]->value++; }
+        if ($this->metrics[$j]->type == 0 && !empty($value)) { $this->metrics[$j]->value++; }
         else { $this->metrics[$j]->value += $value; }
       }
     }

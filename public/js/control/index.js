@@ -20,6 +20,7 @@ function refreshEvent() {
         .text("Confirm Delete")
         .click(function (event) {
           event.stopPropagation();
+          var path = $('.formcontrol-app').attr('formpath');
           $.post(path + "/" + form_id + "/delete", function (result) {
             location.reload();
           });

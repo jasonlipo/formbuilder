@@ -12,10 +12,22 @@ class EmailController extends Controller {
     $structure = json_decode($submission->form->structure, false);
     $props = $structure->props;
     $confirmation_email = $response_data[$props->email_confirmation];
+    
+    if (!empty($props->email_to)) {
+      if (isset($response_data[$props->email_to])) {
+        $email_to = $response_data[$props->email_to];
+      }
+      else {
+        $email_to = $response_data[$props->email_to . "_0"] . " " . $response_data[$props->email_to . "_1"];
+      }
+    }
+    else {
+      $email_to = "Guest";
+    }
 
     $submission_controller = new SubmissionController();
     $headers = $submission_controller->walk_elements($structure->elements);
-    $rows = [$submission_controller->submission_table($headers, 0, $submission)];
+    $rows = [$submission_controller->submission_table($structure, $headers, 0, $submission)];
 
     $headers = array_map(function($col) {
       return $col[0];
@@ -26,11 +38,13 @@ class EmailController extends Controller {
       'rows' => $rows
     ]);
 
-    $message = "Dear Member ---<br /><br />";
-    $message .= "This email is confirmation that we have received your details for " . $props->name . ".<br /><br />";
-    $message .= $props->email_confirmation_message . "<br /><br />Here are the details you have submitted: <br /><br />";
-    $message .= $table . "<br /><br />";
-    $message .= "<b>NOTICE: This email is not confirmation of payment, you will receive a separate email for this.</b><br /><br />";
+    $message = "Dear {$email_to},<br /><br />";
+    $message .= "This email is confirmation that we have received your details for {$props->name}.<br /><br />";
+    $message .= "{$props->email_confirmation_message}<br /><br />Here are the details you have submitted: <br /><br />";
+    $message .= "{$table}<br /><br />";
+    if ($response_data["total_price"] > 0) {
+      $message .= "<b>This email is not confirmation of payment, you will receive a separate email for this.</b><br /><br />";
+    }
     $message .= "Kind Regards,<br />Mill Hill Synagogue";
 
     self::send_email($props, $confirmation_email, 'Booking Confirmation - ' . $props->name, $message);
@@ -43,8 +57,20 @@ class EmailController extends Controller {
     $props = $structure->props;
     $confirmation_email = $response_data[$props->email_confirmation];
 
-    $message = "Dear Member ---<br /><br />";
-    $message .= "This email is confirmation that we have received your payment for " . $props->name . ".<br /><br />";
+    if (!empty($props->email_to)) {
+      if (isset($response_data[$props->email_to])) {
+        $email_to = $response_data[$props->email_to];
+      }
+      else {
+        $email_to = $response_data[$props->email_to . "_0"] . " " . $response_data[$props->email_to . "_1"];
+      }
+    }
+    else {
+      $email_to = "Guest";
+    }
+
+    $message = "Dear {$email_to},<br /><br />";
+    $message .= "This email is confirmation that we have received your payment for {$props->name}.<br /><br />";
     $message .= "<b>You have paid &pound;".number_format($total_price, 2).".</b><br /><br />";
     $message .= "Kind Regards,<br />Mill Hill Synagogue";
 

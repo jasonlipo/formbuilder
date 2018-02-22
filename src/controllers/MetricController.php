@@ -8,5 +8,13 @@ class MetricController extends Controller {
     $form->metrics = json_encode($metrics);
     $form->save();
   }
+
+  public function delete($formId, $metricIndex) {
+    $form = Form::find($formId);;
+    $metrics = (array) $form->metrics();
+    array_splice($metrics, $metricIndex, 1);
+    $form->metrics = json_encode($metrics);
+    $form->save();
+  }
 }
 ?>

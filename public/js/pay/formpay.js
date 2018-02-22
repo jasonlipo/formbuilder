@@ -70,8 +70,10 @@ function FormPay($dom) {
       <div class="formbuilder-section-description formpay-summary"></div>\
     </div>');
 
+    var submit_url = this.$dom.attr('formpath') + '/' + this.$dom.attr('formbuilder') + '/pay/' + this.$dom.attr('formresponse');
+
     this.$body.append('\
-    <form action="'+location.pathname+'" method="post" class="stripe-form">\
+    <form action="'+submit_url+'" method="post" class="stripe-form">\
       <div class="formbuilder-element">\
         <label class="formbuilder-label">Cardholder Name <span class="formbuilder-required">*</span></label>\
         <input type="text" class="formbuilder-singleline formpay-cardholder" name="formpay-cardholder" />\

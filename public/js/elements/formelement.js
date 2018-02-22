@@ -2,8 +2,8 @@ function FormElement(element) {
   this.element = element;
 
   this.props = {
-    label: "Label",
-    help: "Help text goes here",
+    label: "Element Label",
+    help: "",
     required: false,
     validation: {}
   }
@@ -46,7 +46,7 @@ function FormElement(element) {
   this.validate_on_change = function () {
     this.element.super.get_input().on("keyup change", function () {
       this.element.form.validator.validate_element(this.element);
-      if (this.element.form.payment) {
+      if (this.element.form.props.payment) {
         this.element.form.payment.check_payment(this.element);
       }
     }.bind(this));

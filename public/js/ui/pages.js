@@ -66,9 +66,9 @@ function FormPages(form) {
       this.loading();
       var path = this.form.$dom.attr('formpath');
       $.post(path + "/" + id + "/submit", { json: this.form.save.json() }, function (result) {
-        this.loading();
         if (this.form.props.payment) {
-          location.href = "/form/" + id + "/pay/" + result;
+          var pay_url = this.form.$dom.attr('formpay');
+          location.href = pay_url + "?id=" + id + "&key=" + result;
         }
         else {
           location.href = this.form.props.redirect;

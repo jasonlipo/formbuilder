@@ -3,7 +3,7 @@
 <script type="text/javascript" src="{{ path }}/public/js/fontawesome-all.min.js"></script>
 <script type="text/javascript" src="{{ path }}/public/js/control/responses.js"></script>
 <link rel="stylesheet" href="{{ path }}/public/css/style.css" />
-<div class="formcontrol-app">
+<div class="formcontrol-app" formbuilder="{{ id }}" formpath="{{ path }}">
   <div class="formcontrol-manage">
     <div class="formcontrol-header">
       <div class="formcontrol-title">Form Responses</div>
@@ -15,7 +15,7 @@
     <div class="formcontrol-metrics">
       <div class="metric-add-title">Metrics</div>
       {% for m in metrics %}
-        {{ m.name }}: {{ m.value }}<br />
+      <i onclick="deleteMetric({{ loop.index0 }})" class="formcontrol-metrics-delete fas fa-times"></i> {{ m.name }}: {{ m.value }}<br />
       {% endfor %}
       <br />
       <div class="metric-add-form">

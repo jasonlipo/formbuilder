@@ -216,6 +216,7 @@ function FormElement_Repeater(form) {
       var $trigger_block = $("<div>", { class: "formbuilder-settings-block" });
       var $trigger_label = $("<label>", { class: "formbuilder-label" });
       var $trigger_input = $("<select>", { class: "formbuilder-settings-input" });
+      $trigger_input.append($("<option>"));
       for (var i=0; i<prev_elements.length; i++) {
         if (prev_elements[i].props.label) {
           $option = $("<option>", { value: prev_elements[i].props.id }).html(prev_elements[i].props.label);

@@ -6,7 +6,7 @@ require_once "includes/twig.php";
 require_once "includes/controllers.php";
 
 class FormBuilder {
-  public function new($settings) {
+  public function create($settings) {
     $controller = new FormController($settings);
     $controller->create();
   }
@@ -21,7 +21,7 @@ class FormBuilder {
     $controller->index($formId);
   }
 
-  public function list($settings) {
+  public function show($settings) {
     $controller = new DashboardController($settings);
     $controller->index();
   }
@@ -33,7 +33,7 @@ class FormBuilder {
 
   public function pay($formId, $responseId, $settings) {
     $controller = new PayController($settings);
-    $controller->show($formId);
+    $controller->show($formId, $responseId);
   }
 }
 ?>

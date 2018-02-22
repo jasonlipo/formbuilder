@@ -70,15 +70,33 @@ function FormValidator(form) {
 
   this.number = function (el) {
     if (el.props.validation && el.props.validation.type == 2) {
-      if (!/^([0-9]+)$/.test(el.super.get_input().val()) ||
-          parseInt(el.super.get_input().val()) < el.props.validation.min ||
-          parseInt(el.super.get_input().val()) > el.props.validation.max) {
+      if (!/^([0-9]+)$/.test(el.super.get_input().val())) {
         el.super.get_input().addClass('error');
         el.$elem
           .find(".formbuilder-errors")
-          .text("Please enter a number between "+el.props.validation.min+" and "+el.props.validation.max+".");
+          .text("You have not entered a number.");
         return false;
       }
+      if (el.props.validation.max > el.props.validation.min) {
+        if (parseInt(el.super.get_input().val()) < el.props.validation.min ||
+            parseInt(el.super.get_input().val()) > el.props.validation.max) {
+          el.super.get_input().addClass('error');
+          el.$elem
+            .find(".formbuilder-errors")
+            .text("Please enter a number between "+el.props.validation.min+" and "+el.props.validation.max+".");
+          return false;
+        }
+      }
+      else {
+        if (parseInt(el.super.get_input().val()) < el.props.validation.min) {
+          el.super.get_input().addClass('error');
+          el.$elem
+            .find(".formbuilder-errors")
+            .text("Please enter a number "+el.props.validation.min+" or larger.");
+          return false;
+        }
+      }
+      
     }
     return true;
   }
