@@ -35,5 +35,10 @@ class FormBuilder {
     $controller = new PayController($settings);
     $controller->show($formId, $responseId);
   }
+
+  public function copy($formId, $settings) {
+    $controller = new FormController($settings);
+    $controller->copy($formId);
+  }
 }
 ?>
