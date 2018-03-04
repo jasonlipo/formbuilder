@@ -86,7 +86,7 @@ class EmailController extends Controller {
       $mail->SMTPSecure = 'tls';
       $mail->Port = intval($props->smtp_port);
 
-      $mail->setFrom('admin@shul.co.uk', 'Mill Hill Synagogue');
+      $mail->setFrom($props->confirmation_from_email, $props->confirmation_from_name);
       $mail->addAddress($to);
 
       $mail->isHTML(true);
