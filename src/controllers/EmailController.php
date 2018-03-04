@@ -38,7 +38,7 @@ class EmailController extends Controller {
       'rows' => $rows
     ]);
 
-    $message = $props->email_confirmation_message;
+    $message = nl2br($props->email_confirmation_message);
     $message = str_replace("{booking_name}", $email_to, $message);
     $message = str_replace("{form_name}", $props->name, $message);
     $message = str_replace("{form_data}", $table, $message);
@@ -65,7 +65,7 @@ class EmailController extends Controller {
       $email_to = "Guest";
     }
 
-    $message = $props->pay_confirmation_message;
+    $message = nl2br($props->pay_confirmation_message);
     $message = str_replace("{booking_name}", $email_to, $message);
     $message = str_replace("{form_name}", $props->name, $message);
     $message = str_replace("{amount}", "&pound;".number_format($total_price, 2), $message);
