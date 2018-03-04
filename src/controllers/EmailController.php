@@ -38,14 +38,10 @@ class EmailController extends Controller {
       'rows' => $rows
     ]);
 
-    $message = "Dear {$email_to},<br /><br />";
-    $message .= "This email is confirmation that we have received your details for {$props->name}.<br /><br />";
-    $message .= "{$props->email_confirmation_message}<br /><br />Here are the details you have submitted: <br /><br />";
-    $message .= "{$table}<br /><br />";
-    if ($response_data["total_price"] > 0) {
-      $message .= "<b>This email is not confirmation of payment, you will receive a separate email for this.</b><br /><br />";
-    }
-    $message .= "Kind Regards,<br />Mill Hill Synagogue";
+    $message = $props->email_confirmation_message;
+    $message = str_replace("{booking_name}", $email_to, $message);
+    $message = str_replace("{form_name}", $props->name, $message);
+    $message = str_replace("{form_data}", $table, $message);
 
     self::send_email($props, $confirmation_email, 'Booking Confirmation - ' . $props->name, $message);
   }
@@ -69,10 +65,11 @@ class EmailController extends Controller {
       $email_to = "Guest";
     }
 
-    $message = "Dear {$email_to},<br /><br />";
-    $message .= "This email is confirmation that we have received your payment for {$props->name}.<br /><br />";
-    $message .= "<b>You have paid &pound;".number_format($total_price, 2).".</b><br /><br />";
-    $message .= "Kind Regards,<br />Mill Hill Synagogue";
+    $message = $props->pay_confirmation_message;
+    $message = str_replace("{booking_name}", $email_to, $message);
+    $message = str_replace("{form_name}", $props->name, $message);
+    $message = str_replace("{amount}", "&pound;".number_format($total_price, 2), $message);
+    $message = str_replace("{transaction}", $response_data->payment_transaction, $message);
 
     self::send_email($props, $confirmation_email, 'Payment Confirmation - ' . $props->name, $message);
   }

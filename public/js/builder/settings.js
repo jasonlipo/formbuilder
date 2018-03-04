@@ -84,6 +84,8 @@ function FormSettings(builder) {
     this.add_setting("SMTP Username", "smtp_username");
     this.add_setting("SMTP Password", "smtp_password");
     this.add_setting("SMTP Port", "smtp_port");
+    this.add_setting("From Name", "confirmation_from_name");
+    this.add_setting("From Email Address", "confirmation_from_email");
     this.email_confirmation();
 
     this.choose_element();
@@ -172,7 +174,7 @@ function FormSettings(builder) {
     var $msg_input = $("<textarea>", { class: "formbuilder-settings-input" });
     var $msg_label = $("<label>", { class: "formbuilder-label" });
   
-    $msg_label.html("Email confirmation message").appendTo($msg_block);
+    $msg_label.html("Email confirmation template").appendTo($msg_block);
 
     $msg_input
       .html(this.builder.props["email_confirmation_message"])
@@ -183,6 +185,22 @@ function FormSettings(builder) {
       }.bind(this, $msg_input));
 
     this.$form_properties.append($msg_block);
+
+    var $pay_block = $("<div>", { class: "formbuilder-settings-block" });
+    var $pay_input = $("<textarea>", { class: "formbuilder-settings-input" });
+    var $pay_label = $("<label>", { class: "formbuilder-label" });
+
+    $pay_label.html("Payment confirmation template").appendTo($pay_block);
+
+    $pay_input
+                                              .html(this.builder.props["pay_confirmation_message"])
+                                              .appendTo($pay_block)
+                                              .keyup(function ($input) {
+                                                this.builder.props["pay_confirmation_message"] = $input.val();
+                                                this.builder.reload_form();
+                                              }.bind(this, $pay_input));
+
+    this.$form_properties.append($pay_block);
   }
 
   // Adds the new element chooser
