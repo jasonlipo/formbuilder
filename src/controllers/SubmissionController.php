@@ -202,6 +202,14 @@ class SubmissionController extends Controller {
         $result[] = [$element->props->label . " (First)", $element->props->id . ($repeater?"_([0-9]+)":"") . "_0", $repeater];
         $result[] = [$element->props->label . " (Last)", $element->props->id . ($repeater?"_([0-9]+)":"") . "_1", $repeater];
       }
+      else if (property_exists($element->props, "validation") &&
+          property_exists($element->props->validation, "type") &&
+          $element->props->validation->type == 5) {
+        // Address fields
+        for ($i=1; $i<=$element->props->validation->address; $i++) {
+          $result[] = [$element->props->label . " ($i)", $element->props->id . ($repeater?"_([0-9]+)":"") . "_" . strval($i-1), $repeater];
+        }
+      }
       else if (property_exists($element->props, "children")) {
         // Repeater field
         $result = array_merge($result, $this->walk_elements($element->props->children, true));
