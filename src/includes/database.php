@@ -4,7 +4,7 @@ require_once '../vendor/php-activerecord/ActiveRecord.php';
 require_once '../vendor/phpdotenv/Dotenv.php';
 require_once '../vendor/phpdotenv/Loader.php';
 
-$dotenv = new Dotenv\Dotenv("../../../");
+$dotenv = new Dotenv\Dotenv("../");
 $dotenv->load();
 
 $database_name = (isset($_ENV['DATABASE_NAME'])) ? $_ENV['DATABASE_NAME'] : "formbuilder";
