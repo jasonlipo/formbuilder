@@ -5,7 +5,8 @@ var FormValidate = {
     2: "Number",
     3: "Phone Number",
     4: "First/Last Name",
-    5: "Address"
+    5: "Address",
+    6: "Date"
   },
 
   settings: function (element) {
@@ -29,6 +30,7 @@ var FormValidate = {
 
     FormValidate.number(element);
     FormValidate.address(element);
+    FormValidate.date(element);
     
     $settings_input.change(function ($el) {
       element.props.validation = {};
@@ -39,10 +41,40 @@ var FormValidate = {
       if ($el.val() == 5) {
         element.props.validation.address = 3;
       }
+      if ($el.val() == 6) {
+        element.props.validation.format = "YYYY-mm-dd";
+      }
       element.props.validation.type = parseInt($el.val());
       element.form.reload_form();
       element.form.reload_settings();
     }.bind(this, $settings_input));
+  },
+
+  date: function (element) {
+    if (element.props.validation.type == 6) {
+      var $format_block = $("<div>", { class: "formbuilder-settings-block" });
+      var $format_label = $("<label>", { class: "formbuilder-label" });
+      var $format_input = $("<select>", { class: "formbuilder-settings-input" });
+      var formats = {
+        "YYYY-MM-DD": "2018-05-21",
+        "DD/MM/YYYY": "21/05/2018",
+        "Do MMMM YYYY": "21st May 2018",
+        "dddd, D MMMM YYYY": "Monday, 21 May 2018"
+      }
+      for (f in formats) {
+        $format_input.append($("<option>", { value: f }).html(formats[f]));
+      }
+      $format_input.find('option[value="' + element.props.validation.format + '"]').attr('selected', 'selected')
+      $format_block
+        .append($format_label.html("Date format"))
+        .append(
+          $format_input.change(function ($el) {
+            this.props.validation.format = $el.val();
+            this.form.reload_form();
+          }.bind(element, $format_input))
+        )
+        .appendTo(element.form.settings.$field_properties);
+    }
   },
 
   number: function (element) {

@@ -39,6 +39,13 @@ function FormElement_SingleLine(form) {
       $newelem.append($input);
     }
 
+    if (!this.form.editable) {
+      if (this.props.validation.type == 6) {
+        // Date
+        var picker = new Pikaday({ field: $input[0], format: this.props.validation.format, yearRange: 70 });
+      }
+    }
+
     $container.append($newelem);
     this.$elem = $newelem;
     if (this.form.editable) {
