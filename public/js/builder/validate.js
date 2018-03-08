@@ -32,8 +32,11 @@ var FormValidate = {
     FormValidate.address(element);
     FormValidate.date(element);
     
+    if (element.props.validation == undefined) {
+      element.props.validation = { type: 0 };
+    }
+
     $settings_input.change(function ($el) {
-      element.props.validation = {};
       if ($el.val() == 2) {
         element.props.validation.min = 0;
         element.props.validation.max = 0;
@@ -63,6 +66,9 @@ var FormValidate = {
       }
       for (f in formats) {
         $format_input.append($("<option>", { value: f }).html(formats[f]));
+      }
+      if (element.props.validation.format == undefined) {
+        element.props.validation.format = "YYYY-MM-DD";
       }
       $format_input.find('option[value="' + element.props.validation.format + '"]').attr('selected', 'selected')
       $format_block
