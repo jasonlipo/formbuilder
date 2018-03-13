@@ -31,6 +31,10 @@ var FormElementList = {
     {
       title: "Title",
       widget: FormElement_Title
+    },
+    {
+      title: "File Upload",
+      widget: FormElement_FileUpload
     }
   ],
   all: function () {
