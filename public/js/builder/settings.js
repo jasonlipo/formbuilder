@@ -80,13 +80,20 @@ function FormSettings(builder) {
 
     this.setting_section("Submission");
     this.add_setting("Redirect after Submission", "redirect");
+    this.add_setting("From Name", "confirmation_from_name");
+    this.add_setting("From Email Address", "confirmation_from_email");
+    this.email_confirmation();
+
+    this.setting_section("AWS S3");
+    this.add_setting("AWS Access Key", "aws_access_key");
+    this.add_setting("AWS Secret Key", "aws_secret_key");
+    this.add_setting("S3 Bucket Name", "s3_bucket");
+
+    this.setting_section("SendGrid");
     this.add_setting("SMTP Server", "smtp_server");
     this.add_setting("SMTP Username", "smtp_username");
     this.add_setting("SMTP Password", "smtp_password");
     this.add_setting("SMTP Port", "smtp_port");
-    this.add_setting("From Name", "confirmation_from_name");
-    this.add_setting("From Email Address", "confirmation_from_email");
-    this.email_confirmation();
 
     this.choose_element();
   }

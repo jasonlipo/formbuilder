@@ -69,7 +69,7 @@
 .formcontrol-entry-options .formcontrol-entry-copy{right:30px;}
 .formcontrol-entry-delete-confirm {font-size: 12px;padding: 6px 10px;position: absolute;top: 0;right: 0;margin: 5px 10px;}
 
-.formcontrol-responses {font: 14px/1.5 Arial,Helvetica,sans-serif;text-align: left;padding: 15px 20px 30px;width: 100%;border: none;border-spacing: 0px;border-collapse: collapse;display: inline-block;box-sizing: border-box;}
+.formcontrol-responses {font: 14px/1.5 Arial,Helvetica,sans-serif;text-align: left;padding: 15px 20px 30px;width: 100%;border: none;border-spacing: 0px;border-collapse: collapse;display: inline-block;box-sizing: border-box;overflow-x: scroll;}
 .formcontrol-responses th {color: #4C565E;}
 .formcontrol-responses tr {border: 1px solid #e2e2e2;}
 .formcontrol-responses th, .formcontrol-responses td {font-size: 14px;padding: 7px;}
