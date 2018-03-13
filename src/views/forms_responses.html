@@ -12,6 +12,9 @@
     
     {% include 'response_table.html' %}
 
+    <input type="hidden" class="form_title" value="{{ title }}" />
+    <a class="csv-button formbuilder-button">Download Spreadsheet</a>
+
     <div class="formcontrol-metrics">
       <div class="metric-add-title">Metrics</div>
       {% for m in metrics %}
