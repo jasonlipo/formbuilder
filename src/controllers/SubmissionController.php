@@ -24,6 +24,8 @@ class SubmissionController extends Controller {
       $this->init_metrics();
       $headers = $this->walk_elements($structure->elements);
 
+      $this->special_before = [];
+      $this->special_after = [];
       $rows = [];
 
       foreach ($f->submissions as $key => $response) {
