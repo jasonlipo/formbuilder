@@ -64,18 +64,66 @@ function FormPages(form) {
       this.form.save.page_submission(this.current);
       var id = this.form.$dom.attr('formbuilder');
       this.loading();
-      var path = this.form.$dom.attr('formpath');
-      $.post(path + "/" + id + "/submit", { json: this.form.save.json() }, function (result) {
-        if (this.form.props.payment) {
-          var pay_url = this.form.$dom.attr('formpay');
-          location.href = pay_url + "?id=" + id + "&key=" + result;
-        }
-        else {
-          location.href = this.form.props.redirect;
-        }
-      }.bind(this));
-      
+      this.upload_all_files();
     }
+  }
+
+  this.upload_all_files = function (callback) {
+    var path = this.form.$dom.attr('formpath');
+
+    var number_files = 0;
+    for (var i=0; i<this.data.length; i++) {
+      for (var j=0; j<this.data[i].length; j++) {
+        if (this.data[i][j] instanceof FormElement_FileUpload) {
+          number_files++;
+          this.form.save.submission[this.data[i][j].props.id] = [];
+          this.upload_file(i, j, 0, callback);
+        }
+      }
+    }
+
+    if (number_files == 0) {
+      this.post_data();
+    }
+  }
+
+  this.upload_file = function (i, j, k, callback) {
+    if (k >= this.data[i][j].files.length) {
+      number_files--;
+      if (number_files == 0) {
+        this.post_data();
+      }
+      return;
+    }
+    var file_to_upload = new FormData();
+    data.append(0, this.data[i][j].files[k]);
+    $.ajax({
+      url: path + "/" + id + "/upload",
+      type: 'POST',
+      data: file_to_upload,
+      cache: false,
+      processData: false,
+      contentType: false,
+      success: function (response, status, xhr) {
+        if (status == "success") {
+          this.form.save.submission[this.data[i][j].props.id].push(response);
+          this.upload_file(i, j, k+1, callback);
+        }
+      }
+    });
+  }
+
+  this.post_data = function () {
+    var path = this.form.$dom.attr('formpath');
+    $.post(path + "/" + id + "/submit", { json: this.form.save.json() }, function (result) {
+      if (this.form.props.payment) {
+        var pay_url = this.form.$dom.attr('formpay');
+        location.href = pay_url + "?id=" + id + "&key=" + result;
+      }
+      else {
+        location.href = this.form.props.redirect;
+      }
+    }.bind(this));
   }
 
 }

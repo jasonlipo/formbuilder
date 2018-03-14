@@ -19,7 +19,7 @@ function FormElement_FileUpload(form) {
                         .attr("formbuilder-index", this.index);
 
     if (this.files.length == 0) {
-      var $input = $("<input>", { type: "file", class: "formbuilder-file", disabled: this.form.editable });
+      var $input = $("<input>", { type: "file", class: "formbuilder-file", disabled: this.form.editable, accept: this.props.types });
       $newelem.append($input);
     }
     else {
@@ -27,7 +27,11 @@ function FormElement_FileUpload(form) {
       for (var i=0; i<this.files.length; i++) {
         $files_display.append(
           $("<div>", { class: "formbuilder-file-item" }).append(
-            $("<i>", { class: "formbuilder-file-delete fas fa-times" })
+            $("<div>", { class: "formbuilder-file-delete" }).click(function (i) {
+              this.files.splice(i, 1);
+              this.form.save.page_submission(this.form.pages.current);
+              this.form.init_page();
+            }.bind(this, i)).append($("<i>", { class: "fas fa-times" }))
           ).append(this.files[i].name));
       }
       $newelem.append($files_display);
