@@ -62,22 +62,19 @@ function FormPages(form) {
   this.submit_form = function () {
     if (this.form.validate()) {
       this.form.save.page_submission(this.current);
-      var id = this.form.$dom.attr('formbuilder');
       this.loading();
       this.upload_all_files();
     }
   }
 
-  this.upload_all_files = function (callback) {
-    var path = this.form.$dom.attr('formpath');
-
-    var number_files = 0;
-    for (var i=0; i<this.data.length; i++) {
+  this.upload_all_files = function () {
+    number_files = 0;
+    for (var i=0; i<Object.keys(this.data).length; i++) {
       for (var j=0; j<this.data[i].length; j++) {
         if (this.data[i][j] instanceof FormElement_FileUpload) {
           number_files++;
           this.form.save.submission[this.data[i][j].props.id] = [];
-          this.upload_file(i, j, 0, callback);
+          this.upload_file(i, j, 0);
         }
       }
     }
@@ -87,8 +84,12 @@ function FormPages(form) {
     }
   }
 
-  this.upload_file = function (i, j, k, callback) {
+  this.upload_file = function (i, j, k) {
+    var path = this.form.$dom.attr('formpath');
+    var id = this.form.$dom.attr('formbuilder');
+
     if (k >= this.data[i][j].files.length) {
+      this.form.save.submission[this.data[i][j].props.id] = this.form.save.submission[this.data[i][j].props.id].join(", ");
       number_files--;
       if (number_files == 0) {
         this.post_data();
@@ -96,7 +97,7 @@ function FormPages(form) {
       return;
     }
     var file_to_upload = new FormData();
-    data.append(0, this.data[i][j].files[k]);
+    file_to_upload.append(0, this.data[i][j].files[k]);
     $.ajax({
       url: path + "/" + id + "/upload",
       type: 'POST',
@@ -104,17 +105,21 @@ function FormPages(form) {
       cache: false,
       processData: false,
       contentType: false,
+      xhr: function() {
+        return new window.XMLHttpRequest();
+      },
       success: function (response, status, xhr) {
         if (status == "success") {
           this.form.save.submission[this.data[i][j].props.id].push(response);
-          this.upload_file(i, j, k+1, callback);
+          this.upload_file(i, j, k+1);
         }
-      }
+      }.bind(this)
     });
   }
 
   this.post_data = function () {
     var path = this.form.$dom.attr('formpath');
+    var id = this.form.$dom.attr('formbuilder');
     $.post(path + "/" + id + "/submit", { json: this.form.save.json() }, function (result) {
       if (this.form.props.payment) {
         var pay_url = this.form.$dom.attr('formpay');

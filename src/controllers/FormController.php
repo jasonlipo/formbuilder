@@ -27,7 +27,7 @@ class FormController extends Controller {
     $new_form = Form::create([
       "name" => $new_name,
       "structure" => json_encode($new_structure),
-      "metrics" => $this_form->metrics
+      "metrics" => ""
     ]);
     header("Location: " . $this->variables["return_url"]);
   }

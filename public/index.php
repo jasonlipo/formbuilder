@@ -20,6 +20,7 @@ $router->post('/(\d+)/submit', 'SubmissionController@create');
 $router->get('/(\d+)/structure', 'StructureController@index');
 $router->post('/(\d+)/structure', 'StructureController@update');
 $router->post('/(\d+)/pay/(.+)', 'PayController@update');
+$router->post('/(\d+)/upload', 'FileController@upload');
 $router->post('/(\d+)/metric', 'MetricController@update');
 $router->post('/(\d+)/metric/(.+)/remove', 'MetricController@delete');
 
