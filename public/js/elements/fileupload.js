@@ -6,6 +6,7 @@ function FormElement_FileUpload(form) {
     id: this.super.generate_id(),
     types: ""
   });
+  this.files = [];
   this.form = form;
   this.index = null;
   this.$elem = null;
@@ -16,14 +17,30 @@ function FormElement_FileUpload(form) {
                         .append(this.super.print_label())
                         .toggleClass("formbuilder-selectable", this.form.editable)
                         .attr("formbuilder-index", this.index);
-    var $input = $("<input>", { type: "file", class: "formbuilder-file", disabled: this.form.editable });
-    $newelem.append($input);
+
+    if (this.files.length == 0) {
+      var $input = $("<input>", { type: "file", class: "formbuilder-file", disabled: this.form.editable });
+      $newelem.append($input);
+    }
+    else {
+      $files_display = $("<div>", { class: "formbuilder-file-contents" });
+      for (var i=0; i<this.files.length; i++) {
+        $files_display.append(
+          $("<div>", { class: "formbuilder-file-item" }).append(
+            $("<i>", { class: "formbuilder-file-delete fas fa-times" })
+          ).append(this.files[i].name));
+      }
+      $newelem.append($files_display);
+    }
 
     $container.append($newelem);
     this.$elem = $newelem;
     if (this.form.editable) {
       this.super.onclick();
       this.super.is_selected();
+    }
+    else {
+      this.on_upload();
     }
   }
 
@@ -58,6 +75,15 @@ function FormElement_FileUpload(form) {
   // Zip into json
   this.zip = function () {
     return this.super.zip();
+  }
+
+  this.on_upload = function () {
+    $input = this.$elem.find('input[type="file"]');
+    $input.change(function ($el) {
+      this.files.push($el[0].files[0]);
+      this.form.save.page_submission(this.form.pages.current);
+      this.form.init_page();
+    }.bind(this, $input));
   }
 
 }

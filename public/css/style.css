@@ -43,6 +43,8 @@
 .formbuilder-settings-block .formbuilder-label{font-weight:400}
 .formbuilder-settings-section{margin-bottom:15px}
 .formbuilder-settings-input[type="checkbox"]{width:auto;display: block;}
+.formbuilder-file-delete {color: #666;margin-right: 10px;}
+.formbuilder-file-contents {background: #f5f5f5; padding: 5px 10px;}
 
 .formbuilder-save{background-color:#fff;box-shadow:0 1px 3px 0 rgba(0,0,0,0.1);flex:0 1 100%;margin-bottom:15px;padding: 15px 25px;text-align: right;min-height: 25px;}
 .formbuilder-save .formbuilder-button{left:0;position:absolute;margin: -5px 34px;padding: 7px 12px;}
