@@ -21,10 +21,9 @@ $(function () {
 function download_csv(csv, filename) {
   var csvFile;
   var downloadLink;
-  csvFile = new Blob([csv], {type: "text/csv"});
   downloadLink = document.createElement("a");
   downloadLink.download = filename;
-  downloadLink.href = window.URL.createObjectURL(csvFile);
+  downloadLink.href = "data:text/csv;charset=utf-8,%EF%BB%BF" + encodeURI(csv);
   downloadLink.style.display = "none";
   document.body.appendChild(downloadLink);
   downloadLink.click();
