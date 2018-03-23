@@ -189,7 +189,7 @@ class SubmissionController extends Controller {
           }
         }
         if ($this->metrics[$j]->type == 0 && !empty($value)) { $this->metrics[$j]->value++; }
-        else { $this->metrics[$j]->value += $value; }
+        else { $this->metrics[$j]->value += str_replace('£', '', $value); }
       }
     }
   }
