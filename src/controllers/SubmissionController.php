@@ -50,7 +50,7 @@ class SubmissionController extends Controller {
   }
 
   public function submission_table($structure, $headers, $key, $response, $special=false) {
-    $repeat_count = 0;
+    $repeat_count = 1;
     $this_row = ['standard' => [], 'repeats' => []];
 
     for ($i=0; $i<count($headers); $i++) {
