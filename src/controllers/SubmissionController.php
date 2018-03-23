@@ -102,14 +102,14 @@ class SubmissionController extends Controller {
       if (is_array($this_row['standard'][$i])) {
         $first = array_shift($this_row['standard'][$i]);
         $this_row['repeats'][] = $this_row['standard'][$i];
-        $this_row['standard'][$i] = [$first, 0];
+        $this_row['standard'][$i] = [$first, 1];
       }
     }
   }
 
   private function rotate_repeats(&$this_row) {
     $temp_repeats = $this_row['repeats'];
-    $num_repeats = count(current($temp_repeats));
+    $num_repeats = count($temp_repeats) > 0 ? count(current($temp_repeats)) : 0;
     $this_row['repeats'] = [];
     for ($i=0; $i<$num_repeats; $i++) {
       $this_row['repeats'][$i] = array_column($temp_repeats, $i);
