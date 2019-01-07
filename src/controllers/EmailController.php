@@ -48,7 +48,7 @@ class EmailController extends Controller {
     $notification_props = $props;
     $notification_to = $props->confirmation_from_email;
     $notification_props->confirmation_from_email = "web@kinloss.org.uk";
-    self::send_email($props, $notification_to, 'Kinloss Forms [' . $props->name . ']', "Submission recorded<br />-----------<br /><br />" . $message);
+    self::send_email($props, $notification_to, 'Kinloss Forms [' . $props->name . ']', "Submission recorded<br />-----------<br /><br />" . $message, [$confirmation_email, $email_to]);
   }
 
   public static function confirm_payment(Submission $submission) {
@@ -79,7 +79,7 @@ class EmailController extends Controller {
     self::send_email($props, $confirmation_email, 'Payment Confirmation - ' . $props->name, $message);
   }
 
-  private static function send_email($props, $to, $subject, $message) {
+  private static function send_email($props, $to, $subject, $message, $reply_to = false) {
 
     $mail = new PHPMailer(true);
     try {
@@ -91,6 +91,7 @@ class EmailController extends Controller {
       $mail->SMTPSecure = 'tls';
       $mail->Port = intval($props->smtp_port);
 
+      $mail->addReplyTo($reply_to ? $reply_to[0] : $props->confirmation_from_email, $reply_to ? $reply_to[1] : $props->confirmation_from_name);
       $mail->setFrom($props->confirmation_from_email, $props->confirmation_from_name);
       $mail->addAddress($to);
 
