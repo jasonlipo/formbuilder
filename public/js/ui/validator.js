@@ -40,7 +40,7 @@ function FormValidator(form) {
           el.$elem.find(".formbuilder-errors").text("This field is required.");
         }
       }
-      else if (el.constructor.name == "FormElement_SingleLine" && el.props.validation == 5) {
+      else if (el.constructor.name == "FormElement_SingleLine" && el.props.validation.type == 5) {
         empty = el.super.get_input().filter(function () {
           return $(this).val() == "";
         });
