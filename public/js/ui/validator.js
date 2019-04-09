@@ -4,9 +4,14 @@ function FormValidator(form) {
 
   this.validate_page = function (page) {
     this.is_valid = true;
+    var $submit = this.form.pages.data[page].slice(-1)[0];
+    $submit.$elem.find(".formbuilder-errors").html("");
     $.each(this.form.pages.data[page], function (n, i) {
       this.is_valid &= this.validate_element(i);
     }.bind(this));
+    if (!is_valid) {
+      $submit.$elem.find(".formbuilder-errors").html("<br />There are errors on this page. Please scroll up to check everything is correct.");
+    }
     return this.is_valid; 
   }
 
@@ -33,6 +38,16 @@ function FormValidator(form) {
         empty = (el.$elem.find(":checked").length > 0) ? 0 : 1;
         if (empty > 0) {
           el.$elem.find(".formbuilder-errors").text("This field is required.");
+        }
+      }
+      else if (el.constructor.name == "FormElement_SingleLine" && el.props.validation == 5) {
+        empty = el.super.get_input().filter(function () {
+          return $(this).val() == "";
+        });
+        if (empty.length == el.props.validation.address) {
+          el.super.get_input().eq(0).addClass('error');
+          el.$elem.find(".formbuilder-errors").text("This field is required.");
+          return false;
         }
       }
       else {
