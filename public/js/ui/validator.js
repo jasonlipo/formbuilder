@@ -9,7 +9,7 @@ function FormValidator(form) {
     $.each(this.form.pages.data[page], function (n, i) {
       this.is_valid &= this.validate_element(i);
     }.bind(this));
-    if (!is_valid) {
+    if (!this.is_valid) {
       $submit.$elem.find(".formbuilder-errors").html("<br />There are errors on this page. Please scroll up to check everything is correct.");
     }
     return this.is_valid; 
