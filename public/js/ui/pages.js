@@ -2,6 +2,7 @@ function FormPages(form) {
 
   this.form = form;
   this.current = 0;
+  this.submitted = false;
   this.data = { 0: [] };
 
   this.separate = function () {
@@ -118,6 +119,8 @@ function FormPages(form) {
   }
 
   this.post_data = function () {
+    if (this.submitted) return;
+    this.submitted = true;
     var path = this.form.$dom.attr('formpath');
     var id = this.form.$dom.attr('formbuilder');
     $.post(path + "/" + id + "/submit", { json: this.form.save.json() }, function (result) {
