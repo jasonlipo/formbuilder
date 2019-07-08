@@ -6,7 +6,8 @@ function FormLoad(form) {
   this.do = function (callback) {
     var path = this.form.$dom.attr('formpath');
     var id = this.form.$dom.attr('formbuilder');
-    $.get(path + "/" + id + "/structure", function (response) {
+    var key = this.form.$dom.attr('authkey');
+    $.get(path + "/" + id + "/structure?key=" + key, function (response) {
       if (response) {
         json = JSON.parse(response);
         $.extend(this.form.props, json["props"]);

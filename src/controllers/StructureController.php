@@ -1,7 +1,15 @@
 <?php
 class StructureController extends Controller {
   public function index($formId) {
-    echo Form::find($formId)->structure;
+    $s = Form::find($formId)->structure();
+    if (!isset($_GET['key']) || $_GET['key'] != "kinlossadmin") {
+      $s->props->aws_access_key = "hidden";
+      $s->props->aws_secret_key = "hidden";
+      $s->props->smtp_password = "hidden";
+      $s->props->smtp_username = "hidden";
+      $s->props->smtp_server = "hidden";
+    }
+    echo json_encode($s);
   }
 
   public function update($formId) {
