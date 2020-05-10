@@ -7,6 +7,7 @@
  */
 
 header("Access-Control-Allow-Origin: *");
+date_default_timezone_set("Europe/London");
 
 require "../src/FormBuilder.php";
 
