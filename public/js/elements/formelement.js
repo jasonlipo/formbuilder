@@ -131,14 +131,16 @@ function FormElement(element) {
   // Radio, dropdowns and checkboxes
   this.multiple_options = function () {
     var $settings_block = $("<div>", { class: "formbuilder-settings-block" });
-    var $settings_label = $("<label>", { class: "formbuilder-label" });
+    var $settings_label = $("<label>", { width: 180, class: "formbuilder-label" });
     $settings_label.html("Options").appendTo($settings_block);
+    var $limit_label = $("<label>", { width: 70, class: "formbuilder-label" });
+    $limit_label.html("Limit").appendTo($settings_block);
     if (this.element.form.props.payment) {
       $settings_block.append(this.element.form.payment.price_label())
     }
 
     for (var i=0; i<this.element.props.options.length; i++) {
-      var $option_input = $("<input>", { class: "formbuilder-settings-input", width: 150 }).val(this.element.props.options[i].value);
+      var $option_input = $("<input>", { class: "formbuilder-settings-input", width: 180 }).val(this.element.props.options[i].value);
       var option_required_id = Math.random().toString(36).substring(2, 15)
       var $option_required = $("<input>", { id: option_required_id, type: "checkbox", checked: this.element.props.options[i].required  })
       var $option_required_label = $("<label>", { for: option_required_id }).html("Required")
@@ -146,6 +148,7 @@ function FormElement(element) {
       var $option_down = $("<span>", { class: "formbuilder-icon" }).html($("<i>", { class: "fas fa-arrow-down" }));
       var $option_remove = $("<span>", { class: "formbuilder-icon" }).html($("<i>", { class: "fas fa-minus-circle" }));
       var $option_add_below = $("<span>", { class: "formbuilder-icon" }).html($("<i>", { class: "fas fa-plus" }));
+      var $option_limit = $("<input>", { class: "formbuilder-settings-input", width: 70 }).val(this.element.props.options[i].limit);
       $option_input.keyup(function ($el, index) {
         this.element.props.options[index].value = $el.val();
         this.element.form.reload_form();
@@ -174,11 +177,16 @@ function FormElement(element) {
         this.element.form.reload_form();
         this.element.form.reload_settings();
       }.bind(this, $option_add_below, i));
+      $option_limit.keyup(function ($el, index) {
+        this.element.props.options[index].limit = $el.val();
+        this.element.form.reload_form();
+      }.bind(this, $option_limit, i));
       $settings_block.append($option_input);
+      $settings_block.append($option_limit);
       if (this.element.form.props.payment) {
         $settings_block.append(this.element.form.payment.price_settings(this.element.props.options[i]));
       }
-      $settings_block.append("&nbsp;&nbsp;&nbsp;");
+      $settings_block.append("<br />");
       $settings_block.append($option_required);
       $settings_block.append($option_required_label);
       $settings_block.append("&nbsp;&nbsp;&nbsp;");
@@ -190,7 +198,7 @@ function FormElement(element) {
       }
       $settings_block.append($option_remove);
       $settings_block.append($option_add_below);
-      $settings_block.append("<br />")
+      $settings_block.append("<br /><br />")
     }
 
     this.element.form.settings.$field_properties.append($settings_block);
