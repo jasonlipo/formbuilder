@@ -47,15 +47,18 @@ function FormElement_Radio(form) {
       var id = Math.random().toString(36).substring(2, 15)
       var $input = $("<input>", { id, type: "radio", disabled: this.form.editable || remaining == 0, name: this.index, value: this.props.options[i].value });
       var $label = $("<label>", { for: id, class: "formbuilder-radio-label" }).html(this.props.options[i].value);
-      var $cont = $("<div>").append($input).append($label);
       if (remaining !== null) {
-        if (remaining < 5) {
-          $cont.append(`&nbsp;&nbsp;<em>[${remaining} left]</em>`)
+        if (remaining == 0) {
+          $label.append(`&nbsp;&nbsp;<em>[Unavailable]</em>`)
+        }
+        else if (remaining < 5) {
+          $label.append(`&nbsp;&nbsp;<em>[${remaining} left]</em>`)
         }
         else if (remaining < 10) {
-          $cont.append("&nbsp;&nbsp;<em>[Less than 10 left]</em>")
+          $label.append("&nbsp;&nbsp;<em>[Less than 10 left]</em>")
         }
       }
+      var $cont = $("<div>").append($input).append($label);
       $radio_container.append($cont);
     }
     return $radio_container;

@@ -47,18 +47,18 @@ function FormElement_Checkbox(form) {
       var id = Math.random().toString(36).substring(2, 15)
       var $input = $("<input>", { id, type: "checkbox", disabled: this.form.editable || remaining == 0, value: this.props.options[i].value });
       var $label = $("<label>", { for: id, class: "formbuilder-checkbox-label" }).html(this.props.options[i].value);
-      var $cont = $("<div>").append($input).append($label);
       if (remaining !== null) {
         if (remaining == 0) {
-          $cont.append(`&nbsp;&nbsp;<em>[Unavailable]</em>`)
+          $label.append(`&nbsp;&nbsp;<em>[Unavailable]</em>`)
         }
         else if (remaining < 5) {
-          $cont.append(`&nbsp;&nbsp;<em>[${remaining} left]</em>`)
+          $label.append(`&nbsp;&nbsp;<em>[${remaining} left]</em>`)
         }
         else if (remaining < 10) {
-          $cont.append("&nbsp;&nbsp;<em>[Less than 10 left]</em>")
+          $label.append("&nbsp;&nbsp;<em>[Less than 10 left]</em>")
         }
       }
+      var $cont = $("<div>").append($input).append($label);
       $checkbox_container.append($cont);
     }
     return $checkbox_container;

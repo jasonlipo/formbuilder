@@ -18,8 +18,8 @@
 .formbuilder-element input,.formbuilder-element textarea,.formbuilder-element .StripeElement{outline:none;color:#5f5f5f;box-sizing:border-box;width: 100%;box-shadow:1px 2px 4px 0 rgba(0,0,0,0.08);padding: 12px 15px;border: 1px solid #dbdbdb;margin-bottom: 8px;resize: vertical;font-family: Arial,Helvetica,sans-serif;}
 .formbuilder-label small{display:block;font-size: 14px;font-weight:400;}
 .formbuilder-buttons{border:0;padding: 20px 10px 40px;outline:none;}
-.formbuilder-radio,.formbuilder-checkbox{padding:5px}
-.formbuilder-radio-label,.formbuilder-checkbox-label{margin-left:8px;color:#5f5f5f;font-weight:400}
+.formbuilder-radio,.formbuilder-checkbox{padding:5px;}
+.formbuilder-radio-label,.formbuilder-checkbox-label{margin: -25px 0 4px 20px;color:#5f5f5f;font-weight:400;display: block;}
 .formbuilder-radio input[type="radio"],.formbuilder-checkbox input[type="checkbox"]{box-shadow:none;width:auto;vertical-align: -2px;}
 .formbuilder-section-title {font-weight: 700;display: block;color: #4C565E;font-size: 28px;margin: 0;}
 .formbuilder-section-description {display: inline-block;box-sizing: border-box;color: #4C565E;font-size: 16px;padding: 0 0 10px;}
