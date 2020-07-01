@@ -1,8 +1,13 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 <script type="text/javascript" src="{{ path }}/public/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="{{ path }}/public/js/fontawesome-all.min.js"></script>
-<script type="text/javascript" src="{{ path }}/public/js/control/responses.js"></script>
-<link rel="stylesheet" href="{{ path }}/public/css/style.css" />
+<script type="text/javascript" src="{{ path }}/public/js/tabulator.min.js"></script>
+<script type="text/javascript" src="{{ path }}/public/js/xlsx.full.min.js"></script>
+<script type="text/javascript" src="{{ path }}/public/js/jspdf.min.js"></script>
+<script type="text/javascript" src="{{ path }}/public/js/jspdf.plugin.autotable.min.js"></script>
+<script type="text/javascript" src="{{ path }}/public/js/control/responses.js?v1"></script>
+<link rel="stylesheet" href="{{ path }}/public/css/style.css?v1" />
+<link rel="stylesheet" href="{{ path }}/public/css/tabulator.min.css" />
 <div class="formcontrol-app" formbuilder="{{ id }}" formpath="{{ path }}">
   <div class="formcontrol-manage">
     <div class="formcontrol-header">
@@ -13,7 +18,8 @@
     {% include 'response_table.html' %}
 
     <input type="hidden" class="form_title" value="{{ title }}" />
-    <a class="csv-button formbuilder-button">Download Spreadsheet</a>
+    <a class="csv-button formbuilder-button" onclick="download_excel()">Download Excel</a>
+    <a class="csv-button formbuilder-button" onclick="download_pdf()">Download PDF</a>
 
     <div class="formcontrol-metrics">
       <div class="metric-add-title">Metrics</div>

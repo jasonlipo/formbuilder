@@ -92,7 +92,7 @@ class SubmissionController extends Controller {
     $value = $response_data[$to_match[1]];
     $this->record_metric($value, $to_match[0]);
     if (is_array($value)) {
-      $value = implode(", ", $value);
+      $value = implode("<br />", $value);
     }
     return $value;
   }
