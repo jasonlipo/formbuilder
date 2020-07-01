@@ -38,10 +38,27 @@ function FormElement_Checkbox(form) {
   this.print_options = function () {
     var $checkbox_container = $("<div>", { class: "formbuilder-checkbox" });
     for (var i=0; i<this.props.options.length; i++) {
+      var remaining = null;
+      if (this.props.options[i].limit && !isNaN(parseInt(this.props.options[i].limit))) {
+        var limit = parseInt(this.props.options[i].limit)
+        var taken = parseInt(this.props.options[i].taken || 0)
+        remaining = limit - taken;
+      }
       var id = Math.random().toString(36).substring(2, 15)
-      var $input = $("<input>", { id, type: "checkbox", disabled: this.form.editable, value: this.props.options[i].value });
+      var $input = $("<input>", { id, type: "checkbox", disabled: this.form.editable || remaining == 0, value: this.props.options[i].value });
       var $label = $("<label>", { for: id, class: "formbuilder-checkbox-label" }).html(this.props.options[i].value);
       var $cont = $("<div>").append($input).append($label);
+      if (remaining !== null) {
+        if (remaining == 0) {
+          $cont.append(`&nbsp;&nbsp;<em>[Unavailable]</em>`)
+        }
+        else if (remaining < 5) {
+          $cont.append(`&nbsp;&nbsp;<em>[${remaining} left]</em>`)
+        }
+        else if (remaining < 10) {
+          $cont.append("&nbsp;&nbsp;<em>[Less than 10 left]</em>")
+        }
+      }
       $checkbox_container.append($cont);
     }
     return $checkbox_container;
