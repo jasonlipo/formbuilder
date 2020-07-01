@@ -38,8 +38,9 @@ function FormElement_Checkbox(form) {
   this.print_options = function () {
     var $checkbox_container = $("<div>", { class: "formbuilder-checkbox" });
     for (var i=0; i<this.props.options.length; i++) {
-      var $input = $("<input>", { type: "checkbox", disabled: this.form.editable, value: this.props.options[i].value });
-      var $label = $("<label>", { class: "formbuilder-checkbox-label" }).html(this.props.options[i].value);
+      var id = Math.random().toString(36).substring(2, 15)
+      var $input = $("<input>", { id, type: "checkbox", disabled: this.form.editable, value: this.props.options[i].value });
+      var $label = $("<label>", { for: id, class: "formbuilder-checkbox-label" }).html(this.props.options[i].value);
       var $cont = $("<div>").append($input).append($label);
       $checkbox_container.append($cont);
     }

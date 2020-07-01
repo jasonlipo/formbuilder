@@ -38,8 +38,9 @@ function FormElement_Radio(form) {
   this.print_options = function () {
     var $radio_container = $("<div>", { class: "formbuilder-radio" });
     for (var i=0; i<this.props.options.length; i++) {
-      var $input = $("<input>", { type: "radio", disabled: this.form.editable, name: this.index, value: this.props.options[i].value });
-      var $label = $("<label>", { class: "formbuilder-radio-label" }).html(this.props.options[i].value);
+      var id = Math.random().toString(36).substring(2, 15)
+      var $input = $("<input>", { id, type: "radio", disabled: this.form.editable, name: this.index, value: this.props.options[i].value });
+      var $label = $("<label>", { for: id, class: "formbuilder-radio-label" }).html(this.props.options[i].value);
       var $cont = $("<div>").append($input).append($label);
       $radio_container.append($cont);
     }

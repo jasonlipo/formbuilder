@@ -39,6 +39,17 @@ function FormValidator(form) {
         if (empty > 0) {
           el.$elem.find(".formbuilder-errors").text("This field is required.");
         }
+        else {
+          for (var x of el.props.options) {
+            if (x.required) {
+              empty = (el.$elem.find(":checked").filter(function() { return $(this).val() == x.value }).length > 0) ? 0 : 1;
+              if (empty) {
+                el.$elem.find(".formbuilder-errors").text("Selecting \""+x.value+"\" is required.");
+                break;
+              }
+            }
+          }
+        }
       }
       else if (el.constructor.name == "FormElement_SingleLine" && el.props.validation.type == 5) {
         empty = el.super.get_input().filter(function () {

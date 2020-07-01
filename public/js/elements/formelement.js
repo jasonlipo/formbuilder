@@ -138,7 +138,10 @@ function FormElement(element) {
     }
 
     for (var i=0; i<this.element.props.options.length; i++) {
-      var $option_input = $("<input>", { class: "formbuilder-settings-input" }).val(this.element.props.options[i].value);
+      var $option_input = $("<input>", { class: "formbuilder-settings-input", width: 150 }).val(this.element.props.options[i].value);
+      var option_required_id = Math.random().toString(36).substring(2, 15)
+      var $option_required = $("<input>", { id: option_required_id, type: "checkbox", checked: this.element.props.options[i].required  })
+      var $option_required_label = $("<label>", { for: option_required_id }).html("Required")
       var $option_remove = $("<span>", { class: "formbuilder-icon" }).html($("<i>", { class: "fas fa-minus-circle" }));
       $option_input.keyup(function ($el, index) {
         this.element.props.options[index].value = $el.val();
@@ -149,11 +152,20 @@ function FormElement(element) {
         this.element.form.reload_form();
         this.element.form.reload_settings();
       }.bind(this, i));
+      $option_required.change(function ($el, index) {
+        this.element.props.options[index].required = $el.is(':checked');
+        this.element.form.reload_form();
+      }.bind(this, $option_required, i));
       $settings_block.append($option_input);
       if (this.element.form.props.payment) {
         $settings_block.append(this.element.form.payment.price_settings(this.element.props.options[i]));
       }
+      $settings_block.append("&nbsp;&nbsp;&nbsp;");
+      $settings_block.append($option_required);
+      $settings_block.append($option_required_label);
+      $settings_block.append("&nbsp;&nbsp;&nbsp;");
       $settings_block.append($option_remove);
+      $settings_block.append("<br />")
     }
 
     this.element.form.settings.$field_properties.append($settings_block);
