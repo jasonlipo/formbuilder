@@ -19,10 +19,10 @@ $(function () {
   var columns = $(".formcontrol-responses th").map(function() { return $(this).html(); }).toArray();
   table = new Tabulator(".formcontrol-responses", {
     layout: "fitColumns",
-    columns: columns.map(c => ({ bottomCalc: c == "Response" ? "count" : null, title: c, field: c, headerFilter: "select", headerFilterParams:{values:true} })),
+    columns: columns.map(c => ({ bottomCalc: c == "Response" ? countDistinct : null, title: c, field: c, headerFilter: "select", headerFilterParams:{values:true} })),
     pagination:"local",
-    paginationSize: 10,
-    paginationSizeSelector:[5, 10, 25, 50],
+    paginationSize: 50,
+    paginationSizeSelector:[25, 50, 100, 200],
   });
   $('.metric-button').click(function () {
     var metric_data = { data: {
@@ -39,6 +39,10 @@ $(function () {
   });
 
 });
+
+function countDistinct(values){
+  return _.uniq(values).length;
+}
 
 function download_pdf() {
   table.download("pdf", "KinlossForm.pdf", {
