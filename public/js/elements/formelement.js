@@ -149,44 +149,23 @@ function FormElement(element) {
       var $option_remove = $("<span>", { class: "formbuilder-icon" }).html($("<i>", { class: "fas fa-minus-circle" }));
       var $option_add_below = $("<span>", { class: "formbuilder-icon" }).html($("<i>", { class: "fas fa-plus" }));
       var $option_limit = $("<input>", { class: "formbuilder-settings-input", width: 70 }).val(this.element.props.options[i].limit);
-      $option_input.keyup(function ($el, index) {
-        this.element.props.options[index].value = $el.val();
-        this.element.form.reload_form();
-      }.bind(this, $option_input, i));
-      $option_remove.click(function (index) {
-        this.element.props.options.splice(index, 1);
-        this.element.form.reload_form();
-        this.element.form.reload_settings();
-      }.bind(this, i));
-      $option_required.change(function ($el, index) {
-        this.element.props.options[index].required = $el.is(':checked');
-        this.element.form.reload_form();
-      }.bind(this, $option_required, i));
-      $option_up.click(function ($el, index) {
-        this.swapArrayElements(this.element.props.options, index, index - 1)
-        this.element.form.reload_form();
-        this.element.form.reload_settings();
-      }.bind(this, $option_up, i));
-      $option_down.click(function ($el, index) {
-        this.swapArrayElements(this.element.props.options, index, index + 1)
-        this.element.form.reload_form();
-        this.element.form.reload_settings();
-      }.bind(this, $option_down, i));
-      $option_add_below.click(function ($el, index) {
-        this.element.props.options.splice(index + 1, 0, { value: "" });
-        this.element.form.reload_form();
-        this.element.form.reload_settings();
-      }.bind(this, $option_add_below, i));
-      $option_limit.keyup(function ($el, index) {
-        this.element.props.options[index].limit = $el.val();
-        this.element.form.reload_form();
-      }.bind(this, $option_limit, i));
+
+      // Events
+      $option_input.keyup(function ($el, index) { this.element.props.options[index].value = $el.val(); this.element.form.reload_form(); }.bind(this, $option_input, i));
+      $option_remove.click(function (index) { this.element.props.options.splice(index, 1); this.element.form.reload_form(); this.element.form.reload_settings(); }.bind(this, i));
+      $option_required.change(function ($el, index) { this.element.props.options[index].required = $el.is(':checked'); this.element.form.reload_form(); }.bind(this, $option_required, i));
+      $option_up.click(function ($el, index) { this.swapArrayElements(this.element.props.options, index, index - 1); this.element.form.reload_form(); this.element.form.reload_settings(); }.bind(this, $option_up, i));
+      $option_down.click(function ($el, index) { this.swapArrayElements(this.element.props.options, index, index + 1); this.element.form.reload_form(); this.element.form.reload_settings(); }.bind(this, $option_down, i));
+      $option_add_below.click(function ($el, index) { this.element.props.options.splice(index + 1, 0, { value: "" }); this.element.form.reload_form(); this.element.form.reload_settings(); }.bind(this, $option_add_below, i));
+      $option_limit.keyup(function ($el, index) { this.element.props.options[index].limit = $el.val(); this.element.form.reload_form(); }.bind(this, $option_limit, i));
+
       $settings_block.append($option_input);
       $settings_block.append($option_limit);
       if (this.element.form.props.payment) {
         $settings_block.append(this.element.form.payment.price_settings(this.element.props.options[i]));
       }
       $settings_block.append("<br />");
+      $settings_block.append(`<em>${this.element.props.options[i].taken || 0} selections so far</em><br />`)
       $settings_block.append($option_required);
       $settings_block.append($option_required_label);
       $settings_block.append("&nbsp;&nbsp;&nbsp;");

@@ -56,7 +56,16 @@ function FormElement_Radio(form) {
 
   // Zip into json
   this.zip = function () {
-    return this.super.zip();
+    var props = _.cloneDeep(this.props)
+    props.options = props.options.map(function (option) {
+      delete option.taken
+      return option
+    })
+    var properties = {
+      class: this.constructor.name,
+      props
+    }
+    return properties;
   }
 
 }
