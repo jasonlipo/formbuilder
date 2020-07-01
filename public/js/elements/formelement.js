@@ -145,6 +145,7 @@ function FormElement(element) {
       var $option_up = $("<span>", { class: "formbuilder-icon" }).html($("<i>", { class: "fas fa-arrow-up" }));
       var $option_down = $("<span>", { class: "formbuilder-icon" }).html($("<i>", { class: "fas fa-arrow-down" }));
       var $option_remove = $("<span>", { class: "formbuilder-icon" }).html($("<i>", { class: "fas fa-minus-circle" }));
+      var $option_add_below = $("<span>", { class: "formbuilder-icon" }).html($("<i>", { class: "fas fa-plus" }));
       $option_input.keyup(function ($el, index) {
         this.element.props.options[index].value = $el.val();
         this.element.form.reload_form();
@@ -168,6 +169,11 @@ function FormElement(element) {
         this.element.form.reload_form();
         this.element.form.reload_settings();
       }.bind(this, $option_down, i));
+      $option_add_below.click(function ($el, index) {
+        this.element.props.options.splice(index + 1, 0, { value: "" });
+        this.element.form.reload_form();
+        this.element.form.reload_settings();
+      }.bind(this, $option_add_below, i));
       $settings_block.append($option_input);
       if (this.element.form.props.payment) {
         $settings_block.append(this.element.form.payment.price_settings(this.element.props.options[i]));
@@ -183,6 +189,7 @@ function FormElement(element) {
         $settings_block.append($option_down);
       }
       $settings_block.append($option_remove);
+      $settings_block.append($option_add_below);
       $settings_block.append("<br />")
     }
 

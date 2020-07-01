@@ -50,7 +50,7 @@
 .formbuilder-save .formbuilder-button{left:0;position:absolute;margin: -5px 34px;padding: 7px 12px;}
 .formbuilder-button{border-radius:2px;background-color:#6caee0;color:#fff;box-shadow:1px 2px 4px 0 rgba(0,0,0,0.08);padding: 14px 22px;border:0;outline:none;text-decoration:none;display:inline-block;margin-right: 15px;cursor: pointer;}
 .formbuilder-button.formbuilder-delete {background: #d04242;cursor: pointer;}
-.formbuilder-icon{color:#666d73;margin:0 10px;cursor:pointer}
+.formbuilder-icon{color:#666d73;margin: 0 5px;cursor:pointer;}
 .formbuilder-icon:hover{color:#888d92}
 .formbuilder-required{color:red;padding-left:3px}
 
