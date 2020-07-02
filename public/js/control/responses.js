@@ -19,6 +19,9 @@ $(function () {
   var columns = $(".formcontrol-responses th").map(function() { return $(this).html(); }).toArray();
   table = new Tabulator(".formcontrol-responses", {
     layout: "fitColumns",
+    downloadConfig: {
+      columnCalcs: false
+    },
     columns: columns.map(c => ({ bottomCalc: c == "Response" ? countDistinct : null, title: c, field: c, headerFilter: "select", headerFilterParams:{values:true} })),
     pagination:"local",
     paginationSize: 50,
@@ -55,6 +58,9 @@ function download_excel() {
   table.download("xlsx", "KinlossForm.xlsx", { sheetName: "Responses"})
 }
 
+function download_excel_all() {
+  table.download("xlsx", "KinlossForm.xlsx", { sheetName: "Responses"}, "all")
+}
 
 function deleteMetric(i) {
   var path = $('.formcontrol-app').attr('formpath');
