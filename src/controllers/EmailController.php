@@ -33,10 +33,14 @@ class EmailController extends Controller {
       return $col[0];
     }, $headers);
 
-    $table = $submission_controller->twig->render('response_table.html', [
-      'headers' => $headers,
-      'rows' => $rows
-    ]);
+    $table = "";
+    for ($i=0; $i<count($headers); $i++) {
+      $row = $rows[0]["standard"][$i][0];
+      if (empty($row)) {
+        $row = "<em>No response recorded</em>";
+      }
+      $table .= "<b>{$headers[$i]}</b><br />{$row}<br /><br />";
+    }
 
     $message = nl2br($props->email_confirmation_message);
     $message = str_replace("{booking_name}", $email_to, $message);
@@ -81,6 +85,7 @@ class EmailController extends Controller {
 
   private static function send_email($props, $to, $subject, $message, $reply_to = false) {
 
+    require_once dirname(dirname(dirname(__DIR__))) . "/lib/email_template.php";
     $mail = new PHPMailer(true);
     try {
       $mail->isSMTP();
@@ -97,7 +102,7 @@ class EmailController extends Controller {
 
       $mail->isHTML(true);
       $mail->Subject = $subject;
-      $mail->Body    = $message;
+      $mail->Body    = generate_email($message);
 
       $mail->send();
     }
