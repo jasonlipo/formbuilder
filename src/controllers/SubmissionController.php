@@ -6,6 +6,10 @@ class SubmissionController extends Controller {
     echo Submission::from_encrypted($responseIdEnc)->data;
   }
 
+  public function delete($formId, $responseIdEnc) {
+    echo Submission::from_encrypted($responseIdEnc)->delete();
+  }
+
   public function create($formId) {
     $response = Submission::create([
       "form_id" => $formId,
@@ -118,6 +122,7 @@ class SubmissionController extends Controller {
 
   private function special_columns($structure, &$this_row, $response, $key) {
     $this->special_before = [
+      "Submission Id" => $response->encrypt_id(),
       "Response" => $key+1,
       "Submission Date" => $response->created_at->format("d M Y H:i:s")
     ];

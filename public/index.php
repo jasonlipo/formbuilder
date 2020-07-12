@@ -17,6 +17,7 @@ $router->before('GET', '/(?!install)(.*)', 'InstallController@check');
 $router->get('/install', 'InstallController@show');
 $router->post('/(\d+)/delete', 'FormController@delete');
 $router->get('/(\d+)/response/(.+)', 'SubmissionController@show');
+$router->post('/(\d+)/response/(.+)/delete', 'SubmissionController@delete');
 $router->post('/(\d+)/submit', 'SubmissionController@create');
 $router->get('/(\d+)/structure', 'StructureController@index');
 $router->post('/(\d+)/structure', 'StructureController@update');
