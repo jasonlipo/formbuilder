@@ -149,6 +149,25 @@ function FormElement(element) {
       var $option_remove = $("<span>", { class: "formbuilder-icon" }).html($("<i>", { class: "fas fa-minus-circle" }));
       var $option_add_below = $("<span>", { class: "formbuilder-icon" }).html($("<i>", { class: "fas fa-plus" }));
       var $option_limit = $("<input>", { class: "formbuilder-settings-input", width: 70 }).val(this.element.props.options[i].limit);
+      var $option_date = $("<span>", { class: "formbuilder-icon" }).html($("<i>", { class: "fas fa-calendar-alt" }));
+      if (this.element.props.options[i].close) {
+        var $option_date_container = $("<i>", { class: "formbuilder-option-close-date" });
+        $option_date_container.append($option_date);
+        $option_date_container.append(moment(this.element.props.options[i].close).format('D MMM YY HH:mm'));
+        $option_date = $option_date_container;
+      }
+      var $option_datepicker = $("<input>", { class: "formbuilder-datepicker-popup", css: { display: "none" } });
+      var onSelectCallback = function(self, i) {
+        return function (date) {
+          self.element.props.options[i].close = date;
+          self.element.form.reload_form();
+          self.element.form.reload_settings();
+        }
+      }(this, i)
+      $option_datepicker.datetimepicker({
+        onSelect: onSelectCallback,
+        dateFormat: "yy-mm-dd"
+      });
 
       // Events
       $option_input.keyup(function ($el, index) { this.element.props.options[index].value = $el.val(); this.element.form.reload_form(); }.bind(this, $option_input, i));
@@ -158,6 +177,9 @@ function FormElement(element) {
       $option_down.click(function ($el, index) { this.swapArrayElements(this.element.props.options, index, index + 1); this.element.form.reload_form(); this.element.form.reload_settings(); }.bind(this, $option_down, i));
       $option_add_below.click(function ($el, index) { this.element.props.options.splice(index + 1, 0, { value: "" }); this.element.form.reload_form(); this.element.form.reload_settings(); }.bind(this, $option_add_below, i));
       $option_limit.keyup(function ($el, index) { this.element.props.options[index].limit = $el.val(); this.element.form.reload_form(); }.bind(this, $option_limit, i));
+      $option_date.click(function($picker) {
+        $picker.datepicker('show');
+      }.bind(null, $option_datepicker));
 
       $settings_block.append($option_input);
       $settings_block.append($option_limit);
@@ -177,6 +199,8 @@ function FormElement(element) {
       }
       $settings_block.append($option_remove);
       $settings_block.append($option_add_below);
+      $settings_block.append($option_datepicker);
+      $settings_block.append($option_date);
       $settings_block.append("<br /><br />")
     }
 

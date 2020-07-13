@@ -39,13 +39,19 @@ function FormElement_Checkbox(form) {
     var $checkbox_container = $("<div>", { class: "formbuilder-checkbox" });
     for (var i=0; i<this.props.options.length; i++) {
       var remaining = null;
+      var closed = null;
       if (this.props.options[i].limit && !isNaN(parseInt(this.props.options[i].limit))) {
         var limit = parseInt(this.props.options[i].limit)
         var taken = parseInt(this.props.options[i].taken || 0)
         remaining = limit - taken;
       }
+      if (this.props.options[i].close) {
+        if (moment().isAfter(moment(this.props.options[i].close))) {
+          closed = true
+        }
+      }
       var id = Math.random().toString(36).substring(2, 15)
-      var $input = $("<input>", { id, type: "checkbox", disabled: this.form.editable || remaining == 0, value: this.props.options[i].value });
+      var $input = $("<input>", { id, type: "checkbox", disabled: this.form.editable || remaining === 0 || closed, value: this.props.options[i].value });
       var $label = $("<label>", { for: id, class: "formbuilder-checkbox-label" }).html(this.props.options[i].value);
       if (remaining !== null) {
         if (remaining == 0) {
@@ -56,6 +62,11 @@ function FormElement_Checkbox(form) {
         }
         else if (remaining < 10) {
           $label.append("&nbsp;&nbsp;<em>[Less than 10 left]</em>")
+        }
+      }
+      if (closed !== null) {
+        if (closed) {
+          $label.append(`&nbsp;&nbsp;<em>[Closed]</em>`)
         }
       }
       var $cont = $("<div>").append($input).append($label);
