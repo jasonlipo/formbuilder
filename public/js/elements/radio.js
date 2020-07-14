@@ -39,10 +39,16 @@ function FormElement_Radio(form) {
     var $radio_container = $("<div>", { class: "formbuilder-radio" });
     for (var i=0; i<this.props.options.length; i++) {
       var remaining = null;
+      var closed = null;
       if (this.props.options[i].limit && !isNaN(parseInt(this.props.options[i].limit))) {
         var limit = parseInt(this.props.options[i].limit)
         var taken = parseInt(this.props.options[i].taken || 0)
         remaining = limit - taken;
+      }
+      if (this.props.options[i].close) {
+        if (moment().isAfter(moment(this.props.options[i].close))) {
+          closed = true
+        }
       }
       var id = Math.random().toString(36).substring(2, 15)
       var $input = $("<input>", { id, type: "radio", disabled: this.form.editable || remaining == 0, name: this.index, value: this.props.options[i].value });
@@ -56,6 +62,11 @@ function FormElement_Radio(form) {
         }
         else if (remaining < 10) {
           $label.append("&nbsp;&nbsp;<em>[Less than 10 left]</em>")
+        }
+      }
+      if (closed !== null) {
+        if (closed) {
+          $label.append(`&nbsp;&nbsp;<em>[Closed]</em>`)
         }
       }
       var $cont = $("<div>").append($input).append($label);

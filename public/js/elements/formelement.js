@@ -124,7 +124,7 @@ function FormElement(element) {
         this.element.form.reload_form();
       }.bind(this, property, $settings_input));
     }
-      
+
     this.element.form.settings.$field_properties.append($settings_block);
   }
 
@@ -206,13 +206,47 @@ function FormElement(element) {
 
     this.element.form.settings.$field_properties.append($settings_block);
 
+    var path = this.element.form.$dom.attr('formpath');
     this.element.form.settings.$field_properties.append(
       $("<a>", { class: "formbuilder-button", href: "javascript:;" })
-        .html("Add option")
-        .click(function () { 
-          this.element.props.options.push({ value: "" });
-          this.element.form.reload_form();
-          this.element.form.reload_settings();
+        .html("Add bulk options")
+        .click(function () {
+          $(".formcontrol-app-response-modal-bg, .formcontrol-app-response-modal").remove();
+          $("body").append(`
+            <div class="formcontrol-app-response-modal-bg"></div>
+            <div class="formcontrol-app-response-modal">
+              <h1>Bulk Upload Options</h1>
+              <small>Copy and Paste multiple options, one per line<br /><b>Important: do not copy the column headers in row 1</b></small><br />
+              <img src="${path}/public/bulk_upload.png" height="100" />
+              <br /><br />
+              <textarea style="width:100%; height: 300px;"></textarea>
+              <br /><br />
+            </div>
+          `);
+          $add_bulk_options = $("<a>", { class: "formbuilder-button" }).html("Add");
+          $('.formcontrol-app-response-modal').append($add_bulk_options);
+          $('.formcontrol-app-response-modal-bg').click(function () {
+            $('.formcontrol-app-response-modal, .formcontrol-app-response-modal-bg').remove();
+          })
+          $add_bulk_options.click(function () {
+            var new_values = $('.formcontrol-app-response-modal textarea').val().split("\n").map(x => x.split("\t")).map(v => {
+              var obj = { value: v[0] }
+              if (v[1] && v[1].toLowerCase() == "required") {
+                obj.required = true
+              }
+              if (v[2] && moment(v[2]).isValid()) {
+                obj.close = moment(v[2]).format("YYYY-MM-DD HH:mm")
+              }
+              if (v[3] && !isNaN(parseFloat(v[3]))) {
+                obj.price = parseFloat(v[3])
+              }
+              return obj
+            }).filter(v => v.value)
+            this.element.props.options = this.element.props.options.concat(new_values);
+            this.element.form.reload_form();
+            this.element.form.reload_settings();
+            $(".formcontrol-app-response-modal-bg, .formcontrol-app-response-modal").remove();
+          }.bind(this));
         }.bind(this))
     );
   }
