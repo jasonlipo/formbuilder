@@ -51,10 +51,10 @@ function FormElement_Checkbox(form) {
         }
       }
       var id = Math.random().toString(36).substring(2, 15)
-      var $input = $("<input>", { id, type: "checkbox", disabled: this.form.editable || remaining === 0 || closed, value: this.props.options[i].value });
+      var $input = $("<input>", { id, type: "checkbox", disabled: this.form.editable || (remaining !== null && remaining <= 0) || closed, value: this.props.options[i].value });
       var $label = $("<label>", { for: id, class: "formbuilder-checkbox-label" }).html(this.props.options[i].value);
       if (remaining !== null) {
-        if (remaining == 0) {
+        if (remaining <= 0) {
           $label.append(`&nbsp;&nbsp;<em>[Unavailable]</em>`)
         }
         else if (remaining < 5) {
