@@ -19,6 +19,11 @@
     {% include 'response_table.html' %}
 
     <input type="hidden" class="form_title" value="{{ title }}" />
+    {% if combine %}
+      <a class="csv-button formbuilder-button" onclick="location.href = location.href.replace('&combine', '')">Separate options</a>
+    {% else %}
+      <a class="csv-button formbuilder-button" onclick="location.href = location.href + '&combine'">Combine options</a>
+    {% endif %}
     <a class="csv-button formbuilder-button" onclick="download_excel()">Excel (Visible)</a>
     <a class="csv-button formbuilder-button" onclick="download_excel_all()">Excel (All)</a>
 

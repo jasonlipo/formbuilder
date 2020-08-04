@@ -1,20 +1,29 @@
 var table, fieldEl, typeEl, valueEl;
 
 $(function () {
-  $('.formcontrol-responses td').filter(function () {
-    return $(this).find('br').length > 0
-  }).each(function() {
-    var values = $(this).html().split("<br>")
-    var index = $(this).parent('tr').find('td').index($(this))
-    var new_rows = []
-    for (var i=0; i<values.length; i++) {
-      var cloned_row = $(this).parent('tr').clone()
-      cloned_row.find('td').eq(index).html(values[i])
-      new_rows.push(cloned_row)
-    }
-    $(this).parent('tr').after(new_rows)
-    $(this).parent('tr').remove()
-  });
+  if (location.search.indexOf("combine") == -1) {
+    $('.formcontrol-responses td').filter(function () {
+      return $(this).find('br').length > 0
+    }).each(function() {
+      var values = $(this).html().split("<br>")
+      var index = $(this).parent('tr').find('td').index($(this))
+      var new_rows = []
+      for (var i=0; i<values.length; i++) {
+        var cloned_row = $(this).parent('tr').clone()
+        cloned_row.find('td').eq(index).html(values[i])
+        new_rows.push(cloned_row)
+      }
+      $(this).parent('tr').after(new_rows)
+      $(this).parent('tr').remove()
+    });
+  }
+  else {
+    $('.formcontrol-responses td').filter(function () {
+      return $(this).find('br').length > 0
+    }).each(function () {
+      $(this).html($(this).html().split("<br>").join("; "));
+    })
+  }
 
   var columns = $(".formcontrol-responses th").map(function() { return $(this).html(); }).toArray();
   table = new Tabulator(".formcontrol-responses", {

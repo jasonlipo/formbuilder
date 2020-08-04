@@ -45,7 +45,8 @@ class SubmissionController extends Controller {
         'headers' => $headers,
         'rows' => $rows,
         'values_with_class' => ['UNPAID', 'PAID', 'DECLINED'],
-        'metrics' => $this->metrics
+        'metrics' => $this->metrics,
+        'combine' => array_key_exists("combine", $_GET)
       ]);
     }
     catch (ActiveRecord\RecordNotFound $e) {
