@@ -7,14 +7,14 @@ require_once '../vendor/phpdotenv/Loader.php';
 $dotenv = new Dotenv\Dotenv(dirname(dirname(__DIR__)));
 $dotenv->load();
 
-$database_name = (isset($_ENV['DATABASE_NAME'])) ? $_ENV['DATABASE_NAME'] : "formbuilder";
-$database_host = (isset($_ENV['DATABASE_HOST'])) ? $_ENV['DATABASE_HOST'] : "127.0.0.1";
+$database_name = (isset(getenv('DATABASE_NAME'))) ? getenv('DATABASE_NAME') : "formbuilder";
+$database_host = (isset(getenv('DATABASE_HOST'))) ? getenv('DATABASE_HOST') : "127.0.0.1";
 
-ActiveRecord\Config::initialize(function($cfg) use ($database_name) {
+ActiveRecord\Config::initialize(function($cfg) use ($database_name, $database_host) {
   $cfg->set_model_directory('../src/models');
   $cfg->set_connections(array(
-    'install' => 'mysql://'.$_ENV['DATABASE_USER'].':'.$_ENV['DATABASE_PASSWORD'].'@'.$_ENV['DATABASE_HOST'],
-    'dev' => 'mysql://'.$_ENV['DATABASE_USER'].':'.$_ENV['DATABASE_PASSWORD'].'@'.$_ENV['DATABASE_HOST'].'/' . $database_name
+    'install' => 'mysql://'.getenv('DATABASE_USER').':'.getenv('DATABASE_PASSWORD').'@'.$database_host,
+    'dev' => 'mysql://'.getenv('DATABASE_USER').':'.getenv('DATABASE_PASSWORD').'@'.$database_host.'/'.$database_name
   ));
 });
 
