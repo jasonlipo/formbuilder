@@ -52,7 +52,7 @@ class EmailController extends Controller {
     $notification_props = $props;
     $notification_to = $props->confirmation_from_email;
     $notification_props->confirmation_from_email = "web@kinloss.org.uk";
-    self::send_email($props, $notification_to, 'Kinloss Forms [' . $props->name . ']', "Submission recorded<br />-----------<br /><br />" . $message, [$confirmation_email, $email_to]);
+    self::send_email($notification_props, $notification_to, 'Kinloss Forms [' . $props->name . ']', "Submission recorded<br />-----------<br /><br />" . $message, [$confirmation_email, $email_to]);
   }
 
   public static function confirm_payment(Submission $submission) {
