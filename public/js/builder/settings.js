@@ -89,10 +89,13 @@ function FormSettings(builder) {
     this.add_setting("AWS Secret Key", "aws_secret_key");
     this.add_setting("S3 Bucket Name", "s3_bucket");
 
-    this.setting_section("SendGrid");
+    this.setting_section("Emails");
     this.add_setting("SMTP Server", "smtp_server");
-    this.add_setting("SMTP Username", "smtp_username");
-    this.add_setting("SMTP Password", "smtp_password");
+    this.add_setting("Customer SMTP Username", "smtp_username");
+    this.add_setting("Customer SMTP Password", "smtp_password");
+    this.add_setting("Notify From Address", "notify_from_email");
+    this.add_setting("Notify SMTP Username", "notify_smtp_username");
+    this.add_setting("Notify SMTP Password", "notify_smtp_password");
     this.add_setting("SMTP Port", "smtp_port");
 
     this.choose_element();
