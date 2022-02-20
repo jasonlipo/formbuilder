@@ -44,6 +44,9 @@ class StructureController extends Controller {
       $s->props->smtp_password = "hidden";
       $s->props->smtp_username = "hidden";
       $s->props->smtp_server = "hidden";
+      $s->props->notify_from_email = "hidden";
+      $s->props->notify_smtp_username = "hidden";
+      $s->props->notify_smtp_password = "hidden";
     }
     echo json_encode($s);
   }
