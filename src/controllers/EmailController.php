@@ -47,12 +47,12 @@ class EmailController extends Controller {
     $message = str_replace("{form_name}", $props->name, $message);
     $message = str_replace("{form_data}", $table, $message);
 
-    self::send_email($props, $confirmation_email, 'Booking Confirmation - ' . $props->name, $message);
+    self::send_email($props, $props->smtp_username, $props->smtp_password, $confirmation_email, 'Booking Confirmation - ' . $props->name, $message);
 
     $notification_props = $props;
     $notification_to = $props->confirmation_from_email;
-    $notification_props->confirmation_from_email = "web@kinloss.org.uk";
-    self::send_email($notification_props, $notification_to, 'Kinloss Forms [' . $props->name . ']', "Submission recorded<br />-----------<br /><br />" . $message, [$confirmation_email, $email_to]);
+    $notification_props->confirmation_from_email = $props->notify_from_email;
+    self::send_email($notification_props, $props->notify_smtp_username, $props->notify_smtp_password, $notification_to, 'Kinloss Forms [' . $props->name . ']', "Submission recorded<br />-----------<br /><br />" . $message, [$confirmation_email, $email_to]);
   }
 
   public static function confirm_payment(Submission $submission) {
@@ -80,10 +80,10 @@ class EmailController extends Controller {
     $message = str_replace("{amount}", "&pound;".number_format($total_price, 2), $message);
     $message = str_replace("{transaction}", $response_data->payment_transaction, $message);
 
-    self::send_email($props, $confirmation_email, 'Payment Confirmation - ' . $props->name, $message);
+    self::send_email($props, $props->smtp_username, $props->smtp_password, $confirmation_email, 'Payment Confirmation - ' . $props->name, $message);
   }
 
-  private static function send_email($props, $to, $subject, $message, $reply_to = false) {
+  private static function send_email($props, $username, $password, $to, $subject, $message, $reply_to = false) {
 
     require_once dirname(dirname(dirname(__DIR__))) . "/lib/email_template.php";
     $mail = new PHPMailer(true);
@@ -91,8 +91,8 @@ class EmailController extends Controller {
       $mail->isSMTP();
       $mail->Host = $props->smtp_server; 
       $mail->SMTPAuth = true;
-      $mail->Username = $props->smtp_username;
-      $mail->Password = $props->smtp_password;
+      $mail->Username = $username;
+      $mail->Password = $password;
       $mail->SMTPSecure = 'tls';
       $mail->Port = intval($props->smtp_port);
 
